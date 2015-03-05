@@ -1,2 +1,2 @@
 # Histrio
- [![Build Status](https://ci.appveyor.com/api/projects/status/github/mcgppeters/histrio)]
+![Build status](https://ci.appveyor.com/api/projects/status/github/mcgppeters/histrio)
