@@ -93,19 +93,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Bus\BusBehaviorBase.cs" />
-    <Compile Include="Bus\Event.cs" />
-    <Compile Include="Bus\GetEventStoreBusBehavior.cs" />
-    <Compile Include="Bus\Publish.cs" />
-    <Compile Include="Bus\Subscribe.cs" />
-    <Compile Include="Bus\Topic.cs" />
-    <Compile Include="Bus\Transformation\ITransformation.cs" />
-    <Compile Include="Bus\Transformation\SourcePerson.cs" />
-    <Compile Include="Bus\Transformation\TargetPerson.cs" />
-    <Compile Include="Bus\Transformation\Transform.cs" />
-    <Compile Include="Bus\Transformation\TransformationBehavior.cs" />
-    <Compile Include="Bus\Transformation\When_transforming_an_message.cs" />
-    <Compile Include="Bus\When_publishing_a_message.cs" />
     <Compile Include="Chill\AutofacChillContainer.cs" />
     <Compile Include="Chill\AutofacNSubstituteChillContainer.cs" />
     <Compile Include="Chill\DefaultChillContainer.cs" />

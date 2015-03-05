@@ -36,11 +36,11 @@ namespace Histrio.Tests.Stack
                 _addressOfTheCustomer = Subject.AddressOf(new CallBackBehavior<int>(v => _actualValue = v, new TaskFactory(TaskScheduler.FromCurrentSynchronizationContext())));
             });
 
-            When(() =>
+            When(async () =>
             {
                 for (var i = 0; i < numberOfPops; i++)
                 {
-                    _addressOfTheStack.Receive(new Pop(_addressOfTheCustomer));
+                    await _addressOfTheStack.Receive(new Pop(_addressOfTheCustomer));
                 }
             });
         }
