@@ -11,7 +11,6 @@ namespace Histrio.Tests.Factorial
     {
         private readonly int _expectedValue;
         private int _actualValue;
-        private IAddress _addressOfFactorial;
         private IAddress _addressOfTheCustomer;
 
         protected When_calculating_factorial_of_x(int expectedInput, int expectedValue)
@@ -28,8 +27,8 @@ namespace Histrio.Tests.Factorial
 
             When(() =>
             {
-                _addressOfFactorial = Subject.AddressOf(new FactorialBehavior());
-                _addressOfFactorial.Receive(new CalculateFactorialFor(expectedInput, _addressOfTheCustomer));
+                var addressOfFactorial = Subject.AddressOf(new FactorialBehavior());
+                addressOfFactorial.Receive(new CalculateFactorialFor(expectedInput, _addressOfTheCustomer));
             });
         }
 

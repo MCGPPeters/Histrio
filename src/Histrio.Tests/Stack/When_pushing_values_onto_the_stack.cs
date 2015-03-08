@@ -12,7 +12,7 @@ namespace Histrio.Tests.Stack
     public abstract class When_pushing_values_onto_the_stack : GivenSubject<System>
     {
         private readonly int _numberOfPops;
-        private readonly int expectedValueRetrievedByPop;
+        private readonly int _expectedValueRetrievedByPop;
         private int _actualValue;
         private IAddress _addressOfTheCustomer;
         private IAddress _addressOfTheStack;
@@ -24,7 +24,7 @@ namespace Histrio.Tests.Stack
             SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
             var taskFactory = new TaskFactory(TaskScheduler.FromCurrentSynchronizationContext());
             _numberOfPops = numberOfPops;
-            this.expectedValueRetrievedByPop = expectedValueRetrievedByPop;
+            _expectedValueRetrievedByPop = expectedValueRetrievedByPop;
             Given(() =>
             {
                 _addressOfTheStack = Subject.AddressOf(new StackBehavior<int>(default(int), null));
@@ -55,7 +55,7 @@ namespace Histrio.Tests.Stack
             {
             }
 
-            _actualValue.ShouldBeEquivalentTo(expectedValueRetrievedByPop);
+            _actualValue.ShouldBeEquivalentTo(_expectedValueRetrievedByPop);
         }
     }
 }

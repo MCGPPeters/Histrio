@@ -5,30 +5,30 @@ namespace Histrio.Tests.Factorial
     public class FactorialContinuationBehavior : BehaviorBase, IHandle<CalculateFactorialFor>,
         IHandle<FactorialCalculated>
     {
-        private readonly IAddress customer;
-        private readonly int x;
+        private readonly IAddress _customer;
+        private readonly int _x;
 
         public FactorialContinuationBehavior(CalculateFactorialFor message)
         {
-            x = message.X;
-            customer = message.Customer;
+            _x = message.X;
+            _customer = message.Customer;
         }
 
         public void Accept(CalculateFactorialFor message)
         {
-            customer.Receive(new FactorialCalculated
+            _customer.Receive(new FactorialCalculated
             {
                 For = message.X,
-                Result = x*message.X
+                Result = _x*message.X
             });
         }
 
         public void Accept(FactorialCalculated message)
         {
-            customer.Receive(new FactorialCalculated
+            _customer.Receive(new FactorialCalculated
             {
                 For = message.For,
-                Result = x*message.Result
+                Result = _x*message.Result
             });
         }
     }

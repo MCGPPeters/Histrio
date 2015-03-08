@@ -79,7 +79,6 @@
     <Compile Include="Factorial\FactorialBehavior.cs" />
     <Compile Include="Factorial\FactorialCalculated.cs" />
     <Compile Include="Factorial\FactorialContinuationBehavior.cs" />
-    <Compile Include="Factorial\TestBehavior.cs" />
     <Compile Include="Factorial\When_calculating_factorial_of_0.cs" />
     <Compile Include="Factorial\When_calculating_factorial_of_1.cs" />
     <Compile Include="Factorial\When_calculating_factorial_of_3.cs" />
