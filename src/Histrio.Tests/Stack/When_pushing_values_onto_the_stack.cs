@@ -55,7 +55,7 @@ namespace Histrio.Tests.Stack
             {
             }
 
-            _actualValue.ShouldBeEquivalentTo(_expectedValueRetrievedByPop);
+            _actualValue.Should().Be(_expectedValueRetrievedByPop);
         }
     }
 }
