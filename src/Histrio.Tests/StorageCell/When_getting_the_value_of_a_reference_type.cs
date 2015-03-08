@@ -1,8 +1,5 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace Histrio.Tests.StorageCell
 {
-    [TestClass]
     public abstract class When_getting_the_value_of_a_reference_type<T> : When_getting_the_value_of_a_<T>
         where T : class
     {

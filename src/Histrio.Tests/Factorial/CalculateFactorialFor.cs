@@ -1,5 +1,3 @@
-using Histrio.Tests.StorageCell;
-
 namespace Histrio.Tests.Factorial
 {
     public class CalculateFactorialFor

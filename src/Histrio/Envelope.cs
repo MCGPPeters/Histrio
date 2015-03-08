@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace Histrio
 {
     internal class Envelope<T> : IEnvelope<T>
@@ -14,6 +12,6 @@ namespace Histrio
             behavior.Accept(Body);
         }
 
-        public T Body { get; private set; }
+        public T Body { get; }
     }
 }

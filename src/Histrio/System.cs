@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-
 using Histrio.Behaviors;
 
 namespace Histrio
@@ -21,7 +20,7 @@ namespace Histrio
             addresses.Add(address);
             return address;
         }
-        
+
         public IAddress AddressOf<T>() where T : BehaviorBase
         {
             var behavior = _container.Get<T>();

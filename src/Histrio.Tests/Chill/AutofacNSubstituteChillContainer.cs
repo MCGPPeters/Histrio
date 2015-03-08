@@ -7,37 +7,36 @@ using Autofac.Core;
 using Chill.Autofac;
 using NSubstitute;
 
-namespace Chill.AutofacNSubstitute
+namespace Histrio.Tests.Chill
 {
     /// <summary>
-    /// Automocking container that uses NSubstitute to create mocks and Autofac as the container. 
+    ///     Automocking container that uses NSubstitute to create mocks and Autofac as the container.
     /// </summary>
     internal class AutofacNSubstituteChillContainer : AutofacChillContainer
     {
-
         public AutofacNSubstituteChillContainer()
             : base(CreateBuilder())
         {
         }
 
-        static ContainerBuilder CreateBuilder()
+        private static ContainerBuilder CreateBuilder()
         {
             var containerBuilder = new ContainerBuilder();
             containerBuilder.RegisterSource(new NSubstituteRegistrationHandler());
             return containerBuilder;
         }
 
-        /// <summary> Resolves unknown interfaces and Mocks using the <see cref="Substitute"/>. </summary>
+        /// <summary> Resolves unknown interfaces and Mocks using the <see cref="Substitute" />. </summary>
         internal class NSubstituteRegistrationHandler : IRegistrationSource
         {
             /// <summary>
-            /// Retrieve a registration for an unregistered service, to be used
-            /// by the container.
+            ///     Retrieve a registration for an unregistered service, to be used
+            ///     by the container.
             /// </summary>
             /// <param name="service">The service that was requested.</param>
             /// <param name="registrationAccessor"></param>
             /// <returns>
-            /// Registrations for the service.
+            ///     Registrations for the service.
             /// </returns>
             public IEnumerable<IComponentRegistration> RegistrationsFor
                 (Service service, Func<Service, IEnumerable<IComponentRegistration>> registrationAccessor)
@@ -49,16 +48,17 @@ namespace Chill.AutofacNSubstitute
                 if (typedService == null ||
                     !typedService.ServiceType.IsInterface ||
                     typedService.ServiceType.IsGenericType &&
-                    typedService.ServiceType.GetGenericTypeDefinition() == typeof(IEnumerable<>) ||
+                    typedService.ServiceType.GetGenericTypeDefinition() == typeof (IEnumerable<>) ||
                     typedService.ServiceType.IsArray ||
-                    typeof(IStartable).IsAssignableFrom(typedService.ServiceType))
+                    typeof (IStartable).IsAssignableFrom(typedService.ServiceType))
                     return Enumerable.Empty<IComponentRegistration>();
 
-                var rb = RegistrationBuilder.ForDelegate((c, p) => Substitute.For(new[] { typedService.ServiceType }, null))
-                    .As(service)
-                    .InstancePerLifetimeScope();
+                var rb =
+                    RegistrationBuilder.ForDelegate((c, p) => Substitute.For(new[] {typedService.ServiceType}, null))
+                        .As(service)
+                        .InstancePerLifetimeScope();
 
-                return new[] { rb.CreateRegistration() };
+                return new[] {rb.CreateRegistration()};
             }
 
             public bool IsAdapterForIndividualComponents

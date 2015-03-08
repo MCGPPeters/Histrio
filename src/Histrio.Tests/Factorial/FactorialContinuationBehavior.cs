@@ -1,11 +1,9 @@
-using System.Threading.Tasks;
-
 using Histrio.Behaviors;
-using Histrio.Tests.StorageCell;
 
 namespace Histrio.Tests.Factorial
 {
-    public class FactorialContinuationBehavior : BehaviorBase, IHandle<CalculateFactorialFor>, IHandle<FactorialCalculated>
+    public class FactorialContinuationBehavior : BehaviorBase, IHandle<CalculateFactorialFor>,
+        IHandle<FactorialCalculated>
     {
         private readonly IAddress customer;
         private readonly int x;
@@ -21,7 +19,7 @@ namespace Histrio.Tests.Factorial
             customer.Receive(new FactorialCalculated
             {
                 For = message.X,
-                Result = x * message.X
+                Result = x*message.X
             });
         }
 
@@ -30,7 +28,7 @@ namespace Histrio.Tests.Factorial
             customer.Receive(new FactorialCalculated
             {
                 For = message.For,
-                Result = x * message.Result
+                Result = x*message.Result
             });
         }
     }
