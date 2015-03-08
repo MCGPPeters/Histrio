@@ -7,23 +7,20 @@ namespace Histrio.Behaviors
         protected internal IActor Actor { get; set; }
         protected internal System System { get; set; }
 
-        public async Task Accept<TMessage>(IMessage<TMessage> message)
+        internal void Accept<TMessage>(IEnvelope<TMessage> envelope)
         {
             var handler = this as IHandle<TMessage>;
             if (ThisBehaviorHandlesThisTypeOfMessages(handler))
             {
-                await message.GetHandledBy(handler);
+                envelope.GetHandledBy(handler);
             }
             else
             {
-                await AcceptCore(message);
+                AcceptCore(envelope);
             }
         }
 
-        protected virtual Task AcceptCore<T>(IMessage<T> message)
-        {
-            return Task.FromResult(false);
-        }
+        protected internal virtual void AcceptCore<T>(IEnvelope<T> envelope) { }
 
         private static bool ThisBehaviorHandlesThisTypeOfMessages<TMessage>(IHandle<TMessage> handler)
         {

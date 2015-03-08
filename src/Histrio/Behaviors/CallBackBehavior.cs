@@ -14,7 +14,7 @@ namespace Histrio.Behaviors
             _taskFactory = taskFactory;
         }
 
-        public async Task Accept(TMessage message)
+        public async void Accept(TMessage message)
         {
             await _taskFactory.StartNew(() => _callback(message));
         }

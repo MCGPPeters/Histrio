@@ -2,10 +2,10 @@ using System.Threading.Tasks;
 
 namespace Histrio
 {
-    public interface IMessage<out T>
+    public interface IEnvelope<out T>
     {
         T Body { get; }
 
-        Task GetHandledBy(IHandle<T> behavior);
+        void GetHandledBy(IHandle<T> behavior);
     }
 }

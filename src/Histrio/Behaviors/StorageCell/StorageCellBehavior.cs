@@ -6,15 +6,14 @@ namespace Histrio.Behaviors.StorageCell
     {
         private T _contents;
 
-        public async Task Accept(Get message)
+        public void Accept(Get message)
         {
-            await message.Costumer.Receive(new Reply<T>(_contents));
+            message.Costumer.Receive(new Reply<T>(_contents));
         }
 
-        public Task Accept(Set<T> message)
+        public void Accept(Set<T> message)
         {
             _contents = message.Body;
-            return Task.FromResult(false);
         }
     }
 }

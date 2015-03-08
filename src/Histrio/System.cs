@@ -1,10 +1,13 @@
-﻿using Histrio.Behaviors;
+﻿using System.Collections.Generic;
+
+using Histrio.Behaviors;
 
 namespace Histrio
 {
     public sealed class System
     {
         private readonly IContainer _container;
+        private readonly List<IAddress> addresses = new List<IAddress>();
 
         public System(IContainer container)
         {
@@ -14,8 +17,8 @@ namespace Histrio
         public IAddress AddressOf(BehaviorBase behavior)
         {
             behavior.System = this;
-            var address = new Address();
-            new Actor(behavior, address);
+            var address = new Address(32, behavior);
+            addresses.Add(address);
             return address;
         }
         

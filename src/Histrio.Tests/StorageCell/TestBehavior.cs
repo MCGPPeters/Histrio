@@ -15,10 +15,9 @@ namespace Histrio.Tests.StorageCell
             _callback = callback;
         }
 
-        public Task Accept(Reply<T> message)
+        public void Accept(Reply<T> message)
         {
             _callback(message.Body);
-            return Task.FromResult(false);
         }
     }
 }

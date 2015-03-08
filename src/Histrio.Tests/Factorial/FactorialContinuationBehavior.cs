@@ -16,18 +16,18 @@ namespace Histrio.Tests.Factorial
             customer = message.Customer;
         }
 
-        public async Task Accept(CalculateFactorialFor message)
+        public void Accept(CalculateFactorialFor message)
         {
-            await customer.Receive(new FactorialCalculated
+            customer.Receive(new FactorialCalculated
             {
                 For = message.X,
                 Result = x * message.X
             });
         }
 
-        public async Task Accept(FactorialCalculated message)
+        public void Accept(FactorialCalculated message)
         {
-            await customer.Receive(new FactorialCalculated
+            customer.Receive(new FactorialCalculated
             {
                 For = message.For,
                 Result = x * message.Result

@@ -11,9 +11,9 @@ namespace Histrio.Behaviors
             _address = address;
         }
 
-        protected override async Task AcceptCore<T>(IMessage<T> message)
+        protected internal override void AcceptCore<T>(IEnvelope<T> message)
         {
-            await _address.Receive(message.Body);
+            _address.Receive(message.Body);
         }
     }
 }

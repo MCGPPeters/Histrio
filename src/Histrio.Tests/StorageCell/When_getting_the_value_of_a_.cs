@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Chill;
 using FluentAssertions;
 
@@ -25,13 +26,16 @@ namespace Histrio.Tests.StorageCell
                 _addressOfTheCustomer = Subject.AddressOf(new TestBehavior<T>(v => _actualValue = v));
             });
 
-            When(() => _addressOfThePrimitive.Receive(new Get(_addressOfTheCustomer)));
+            When(() =>
+            {
+                _addressOfThePrimitive.Receive(new Get(_addressOfTheCustomer));
+            });
         }
 
         [TestMethod]
         public void Then_value_of_the_retrieved_primitive_is_returned()
         {
-            while (_actualValue.Equals(default(T)))
+            while (EqualityComparer<T>.Default.Equals(_actualValue, default(T)))
             {
             }
             _actualValue.ShouldBeEquivalentTo(_expectedValue);

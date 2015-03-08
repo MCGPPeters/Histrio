@@ -15,17 +15,16 @@ namespace Histrio.Collections.Stack
             this.link = link;
         }
 
-        public async Task Accept(Pop message)
+        public void Accept(Pop message)
         {
             Actor.Become(link);
-            await message.Customer.Receive(content);
+            message.Customer.Receive(content);
         }
 
-        public Task Accept(Push<T> message)
+        public void Accept(Push<T> message)
         {
             var p = System.AddressOf(new StackBehavior<T>(content, link));
             Actor.Become(System.AddressOf(new StackBehavior<T>(message.Value, p)));
-            return Task.FromResult(false);
         }
     }
 }

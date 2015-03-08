@@ -12,7 +12,6 @@ namespace Histrio
         {
             _behavior = behavior;
             Address = address;
-            address.Subscribe(this);
             _behavior.Actor = this;
         }
 
@@ -23,9 +22,9 @@ namespace Histrio
 
         public IAddress Address { get; private set; }
 
-        public async Task Accept<TMessage>(IMessage<TMessage> message)
+        public void Accept<TMessage>(TMessage message)
         {
-            await _behavior.Accept(message);
+            _behavior.Accept(message.InEnvelope());
         }
     }
 }

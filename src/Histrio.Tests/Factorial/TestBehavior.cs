@@ -15,10 +15,9 @@ namespace Histrio.Tests.Factorial
             _callback = callback;
         }
 
-        public Task Accept(FactorialCalculated message)
+        public void Accept(FactorialCalculated message)
         {
             _callback(message);
-            return Task.FromResult(0);
         }
     }
 }

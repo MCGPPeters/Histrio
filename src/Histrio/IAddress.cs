@@ -1,11 +1,11 @@
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Histrio
 {
-    public interface IAddress
+    public interface IAddress : IDisposable
     {
-        Task Receive<T>(T message);
-
-        void Subscribe(IActor actor);
+        void Receive<T>(T message);
     }
 }

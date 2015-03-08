@@ -2,12 +2,10 @@ using System.Threading.Tasks;
 
 namespace Histrio
 {
-    public interface IActor
+    public interface IActor : IReference
     {
         IAddress Address { get; }
 
         void Become(IAddress address);
-
-        Task Accept<TMessage>(IMessage<TMessage> message);
     }
 }

@@ -4,6 +4,6 @@ namespace Histrio
 {
     public interface IHandle<in T>
     {
-        Task Accept(T message);
+        void Accept(T message);
     }
 }
