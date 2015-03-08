@@ -1,6 +1,6 @@
 namespace Histrio
 {
-    internal static class MessageExtensions
+    internal static class EnvelopeExtensions
     {
         public static IEnvelope<T> InEnvelope<T>(this T body)
         {
