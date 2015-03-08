@@ -18,7 +18,7 @@ namespace Histrio
             _behavior = new SendBehavior(address);
         }
 
-        public IAddress Address { get; }
+        public IAddress Address { get; private set; }
 
         public void Accept<TMessage>(TMessage message)
         {

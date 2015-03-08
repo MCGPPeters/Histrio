@@ -12,6 +12,6 @@ namespace Histrio
             behavior.Accept(Body);
         }
 
-        public T Body { get; }
+        public T Body { get; private set; }
     }
 }
