@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 using Histrio.Behaviors;
 
 namespace Histrio
@@ -20,7 +18,7 @@ namespace Histrio
             _behavior = new SendBehavior(address);
         }
 
-        public IAddress Address { get; private set; }
+        public IAddress Address { get; }
 
         public void Accept<TMessage>(TMessage message)
         {

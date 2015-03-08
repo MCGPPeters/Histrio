@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace Histrio.Behaviors
 {
     public class SendBehavior : BehaviorBase

@@ -1,7 +1,4 @@
-using System.Threading.Tasks;
-
 using Histrio.Behaviors;
-using Histrio.Tests.StorageCell;
 
 namespace Histrio.Tests.Factorial
 {
@@ -14,7 +11,7 @@ namespace Histrio.Tests.Factorial
             var x = message.X;
             if (x == 0)
             {
-                message.Customer.Receive(new FactorialCalculated { For = x, Result = 1 });
+                message.Customer.Receive(new FactorialCalculated {For = x, Result = 1});
             }
             else
             {

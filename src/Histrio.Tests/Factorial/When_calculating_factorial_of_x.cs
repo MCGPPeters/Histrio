@@ -1,12 +1,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Chill;
-
 using FluentAssertions;
 using Histrio.Behaviors;
-using Histrio.Tests.StorageCell;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Histrio.Tests.Factorial
 {
@@ -14,8 +11,8 @@ namespace Histrio.Tests.Factorial
     {
         private readonly int _expectedValue;
         private int _actualValue;
-        private IAddress _addressOfTheCustomer;
         private IAddress _addressOfFactorial;
+        private IAddress _addressOfTheCustomer;
 
         protected When_calculating_factorial_of_x(int expectedInput, int expectedValue)
         {
@@ -24,26 +21,25 @@ namespace Histrio.Tests.Factorial
             {
                 SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
                 var taskFactory = new TaskFactory(TaskScheduler.FromCurrentSynchronizationContext());
-                _addressOfTheCustomer = Subject.AddressOf(new CallBackBehavior<FactorialCalculated>(v =>
-                {
-                    _actualValue = v.Result;
-                }, taskFactory));
+                _addressOfTheCustomer =
+                    Subject.AddressOf(new CallBackBehavior<FactorialCalculated>(v => { _actualValue = v.Result; },
+                        taskFactory));
             });
 
             When(() =>
             {
-                _addressOfFactorial  = Subject.AddressOf(new FactorialBehavior());
+                _addressOfFactorial = Subject.AddressOf(new FactorialBehavior());
                 _addressOfFactorial.Receive(new CalculateFactorialFor(expectedInput, _addressOfTheCustomer));
             });
         }
 
-        [TestMethod]
+        [Fact]
         public void Then_factorial_of_x_is_calculated()
         {
             while (_actualValue.Equals(default(int)))
             {
             }
-            
+
             _actualValue.ShouldBeEquivalentTo(_expectedValue);
         }
     }

@@ -1,8 +1,5 @@
 using System;
-using System.Threading.Tasks;
-
 using Histrio.Behaviors;
-using Histrio.Tests.StorageCell;
 
 namespace Histrio.Tests.Factorial
 {

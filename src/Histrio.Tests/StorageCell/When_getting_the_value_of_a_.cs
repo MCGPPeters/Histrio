@@ -1,11 +1,8 @@
 using System.Collections.Generic;
 using Chill;
 using FluentAssertions;
-
-using Histrio.Behaviors;
 using Histrio.Behaviors.StorageCell;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Histrio.Tests.StorageCell
 {
@@ -26,13 +23,10 @@ namespace Histrio.Tests.StorageCell
                 _addressOfTheCustomer = Subject.AddressOf(new TestBehavior<T>(v => _actualValue = v));
             });
 
-            When(() =>
-            {
-                _addressOfThePrimitive.Receive(new Get(_addressOfTheCustomer));
-            });
+            When(() => { _addressOfThePrimitive.Receive(new Get(_addressOfTheCustomer)); });
         }
 
-        [TestMethod]
+        [Fact]
         public void Then_value_of_the_retrieved_primitive_is_returned()
         {
             while (EqualityComparer<T>.Default.Equals(_actualValue, default(T)))

@@ -1,5 +1,5 @@
 ﻿using Chill;
-using Chill.AutofacNSubstitute;
+using Histrio.Tests.Chill;
 
 // This attribute defines which container will be used by default for this assembly
 

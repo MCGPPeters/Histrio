@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace Histrio.Behaviors
 {
     public abstract class BehaviorBase
@@ -20,7 +18,9 @@ namespace Histrio.Behaviors
             }
         }
 
-        protected internal virtual void AcceptCore<T>(IEnvelope<T> envelope) { }
+        protected internal virtual void AcceptCore<T>(IEnvelope<T> envelope)
+        {
+        }
 
         private static bool ThisBehaviorHandlesThisTypeOfMessages<TMessage>(IHandle<TMessage> handler)
         {

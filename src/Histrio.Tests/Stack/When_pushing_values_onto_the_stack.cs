@@ -1,15 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Chill;
-
 using FluentAssertions;
-
 using Histrio.Behaviors;
 using Histrio.Collections.Stack;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Histrio.Tests.Stack
 {
@@ -52,13 +48,13 @@ namespace Histrio.Tests.Stack
             });
         }
 
-        [TestMethod]
+        [Fact]
         public void Then_the_value_on_top_of_the_stack_is_retrieved_by_a_pop()
         {
             while (_actualValue.Equals(default(int)) || _popsReceived != _numberOfPops)
             {
             }
-            
+
             _actualValue.ShouldBeEquivalentTo(expectedValueRetrievedByPop);
         }
     }
