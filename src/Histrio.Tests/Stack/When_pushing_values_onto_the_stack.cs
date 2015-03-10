@@ -15,14 +15,11 @@ namespace Histrio.Tests.Stack
         private readonly int _expectedValueRetrievedByPop;
         private IAddress _addressOfTheCustomer;
         private IAddress _addressOfTheStack;
-        private int _popsReceived;
         private readonly TaskCompletionSource<int> _promiseOfTheActualValue = new TaskCompletionSource<int>();
 
         protected When_pushing_values_onto_the_stack(IEnumerable<int> valuesToPush, int numberOfPops,
-            int expectedValueRetrievedByPop)
+            int expectedValueRetrievedByPop, int popsReceived)
         {
-            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
-            var taskFactory = new TaskFactory(TaskScheduler.FromCurrentSynchronizationContext());
             _numberOfPops = numberOfPops;
             _expectedValueRetrievedByPop = expectedValueRetrievedByPop;
             Given(() =>

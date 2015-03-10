@@ -1,29 +1,35 @@
 ﻿using System.Collections.Generic;
 using Histrio.Behaviors;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Histrio
 {
     public sealed class System
     {
-        private readonly IContainer _container;
-        private readonly List<IAddress> addresses = new List<IAddress>();
+        private readonly IServiceLocator _serviceLocator;
+        private readonly List<IAddress> _addresses = new List<IAddress>();
 
-        public System(IContainer container)
+        public System(IServiceLocator serviceLocator)
         {
-            _container = container;
+            _serviceLocator = serviceLocator;
+        }
+
+        public System()
+        {
+            _serviceLocator = ServiceLocator.Current;
         }
 
         public IAddress AddressOf(BehaviorBase behavior)
         {
             behavior.System = this;
             var address = new Address(32, behavior);
-            addresses.Add(address);
+            _addresses.Add(address);
             return address;
         }
 
         public IAddress AddressOf<T>() where T : BehaviorBase
         {
-            var behavior = _container.Get<T>();
+            var behavior = _serviceLocator.GetInstance<T>();
             return AddressOf(behavior);
         }
     }
