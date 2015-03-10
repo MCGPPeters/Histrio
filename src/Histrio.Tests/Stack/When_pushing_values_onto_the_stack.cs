@@ -13,10 +13,10 @@ namespace Histrio.Tests.Stack
     {
         private readonly int _numberOfPops;
         private readonly int _expectedValueRetrievedByPop;
-        private int _actualValue;
         private IAddress _addressOfTheCustomer;
         private IAddress _addressOfTheStack;
         private int _popsReceived;
+        private readonly TaskCompletionSource<int> _promiseOfTheActualValue = new TaskCompletionSource<int>();
 
         protected When_pushing_values_onto_the_stack(IEnumerable<int> valuesToPush, int numberOfPops,
             int expectedValueRetrievedByPop)
@@ -32,11 +32,7 @@ namespace Histrio.Tests.Stack
                 {
                     _addressOfTheStack.Receive(new Push<int>(i));
                 }
-                _addressOfTheCustomer = Subject.AddressOf(new CallBackBehavior<int>(v =>
-                {
-                    _popsReceived++;
-                    _actualValue = v;
-                }, taskFactory));
+                _addressOfTheCustomer = Subject.AddressOf(new TaskCompletionBehavior<int>(_promiseOfTheActualValue, _numberOfPops));
             });
 
             When(() =>
@@ -49,13 +45,11 @@ namespace Histrio.Tests.Stack
         }
 
         [Fact]
-        public void Then_the_value_on_top_of_the_stack_is_retrieved_by_a_pop()
+        public async Task Then_the_value_on_top_of_the_stack_is_retrieved_by_a_pop()
         {
-            while (_actualValue.Equals(default(int)) || _popsReceived != _numberOfPops)
-            {
-            }
+           var  actualValue = await _promiseOfTheActualValue.Task;
 
-            _actualValue.Should().Be(_expectedValueRetrievedByPop);
+            actualValue.Should().Be(_expectedValueRetrievedByPop);
         }
     }
 }
