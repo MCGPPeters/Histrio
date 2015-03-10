@@ -14,9 +14,9 @@ namespace Histrio
             _serviceLocator = serviceLocator;
         }
 
-        public System()
+        public System() : this(ServiceLocator.Current)
         {
-            _serviceLocator = ServiceLocator.Current;
+            
         }
 
         public IAddress AddressOf(BehaviorBase behavior)

@@ -18,7 +18,7 @@ namespace Histrio.Tests.Stack
         private readonly TaskCompletionSource<int> _promiseOfTheActualValue = new TaskCompletionSource<int>();
 
         protected When_pushing_values_onto_the_stack(IEnumerable<int> valuesToPush, int numberOfPops,
-            int expectedValueRetrievedByPop, int popsReceived)
+            int expectedValueRetrievedByPop)
         {
             _numberOfPops = numberOfPops;
             _expectedValueRetrievedByPop = expectedValueRetrievedByPop;
