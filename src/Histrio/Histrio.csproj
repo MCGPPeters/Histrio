@@ -39,7 +39,7 @@
     <Compile Include="Actor.cs" />
     <Compile Include="Address.cs" />
     <Compile Include="Behaviors\BehaviorBase.cs" />
-    <Compile Include="Behaviors\CallBackBehavior.cs" />
+    <Compile Include="Behaviors\TaskCompletionBehavior.cs" />
     <Compile Include="Behaviors\SendBehavior.cs" />
     <Compile Include="Behaviors\StorageCell\Get.cs" />
     <Compile Include="Behaviors\StorageCell\Reply.cs" />

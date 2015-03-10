@@ -10,7 +10,7 @@ namespace Histrio.Tests.Factorial
     public abstract class When_calculating_factorial_of_x : GivenSubject<System>
     {
         private readonly int _expectedValue;
-        private int _actualValue;
+        private readonly TaskCompletionSource<FactorialCalculated> _promiseOfTheActualValue = new TaskCompletionSource<FactorialCalculated>();
         private IAddress _addressOfTheCustomer;
 
         protected When_calculating_factorial_of_x(int expectedInput, int expectedValue)
@@ -21,8 +21,7 @@ namespace Histrio.Tests.Factorial
                 SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
                 var taskFactory = new TaskFactory(TaskScheduler.FromCurrentSynchronizationContext());
                 _addressOfTheCustomer =
-                    Subject.AddressOf(new CallBackBehavior<FactorialCalculated>(v => { _actualValue = v.Result; },
-                        taskFactory));
+                    Subject.AddressOf(new TaskCompletionBehavior<FactorialCalculated>(_promiseOfTheActualValue, 1));
             });
 
             When(() =>
@@ -33,13 +32,11 @@ namespace Histrio.Tests.Factorial
         }
 
         [Fact]
-        public void Then_factorial_of_x_is_calculated()
+        public async Task Then_factorial_of_x_is_calculated()
         {
-            while (_actualValue.Equals(default(int)))
-            {
-            }
-
-            _actualValue.ShouldBeEquivalentTo(_expectedValue);
+            var actualValue = await _promiseOfTheActualValue.Task;
+ 
+            actualValue.Result.Should().Be(_expectedValue);
         }
     }
 }
