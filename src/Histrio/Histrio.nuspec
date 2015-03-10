@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
     <metadata>
         <id>Histrio</id>
-        <version>1.0.0-unstable3</version>
+        <version>1.0.0-unstable4</version>
         <title>Histrio</title>
         <authors>Maurice CGP Peters</authors>
         <owners>Maurice CGP Peters</owners>
