@@ -9,41 +9,19 @@ namespace Histrio
 {
     internal class Address : IAddress
     {
-        private readonly Actor _actor;
-        private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-        private readonly BlockingCollection<ICell> mailBox;
+        private readonly IActor _actor;
+        private readonly MailboxArbiter _mailboxArbiter;
 
-        public Address(int mailboxSize, BehaviorBase behavior)
+        public Address(BehaviorBase behavior, MailboxArbiter mailboxArbiter)
         {
+            _mailboxArbiter = mailboxArbiter;
             _actor = new Actor(behavior, this);
-            var cancellationToken = cancellationTokenSource.Token;
-            mailBox = new BlockingCollection<ICell>(mailboxSize);
-            new TaskFactory(TaskCreationOptions.LongRunning, TaskContinuationOptions.None)
-                .StartNew(() =>
-                {
-                    try
-                    {
-                        foreach (var genericObject in mailBox.GetConsumingEnumerable()
-                            .TakeWhile(genericObject => !cancellationToken.IsCancellationRequested))
-                        {
-                            genericObject.SendValueTo(_actor);
-                        }
-                    }
-                    catch (OperationCanceledException)
-                    {
-                    }
-                    finally
-                    {
-                        mailBox.CompleteAdding();
-                    }
-                });
+            _mailboxArbiter.Start(_actor);
         }
 
         public void Receive<T>(T message)
         {
-            var genericObject = new Cell<T>();
-            genericObject.Set(message);
-            mailBox.Add(genericObject, cancellationTokenSource.Token);
+            _mailboxArbiter.Decide(message);
         }
 
         public void Dispose()
@@ -54,10 +32,10 @@ namespace Histrio
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposing) return;
-            mailBox.CompleteAdding();
-            mailBox.Dispose();
-            cancellationTokenSource.Dispose();
+            if (disposing)
+            {
+                _mailboxArbiter.Dispose();
+            }
         }
     }
 }

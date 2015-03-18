@@ -22,7 +22,7 @@ namespace Histrio
         public IAddress AddressOf(BehaviorBase behavior)
         {
             behavior.System = this;
-            var address = new Address(32, behavior);
+            var address = new Address(behavior, new MailboxArbiter(mailboxSize: 32));
             _addresses.Add(address);
             return address;
         }
