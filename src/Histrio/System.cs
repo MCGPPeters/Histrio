@@ -1,36 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Histrio.Behaviors;
-using Microsoft.Practices.ServiceLocation;
 
 namespace Histrio
 {
     public sealed class System
     {
-        private readonly IServiceLocator _serviceLocator;
-        private readonly List<IAddress> _addresses = new List<IAddress>();
-
-        public System(IServiceLocator serviceLocator)
+        public System(string name)
         {
-            _serviceLocator = serviceLocator;
+            Name = name;
         }
 
-        public System() : this(ServiceLocator.Current)
+        public System() : this(Guid.NewGuid().ToString())
         {
             
         }
 
-        public IAddress AddressOf(BehaviorBase behavior)
+        private readonly Dictionary<IAddress, Actor> _actorAddresses = new Dictionary<IAddress, Actor>();
+
+        public string Name { get; private set; }
+
+        public void Register(Address address, BehaviorBase behavior)
         {
-            behavior.System = this;
-            var address = new Address(behavior, new MailboxArbiter(mailboxSize: 32));
-            _addresses.Add(address);
-            return address;
+            _actorAddresses.Add(address, new Actor(behavior, address));
         }
 
-        public IAddress AddressOf<T>() where T : BehaviorBase
+        public void Dispatch<T>(IMessage<T> message)
         {
-            var behavior = _serviceLocator.GetInstance<T>();
-            return AddressOf(behavior);
+            _actorAddresses[message.Address].Accept(message);
         }
     }
 }

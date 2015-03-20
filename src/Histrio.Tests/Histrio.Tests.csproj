@@ -77,7 +77,7 @@
     <Compile Include="Chill\DefaultChillContainer.cs" />
     <Compile Include="Chill\TestBaseExtensions.cs" />
     <Compile Include="Factorial\CalculateFactorialFor.cs" />
-    <Compile Include="Factorial\FactorialBehavior.cs" />
+    <Compile Include="Factorial\FactorialCalculationBehavior.cs" />
     <Compile Include="Factorial\FactorialCalculated.cs" />
     <Compile Include="Factorial\FactorialContinuationBehavior.cs" />
     <Compile Include="Factorial\When_calculating_factorial_of_0.cs" />
@@ -88,7 +88,6 @@
     <Compile Include="Stack\When_pushing_values_1_2_and_3_onto_the_stack.cs" />
     <Compile Include="Stack\When_pushing_values_5_200_and_243_onto_the_stack.cs" />
     <Compile Include="Stack\When_pushing_values_onto_the_stack.cs" />
-    <Compile Include="StorageCell\TestBehavior.cs" />
     <Compile Include="StorageCell\When_getting_the_value_of_a_.cs" />
     <Compile Include="StorageCell\When_getting_the_value_of_a_boolean.cs" />
     <Compile Include="StorageCell\When_getting_the_value_of_a_integer.cs" />

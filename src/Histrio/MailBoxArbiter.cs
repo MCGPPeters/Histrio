@@ -7,6 +7,7 @@ namespace Histrio
 {
     internal class MailboxArbiter : IArbiter
     {
+        private readonly Dispatcher _dispatcher;
         private readonly BlockingCollection<ICell> _mailBox;
 
         public MailboxArbiter(int mailboxSize)
@@ -14,26 +15,18 @@ namespace Histrio
             _mailBox  = new BlockingCollection<ICell>(mailboxSize);
         }
 
-        public void Start(IAccept actor)
+        public void Start(IAddress address)
         {
-            new TaskFactory(TaskCreationOptions.LongRunning, TaskContinuationOptions.None)
-                .StartNew(() =>
-                {
-                    try
-                    {
-                        foreach (var genericObject in _mailBox.GetConsumingEnumerable())
-                        {
-                            genericObject.SendValueTo(actor);
-                        }
-                    }
-                    catch (OperationCanceledException)
-                    {
-                    }
-                    finally
-                    {
-                        _mailBox.CompleteAdding();
-                    }
-                });
+
+            //new TaskFactory(TaskCreationOptions.LongRunning, TaskContinuationOptions.None)
+            //    .StartNew(() =>
+            //    {
+            //        var messageBuffer = address.MessageBuffer;
+            //        foreach (var genericObject in messageBuffer.GetConsumingEnumerable())
+            //        {
+            //            genericObject.SendValueTo(_dispatcher);
+            //        }
+            //    });
         }
 
         public void Decide<T>(T message)
@@ -41,6 +34,11 @@ namespace Histrio
             var genericObject = new Cell<T>();
             genericObject.Set(message);
             _mailBox.Add(genericObject);
+        }
+
+        public void Start(IAccept actor)
+        {
+            throw new NotImplementedException();
         }
 
         public void Dispose()

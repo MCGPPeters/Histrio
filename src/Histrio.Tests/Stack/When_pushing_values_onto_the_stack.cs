@@ -13,8 +13,8 @@ namespace Histrio.Tests.Stack
     {
         private readonly int _numberOfPops;
         private readonly int _expectedValueRetrievedByPop;
-        private IAddress _addressOfTheCustomer;
-        private IAddress _addressOfTheStack;
+        private IAddress _customer;
+        private IAddress _stack;
         private readonly TaskCompletionSource<int> _promiseOfTheActualValue = new TaskCompletionSource<int>();
 
         protected When_pushing_values_onto_the_stack(IEnumerable<int> valuesToPush, int numberOfPops,
@@ -24,19 +24,23 @@ namespace Histrio.Tests.Stack
             _expectedValueRetrievedByPop = expectedValueRetrievedByPop;
             Given(() =>
             {
-                _addressOfTheStack = Subject.AddressOf(new StackBehavior<int>(default(int), null));
+                _stack = New.Actor(new StackBehavior<int>(default(int), null));
                 foreach (var i in valuesToPush)
                 {
-                    _addressOfTheStack.Receive(new Push<int>(i));
+                    var push = new Push<int>(i);
+                    var message = New.Message(push).To(_stack);
+                    Send.Message(message);
                 }
-                _addressOfTheCustomer = Subject.AddressOf(new TaskCompletionBehavior<int>(_promiseOfTheActualValue, _numberOfPops));
+                _customer = New.Actor(new TaskCompletionBehavior<int>(_promiseOfTheActualValue, _numberOfPops));
             });
 
             When(() =>
             {
                 for (var i = 0; i < numberOfPops; i++)
                 {
-                    _addressOfTheStack.Receive(new Pop(_addressOfTheCustomer));
+                    var pop = new Pop(_customer);
+                    var message = New.Message(pop).To(_stack);
+                    Send.Message(message);
                 }
             });
         }

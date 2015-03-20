@@ -20,9 +20,9 @@ namespace Histrio
 
         public IAddress Address { get; private set; }
 
-        public void Accept<TMessage>(TMessage message)
+        public void Accept<TMessage>(IMessage<TMessage> message)
         {
-            _behavior.Accept(message.InEnvelope());
+            _behavior.Accept(message);
         }
     }
 }

@@ -1,4 +1,3 @@
-using System.Threading;
 using System.Threading.Tasks;
 using Chill;
 using FluentAssertions;
@@ -11,23 +10,24 @@ namespace Histrio.Tests.Factorial
     {
         private readonly int _expectedValue;
         private readonly TaskCompletionSource<FactorialCalculated> _promiseOfTheActualValue = new TaskCompletionSource<FactorialCalculated>();
-        private IAddress _addressOfTheCustomer;
+        private IAddress _customer;
 
         protected When_calculating_factorial_of_x(int expectedInput, int expectedValue)
         {
             _expectedValue = expectedValue;
             Given(() =>
             {
-                SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
-                var taskFactory = new TaskFactory(TaskScheduler.FromCurrentSynchronizationContext());
-                _addressOfTheCustomer =
-                    Subject.AddressOf(new TaskCompletionBehavior<FactorialCalculated>(_promiseOfTheActualValue, 1));
+                Context.System = Subject;
+
+                _customer = New.Actor(new TaskCompletionBehavior<FactorialCalculated>(_promiseOfTheActualValue, 1));
             });
 
             When(() =>
             {
-                var addressOfFactorial = Subject.AddressOf(new FactorialBehavior());
-                addressOfFactorial.Receive(new CalculateFactorialFor(expectedInput, _addressOfTheCustomer));
+                var factorialCalculator = New.Actor(new FactorialCalculationBehavior());
+                var calculateFactorialFor = new CalculateFactorialFor(expectedInput, _customer);
+                var message = New.Message(calculateFactorialFor).To(factorialCalculator);
+                Send.Message(message);
             });
         }
 

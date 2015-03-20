@@ -1,27 +1,40 @@
 using System;
 using System.Collections.Concurrent;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using Histrio.Behaviors;
 
 namespace Histrio
 {
-    internal class Address : IAddress
+    public class Address : IAddress
     {
-        private readonly IActor _actor;
-        private readonly MailboxArbiter _mailboxArbiter;
+        public Uri Uri { get; private set; }
+        private readonly BlockingCollection<ICell> _messageBuffer = new BlockingCollection<ICell>();
+        private readonly Dispatcher _dispatcher;
 
-        public Address(BehaviorBase behavior, MailboxArbiter mailboxArbiter)
+        public Address(Uri uri)
         {
-            _mailboxArbiter = mailboxArbiter;
-            _actor = new Actor(behavior, this);
-            _mailboxArbiter.Start(_actor);
+            Uri = uri;
         }
+
+        //public Address)
+        //{
+        //    //_dispatcher = dispatcher;
+        //    //new TaskFactory(TaskCreationOptions.LongRunning, TaskContinuationOptions.None)
+        //    //   .StartNew(() =>
+        //    //   {
+        //    //       foreach (var genericObject in _messageBuffer.GetConsumingEnumerable())
+        //    //       {
+        //    //           genericObject.SendValueTo(_dispatcher);
+        //    //       }
+        //    //   });
+        //}
 
         public void Receive<T>(T message)
         {
-            _mailboxArbiter.Decide(message);
+            //var genericObject = new Cell<IMessage<T>>();
+            //var envelope = message.AsMessage();
+            //envelope.Address = this;
+            //genericObject.Set(envelope);
+            //_messageBuffer.Add(genericObject);
         }
 
         public void Dispose()
@@ -34,7 +47,7 @@ namespace Histrio
         {
             if (disposing)
             {
-                _mailboxArbiter.Dispose();
+                _messageBuffer.Dispose();
             }
         }
     }

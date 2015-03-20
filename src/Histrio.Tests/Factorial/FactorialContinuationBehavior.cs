@@ -16,20 +16,28 @@ namespace Histrio.Tests.Factorial
 
         public void Accept(CalculateFactorialFor message)
         {
-            _customer.Receive(new FactorialCalculated
+            var factorialCalculated = new FactorialCalculated
             {
                 For = message.X,
                 Result = _x*message.X
-            });
+            };
+            SendFactorialCalculated(factorialCalculated);
+        }
+
+        private void SendFactorialCalculated(FactorialCalculated factorialCalculated)
+        {
+            var factorialCalculatedMessage = New.Message(factorialCalculated).To(_customer);
+            Send.Message(factorialCalculatedMessage);
         }
 
         public void Accept(FactorialCalculated message)
         {
-            _customer.Receive(new FactorialCalculated
+            var factorialCalculated = new FactorialCalculated
             {
                 For = message.For,
                 Result = _x*message.Result
-            });
+            };
+            SendFactorialCalculated(factorialCalculated);
         }
     }
 }
