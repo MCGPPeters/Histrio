@@ -1,4 +1,6 @@
-﻿namespace Histrio.Behaviors.StorageCell
+﻿using Histrio.Commands;
+
+namespace Histrio.Behaviors.StorageCell
 {
     public class StorageCellBehavior<T> : BehaviorBase, IHandle<Get>, IHandle<Set<T>>
     {

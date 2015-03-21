@@ -1,4 +1,6 @@
 using Histrio.Behaviors;
+using Histrio.Commands;
+using Histrio.Expressions;
 
 namespace Histrio.Collections.Stack
 {
@@ -9,8 +11,8 @@ namespace Histrio.Collections.Stack
 
         public StackNodeBehavior(T content, IAddress link)
         {
-           _content = content;
-           _link = link;
+            _content = content;
+            _link = link;
         }
 
         public void Accept(Pop message)
@@ -28,4 +30,3 @@ namespace Histrio.Collections.Stack
         }
     }
 }
-

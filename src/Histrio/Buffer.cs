@@ -12,15 +12,15 @@ namespace Histrio
 
         public BlockingCollection<IMessage> Messages { get; }
 
-        public void Add(IMessage message)
-        {
-            Messages.Add(message);
-        }
-
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public void Add(IMessage message)
+        {
+            Messages.Add(message);
         }
 
         private void Dispose(bool disposing)

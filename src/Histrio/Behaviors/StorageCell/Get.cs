@@ -7,6 +7,6 @@
             Costumer = address;
         }
 
-        public IAddress Costumer { get; set; }
+        public IAddress Costumer { get; private set; }
     }
 }

@@ -1,10 +1,10 @@
-using System;
-using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using Chill;
 using FluentAssertions;
 using Histrio.Behaviors;
 using Histrio.Behaviors.StorageCell;
+using Histrio.Commands;
+using Histrio.Expressions;
 using Xunit;
 
 namespace Histrio.Tests.StorageCell
@@ -13,8 +13,8 @@ namespace Histrio.Tests.StorageCell
     {
         private T _actualValue;
         private IAddress _customer;
-        private IAddress _storageCell;
         private T _expectedValue;
+        private IAddress _storageCell;
         private TaskCompletionSource<T> _taskCompletionSource;
 
         protected When_getting_the_value_of_a_(T expectedValue)
@@ -46,6 +46,7 @@ namespace Histrio.Tests.StorageCell
             _actualValue.ShouldBeEquivalentTo(_expectedValue);
         }
     }
+
     //public static class MessageMonad
     //{
     //    public static IMessage<T> AsMessage<T>(this T body)

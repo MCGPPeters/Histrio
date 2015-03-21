@@ -9,9 +9,9 @@ namespace Histrio
             Body = body;
         }
 
-        public T Body { get; set; }
-
+        private T Body { get; set; }
         public IAddress Address { get; private set; }
+
         public void GetHandledBy(BehaviorBase behavior)
         {
             behavior.Accept(this);

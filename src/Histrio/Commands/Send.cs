@@ -1,4 +1,4 @@
-namespace Histrio
+namespace Histrio.Commands
 {
     public static class Send
     {

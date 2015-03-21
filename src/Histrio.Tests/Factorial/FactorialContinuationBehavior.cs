@@ -1,4 +1,5 @@
 using Histrio.Behaviors;
+using Histrio.Commands;
 
 namespace Histrio.Tests.Factorial
 {

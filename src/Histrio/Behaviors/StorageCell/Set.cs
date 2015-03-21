@@ -7,6 +7,6 @@ namespace Histrio.Behaviors.StorageCell
             Body = body;
         }
 
-        public T Body { get; set; }
+        public T Body { get; private set; }
     }
 }

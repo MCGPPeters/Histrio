@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Concurrent;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Histrio
@@ -21,7 +20,7 @@ namespace Histrio
                 });
         }
 
-        public BlockingCollection<IMessage> MailBox { get; private set; }
+        public BlockingCollection<IMessage> MailBox { get; }
 
         public void Dispose()
         {

@@ -4,7 +4,7 @@ namespace Histrio.Behaviors
 {
     public abstract class BehaviorBase : IHandle
     {
-        protected internal IActor Actor { get; set; }
+        protected internal IActor Actor { protected get; set; }
 
         public virtual void Accept<T>(Message<T> message)
         {

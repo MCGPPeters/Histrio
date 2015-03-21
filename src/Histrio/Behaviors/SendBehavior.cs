@@ -1,3 +1,5 @@
+using Histrio.Commands;
+
 namespace Histrio.Behaviors
 {
     public class SendBehavior : BehaviorBase

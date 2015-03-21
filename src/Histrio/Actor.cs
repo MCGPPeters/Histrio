@@ -13,14 +13,14 @@ namespace Histrio
             Address = address;
             _behavior.Actor = this;
             new TaskFactory(TaskCreationOptions.LongRunning, TaskContinuationOptions.None)
-               .StartNew(() =>
-               {
-                   var messages = arbiter.MailBox;
-                   foreach (var message in messages.GetConsumingEnumerable())
-                   {
-                       message.GetHandledBy(_behavior);
-                   }
-               });
+                .StartNew(() =>
+                {
+                    var messages = arbiter.MailBox;
+                    foreach (var message in messages.GetConsumingEnumerable())
+                    {
+                        message.GetHandledBy(_behavior);
+                    }
+                });
         }
 
         public void Become(IAddress address)
@@ -28,6 +28,6 @@ namespace Histrio
             _behavior = new SendBehavior(address);
         }
 
-        public IAddress Address { get; private set; }
+        public IAddress Address { get; }
     }
 }
