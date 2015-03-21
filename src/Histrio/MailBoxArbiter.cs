@@ -5,41 +5,23 @@ using System.Threading.Tasks;
 
 namespace Histrio
 {
-    internal class MailboxArbiter : IArbiter
+    internal sealed class MailboxArbiter : IArbiter
     {
-        private readonly Dispatcher _dispatcher;
-        private readonly BlockingCollection<ICell> _mailBox;
-
-        public MailboxArbiter(int mailboxSize)
+        public MailboxArbiter(Buffer buffer)
         {
-            _mailBox  = new BlockingCollection<ICell>(mailboxSize);
+            MailBox = new BlockingCollection<IMessage>();
+            new TaskFactory(TaskCreationOptions.LongRunning, TaskContinuationOptions.None)
+                .StartNew(() =>
+                {
+                    var messages = buffer.Messages;
+                    foreach (var genericObject in messages.GetConsumingEnumerable())
+                    {
+                        MailBox.Add(genericObject);
+                    }
+                });
         }
 
-        public void Start(IAddress address)
-        {
-
-            //new TaskFactory(TaskCreationOptions.LongRunning, TaskContinuationOptions.None)
-            //    .StartNew(() =>
-            //    {
-            //        var messageBuffer = address.MessageBuffer;
-            //        foreach (var genericObject in messageBuffer.GetConsumingEnumerable())
-            //        {
-            //            genericObject.SendValueTo(_dispatcher);
-            //        }
-            //    });
-        }
-
-        public void Decide<T>(T message)
-        {
-            var genericObject = new Cell<T>();
-            genericObject.Set(message);
-            _mailBox.Add(genericObject);
-        }
-
-        public void Start(IAccept actor)
-        {
-            throw new NotImplementedException();
-        }
+        public BlockingCollection<IMessage> MailBox { get; private set; }
 
         public void Dispose()
         {
@@ -47,11 +29,11 @@ namespace Histrio
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (disposing)
             {
-                _mailBox.Dispose();
+                MailBox.Dispose();
             }
         }
     }

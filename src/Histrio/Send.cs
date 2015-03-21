@@ -2,12 +2,14 @@ namespace Histrio
 {
     public static class Send
     {
-        public static void Message<T>(IMessage<T> message)
+        public static Message<T> Message<T>(T message)
         {
-            if (message.Address.Uri.Scheme == "actor")
-            {
-                Context.System.Dispatch(message);
-            }
+            return message.AsMessage();
+        }
+
+        public static Message<T> Message<T>(Message<T> message)
+        {
+            return message;
         }
     }
 }

@@ -24,12 +24,11 @@ namespace Histrio.Tests.Stack
             _expectedValueRetrievedByPop = expectedValueRetrievedByPop;
             Given(() =>
             {
-                _stack = New.Actor(new StackBehavior<int>(default(int), null));
+                _stack = New.Actor(new StackNodeBehavior<int>(default(int), null));
                 foreach (var i in valuesToPush)
                 {
                     var push = new Push<int>(i);
-                    var message = New.Message(push).To(_stack);
-                    Send.Message(message);
+                    Send.Message(push).To(_stack);
                 }
                 _customer = New.Actor(new TaskCompletionBehavior<int>(_promiseOfTheActualValue, _numberOfPops));
             });
@@ -39,8 +38,7 @@ namespace Histrio.Tests.Stack
                 for (var i = 0; i < numberOfPops; i++)
                 {
                     var pop = new Pop(_customer);
-                    var message = New.Message(pop).To(_stack);
-                    Send.Message(message);
+                    Send.Message(pop).To(_stack);
                 }
             });
         }

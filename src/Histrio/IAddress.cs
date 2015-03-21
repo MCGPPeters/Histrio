@@ -2,9 +2,8 @@ using System;
 
 namespace Histrio
 {
-    public interface IAddress : IDisposable
+    public interface IAddress
     {
-        void Receive<T>(T message);
         Uri Uri { get; }
     }
 }

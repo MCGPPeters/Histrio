@@ -7,8 +7,7 @@
         public void Accept(Get message)
         {
             var reply = new Reply<T>(_contents);
-            var replyMessage = New.Message(reply.Body).To(message.Costumer);
-            Send.Message(replyMessage);
+            Send.Message(reply.Body).To(message.Costumer);
         }
 
         public void Accept(Set<T> message)

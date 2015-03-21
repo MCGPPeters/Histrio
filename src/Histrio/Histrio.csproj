@@ -47,8 +47,8 @@
     <Compile Include="Behaviors\StorageCell\Reply.cs" />
     <Compile Include="Behaviors\StorageCell\Set.cs" />
     <Compile Include="Behaviors\StorageCell\StorageCellBehavior.cs" />
+    <Compile Include="Buffer.cs" />
     <Compile Include="Context.cs" />
-    <Compile Include="Dispatcher.cs" />
     <Compile Include="IActor.cs" />
     <Compile Include="IAddress.cs" />
     <Compile Include="IArbiter.cs" />
@@ -57,7 +57,7 @@
     <Compile Include="IMessage.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="ICell.cs" />
-    <Compile Include="IAccept.cs" />
+    <Compile Include="IConsumer.cs" />
     <Compile Include="MessageExtensions.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="MailBoxArbiter.cs" />

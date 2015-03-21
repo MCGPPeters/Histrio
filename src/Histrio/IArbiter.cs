@@ -1,10 +1,9 @@
-using System;
+using System.Collections.Concurrent;
 
 namespace Histrio
 {
-    internal interface IArbiter : IDisposable
+    internal interface IArbiter
     {
-        void Decide<T>(T message);
-        void Start(IAccept actor);
+        BlockingCollection<IMessage> MailBox { get; }
     }
 }

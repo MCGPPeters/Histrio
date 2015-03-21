@@ -1,10 +1,20 @@
+using Histrio.Behaviors;
+
 namespace Histrio
 {
-    public class Message<T> : IMessage<T>
+    public class Message<T> : IMessage
     {
         public Message(T body)
         {
             Body = body;
+        }
+
+        public T Body { get; set; }
+
+        public IAddress Address { get; private set; }
+        public void GetHandledBy(BehaviorBase behavior)
+        {
+            behavior.Accept(this);
         }
 
         public void GetHandledBy(IHandle<T> behavior)
@@ -12,16 +22,13 @@ namespace Histrio
             behavior.Accept(Body);
         }
 
-        public IMessage<T> To(IAddress address)
+        public void To(IAddress address)
         {
             Address = address;
-            return this;
+            if (address.Uri.Scheme == "actor")
+            {
+                Context.System.Dispatch(this);
+            }
         }
-
-        public T Body { get; private set; }
-
-        public IAddress Address
-        {
-            get; private set; }
     }
 }

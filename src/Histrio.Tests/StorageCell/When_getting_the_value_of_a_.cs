@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using Chill;
@@ -25,8 +26,7 @@ namespace Histrio.Tests.StorageCell
 
                 _storageCell = New.Actor(new StorageCellBehavior<T>());
                 var set = new Set<T>(_expectedValue);
-                var message = New.Message(set).To(_storageCell);
-                Send.Message(message);
+                Send.Message(set).To(_storageCell);
 
                 _taskCompletionSource = new TaskCompletionSource<T>();
                 _customer = New.Actor(new TaskCompletionBehavior<T>(_taskCompletionSource, 1));
@@ -35,8 +35,7 @@ namespace Histrio.Tests.StorageCell
             When(() =>
             {
                 var get = new Get(_customer);
-                var message = New.Message(get).To(_storageCell);
-                Send.Message(message);
+                Send.Message(get).To(_storageCell);
             });
         }
 
@@ -47,4 +46,16 @@ namespace Histrio.Tests.StorageCell
             _actualValue.ShouldBeEquivalentTo(_expectedValue);
         }
     }
+    //public static class MessageMonad
+    //{
+    //    public static IMessage<T> AsMessage<T>(this T body)
+    //    {
+    //        return new Message<T>(body);
+    //    }
+
+    //    public static IMessage<U> SelectMany<T, U>(this IMessage<T> message, Func<T, IMessage<U>> function)
+    //    {
+    //        return function(message.Body);
+    //    }
+    //}
 }

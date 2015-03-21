@@ -1,29 +1,22 @@
+using System;
+
 namespace Histrio.Behaviors
 {
-    public abstract class BehaviorBase
+    public abstract class BehaviorBase : IHandle
     {
         protected internal IActor Actor { get; set; }
 
-        internal void Accept<TMessage>(IMessage<TMessage> message)
+        public virtual void Accept<T>(Message<T> message)
         {
-            var handler = this as IHandle<TMessage>;
-            if (ThisBehaviorHandlesThisTypeOfMessages(handler))
+            var handler = this as IHandle<T>;
+            if (handler != null)
             {
                 message.GetHandledBy(handler);
             }
             else
             {
-                AcceptCore(message);
+                throw new InvalidOperationException();
             }
-        }
-
-        protected virtual void AcceptCore<T>(IMessage<T> message)
-        {
-        }
-
-        private static bool ThisBehaviorHandlesThisTypeOfMessages<TMessage>(IHandle<TMessage> handler)
-        {
-            return null != handler;
         }
     }
 }

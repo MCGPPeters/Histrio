@@ -9,10 +9,9 @@ namespace Histrio.Behaviors
             _address = address;
         }
 
-        protected override void AcceptCore<T>(IMessage<T> message)
+        public override void Accept<T>(Message<T> message)
         {
-            var forwardedMessage = message.To(_address);
-            Send.Message(forwardedMessage);
+            Send.Message(message).To(_address);
         }
     }
 }

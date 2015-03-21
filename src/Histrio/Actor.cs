@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Histrio.Behaviors;
 
 namespace Histrio
@@ -6,11 +7,20 @@ namespace Histrio
     {
         private BehaviorBase _behavior;
 
-        public Actor(BehaviorBase behavior, IAddress address)
+        public Actor(BehaviorBase behavior, IAddress address, IArbiter arbiter)
         {
             _behavior = behavior;
             Address = address;
             _behavior.Actor = this;
+            new TaskFactory(TaskCreationOptions.LongRunning, TaskContinuationOptions.None)
+               .StartNew(() =>
+               {
+                   var messages = arbiter.MailBox;
+                   foreach (var message in messages.GetConsumingEnumerable())
+                   {
+                       message.GetHandledBy(_behavior);
+                   }
+               });
         }
 
         public void Become(IAddress address)
@@ -19,10 +29,5 @@ namespace Histrio
         }
 
         public IAddress Address { get; private set; }
-
-        public void Accept<TMessage>(IMessage<TMessage> message)
-        {
-            _behavior.Accept(message);
-        }
     }
 }

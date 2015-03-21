@@ -2,6 +2,6 @@ namespace Histrio
 {
     internal interface ICell
     {
-        void SendValueTo(IAccept receiver);
+        void SendValueTo(IConsumer receiver);
     }
 }

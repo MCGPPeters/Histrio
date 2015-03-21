@@ -11,10 +11,5 @@ namespace Histrio
             Context.System.Register(address, behavior);
             return address;
         }
-
-        public static IMessage<T> Message<T>(T body)
-        {
-            return body.AsMessage();
-        }
     }
 }
