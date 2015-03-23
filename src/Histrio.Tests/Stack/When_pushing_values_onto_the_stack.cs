@@ -10,7 +10,7 @@ using Xunit;
 
 namespace Histrio.Tests.Stack
 {
-    public abstract class When_pushing_values_onto_the_stack : GivenSubject<System>
+    public abstract class When_pushing_values_onto_the_stack : GivenSubject<Theater>
     {
         private readonly int _expectedValueRetrievedByPop;
         private readonly int _numberOfPops;
@@ -23,8 +23,11 @@ namespace Histrio.Tests.Stack
         {
             _numberOfPops = numberOfPops;
             _expectedValueRetrievedByPop = expectedValueRetrievedByPop;
+            
             Given(() =>
             {
+                SetThe<IActorNamingService>().To(new InMemoryNamingService());
+
                 _stack = New.Actor(new StackNodeBehavior<int>(default(int), null));
                 foreach (var i in valuesToPush)
                 {

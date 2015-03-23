@@ -4,9 +4,9 @@
     {
         public Get(IAddress address)
         {
-            Costumer = address;
+            Customer = address;
         }
 
-        public IAddress Costumer { get; private set; }
+        public IAddress Customer { get; private set; }
     }
 }

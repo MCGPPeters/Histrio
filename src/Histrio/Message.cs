@@ -9,7 +9,7 @@ namespace Histrio
             Body = body;
         }
 
-        private T Body { get; set; }
+        public T Body { get; set; }
         public IAddress Address { get; private set; }
 
         public void GetHandledBy(BehaviorBase behavior)
@@ -25,10 +25,7 @@ namespace Histrio
         public void To(IAddress address)
         {
             Address = address;
-            if (address.Uri.Scheme == "actor")
-            {
-                Context.System.Dispatch(this);
-            }
+            address.Theater.Dispatch(this);
         }
     }
 }

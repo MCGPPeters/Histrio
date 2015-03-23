@@ -2,7 +2,7 @@ namespace Histrio
 {
     public interface IHandle
     {
-        void Accept<T>(Message<T> message);
+        void Accept(IMessage message);
     }
 
     public interface IHandle<in T>

@@ -2,7 +2,7 @@ using System;
 
 namespace Histrio.Behaviors
 {
-    public abstract class BehaviorBase : IHandle
+    public abstract class BehaviorBase
     {
         protected internal IActor Actor { protected get; set; }
 

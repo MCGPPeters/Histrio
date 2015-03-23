@@ -4,11 +4,14 @@ namespace Histrio
 {
     public class Address : IAddress
     {
-        public Address(Uri uri)
+        public Address(Uri universalActorName, Theater theater)
         {
-            Uri = uri;
+            Theater = theater;
+            UniversalActorName = universalActorName;
         }
 
-        public Uri Uri { get; }
+        public Uri UniversalActorName { get; }
+
+        public Theater Theater { get; private set; }
     }
 }

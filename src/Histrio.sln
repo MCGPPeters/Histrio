@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C11575
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Histrio.Net.Http", "Histrio.Net.Http\Histrio.Net.Http.csproj", "{C4D16365-ECE0-46FB-8864-4DCBE40EFCDF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{42043281-588C-4831-894A-57946B3F9DA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42043281-588C-4831-894A-57946B3F9DA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42043281-588C-4831-894A-57946B3F9DA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4D16365-ECE0-46FB-8864-4DCBE40EFCDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4D16365-ECE0-46FB-8864-4DCBE40EFCDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4D16365-ECE0-46FB-8864-4DCBE40EFCDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4D16365-ECE0-46FB-8864-4DCBE40EFCDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Histrio.Tests.Factorial
 {
-    public abstract class When_calculating_factorial_of_x : GivenSubject<System>
+    public abstract class When_calculating_factorial_of_x : GivenSubject<Theater>
     {
         private readonly int _expectedValue;
 
@@ -22,14 +22,14 @@ namespace Histrio.Tests.Factorial
             _expectedValue = expectedValue;
             Given(() =>
             {
-                Context.System = Subject;
+                SetThe<IActorNamingService>().To(new InMemoryNamingService());
 
-                _customer = New.Actor(new TaskCompletionBehavior<FactorialCalculated>(_promiseOfTheActualValue, 1));
+                _customer = New.Actor(new TaskCompletionBehavior<FactorialCalculated>(_promiseOfTheActualValue, 1), Subject);
             });
 
             When(() =>
             {
-                var factorialCalculator = New.Actor(new FactorialCalculationBehavior());
+                var factorialCalculator = New.Actor(new FactorialCalculationBehavior(), Subject);
                 var calculateFactorialFor = new CalculateFactorialFor(expectedInput, _customer);
                 Send.Message(calculateFactorialFor).To(factorialCalculator);
             });

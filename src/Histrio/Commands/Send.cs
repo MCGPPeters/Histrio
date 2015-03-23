@@ -7,9 +7,9 @@ namespace Histrio.Commands
             return message.AsMessage();
         }
 
-        public static Message<T> Message<T>(Message<T> message)
+        public static Message<T> Message<T>(Message<T> messageBase)
         {
-            return message;
+            return messageBase;
         }
     }
 }

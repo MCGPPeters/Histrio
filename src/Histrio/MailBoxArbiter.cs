@@ -13,9 +13,9 @@ namespace Histrio
                 .StartNew(() =>
                 {
                     var messages = buffer.Messages;
-                    foreach (var genericObject in messages.GetConsumingEnumerable())
+                    foreach (var message in messages.GetConsumingEnumerable())
                     {
-                        MailBox.Add(genericObject);
+                        MailBox.Add(message);
                     }
                 });
         }
