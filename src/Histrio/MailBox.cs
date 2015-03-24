@@ -10,7 +10,7 @@ namespace Histrio
             Messages = blockingCollection;
         }
 
-        public BlockingCollection<IMessage> Messages { get; }
+        public BlockingCollection<IMessage> Messages { get; private set; }
 
         public void Dispose()
         {

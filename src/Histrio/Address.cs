@@ -4,6 +4,13 @@ namespace Histrio
 {
     public class Address : IAddress
     {
+        public Address(Uri universalActorName)
+        {
+            UniversalActorName = universalActorName;
+        }
+
+        public Uri UniversalActorName { get; private set; }
+
         private bool Equals(IAddress other)
         {
             return Equals(UniversalActorName, other.UniversalActorName);
@@ -14,12 +21,6 @@ namespace Histrio
             return (UniversalActorName != null ? UniversalActorName.GetHashCode() : 0);
         }
 
-        public Address(Uri universalActorName)
-        {
-            UniversalActorName = universalActorName;
-        }
-
-        public Uri UniversalActorName { get; }
         public override bool Equals(object obj)
         {
             return Equals((Address) obj);

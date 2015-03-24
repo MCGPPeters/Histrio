@@ -2,8 +2,6 @@ using System.Threading.Tasks;
 using Chill;
 using FluentAssertions;
 using Histrio.Behaviors.StorageCell;
-using Histrio.Commands;
-using Histrio.Expressions;
 using Histrio.Testing;
 using Xunit;
 

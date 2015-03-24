@@ -39,7 +39,7 @@ namespace Histrio.Net.Http
 
             config.Services.Replace(typeof (IHttpControllerTypeResolver),
                 new HttpControllerTypeResolver<HistrioMiddleware>());
-            config.Services.Replace(typeof(IHttpControllerActivator),
+            config.Services.Replace(typeof (IHttpControllerActivator),
                 controllerActivator);
             config.MapHttpAttributeRoutes();
 

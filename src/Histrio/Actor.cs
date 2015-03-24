@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Histrio.Behaviors;
 
@@ -26,6 +24,8 @@ namespace Histrio
                 });
         }
 
+        private Theater Theater { get; }
+
         public void Send<T>(Message<T> message)
         {
             Theater.Dispatch(message);
@@ -41,7 +41,6 @@ namespace Histrio
             return Theater.CreateActor(behavior);
         }
 
-        public IAddress Address { get; }
-        private Theater Theater { get; set; }
+        public IAddress Address { get; private set; }
     }
 }

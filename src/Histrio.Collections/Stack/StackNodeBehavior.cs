@@ -1,7 +1,4 @@
-using System.Net.Mime;
 using Histrio.Behaviors;
-using Histrio.Commands;
-using Histrio.Expressions;
 
 namespace Histrio.Collections.Stack
 {

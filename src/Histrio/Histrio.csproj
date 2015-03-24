@@ -61,7 +61,6 @@
     <Compile Include="InMemoryNamingService.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="MessageExtensions.cs" />
-    <Compile Include="MailBoxArbiter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Theater.cs" />
   </ItemGroup>

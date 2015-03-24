@@ -2,21 +2,17 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
-using System.Security.Claims;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Web.Http;
-using Histrio.Commands;
 using Newtonsoft.Json;
 
 namespace Histrio.Net.Http.Controlers
 {
     internal class TheaterController : ApiController
     {
-        private readonly Theater _theater;
-
-        private static readonly MethodInfo DispatchMethodInfo = typeof(TheaterController)
+        private static readonly MethodInfo DispatchMethodInfo = typeof (TheaterController)
             .GetMethod("Dispatch", BindingFlags.Static | BindingFlags.NonPublic);
+
+        private readonly Theater _theater;
 
         public TheaterController(Theater theater)
         {
@@ -29,8 +25,8 @@ namespace Histrio.Net.Http.Controlers
             var conversionType = Type.GetType(untypedMessage.AssemblyQualifiedName);
             var jtoken = untypedMessage.Body;
             var messageBody = JsonConvert.DeserializeObject(jtoken.ToString(), conversionType);
-            MethodInfo dispatchMethod = DispatchMethodInfo.MakeGenericMethod(conversionType);
-            
+            var dispatchMethod = DispatchMethodInfo.MakeGenericMethod(conversionType);
+
             var universalActorName = new Uri(untypedMessage.Address);
 
             dispatchMethod.Invoke(this, new[] {_theater, messageBody, universalActorName});

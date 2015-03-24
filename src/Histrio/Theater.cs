@@ -18,11 +18,11 @@ namespace Histrio
             Name = Guid.NewGuid().ToString();
         }
 
-        private string Name { get; set; }
+        private string Name { get; }
 
         public IAddress CreateActor(BehaviorBase behavior)
         {
-            var uriString = string.Format("uan://{0}/{1}", this.Name, Guid.NewGuid());
+            var uriString = string.Format("uan://{0}/{1}", Name, Guid.NewGuid());
             var universalActorName = new Uri(uriString);
             var address = new Address(universalActorName);
             var mailBox = new MailBox(new BlockingCollection<IMessage>());

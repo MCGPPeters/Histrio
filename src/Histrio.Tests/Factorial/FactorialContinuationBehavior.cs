@@ -1,5 +1,4 @@
 using Histrio.Behaviors;
-using Histrio.Commands;
 
 namespace Histrio.Tests.Factorial
 {
@@ -25,13 +24,6 @@ namespace Histrio.Tests.Factorial
             SendFactorialCalculated(factorialCalculated);
         }
 
-        private void SendFactorialCalculated(FactorialCalculated factorialCalculated)
-        {
-            var factorialCalculatedMessage = factorialCalculated.AsMessage();
-            factorialCalculatedMessage.To = _customer;
-            Actor.Send(factorialCalculatedMessage);
-        }
-
         public void Accept(FactorialCalculated message)
         {
             var factorialCalculated = new FactorialCalculated
@@ -40,6 +32,13 @@ namespace Histrio.Tests.Factorial
                 Result = _x*message.Result
             };
             SendFactorialCalculated(factorialCalculated);
+        }
+
+        private void SendFactorialCalculated(FactorialCalculated factorialCalculated)
+        {
+            var factorialCalculatedMessage = factorialCalculated.AsMessage();
+            factorialCalculatedMessage.To = _customer;
+            Actor.Send(factorialCalculatedMessage);
         }
     }
 }

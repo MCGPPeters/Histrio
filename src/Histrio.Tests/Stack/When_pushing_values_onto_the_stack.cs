@@ -2,10 +2,7 @@
 using System.Threading.Tasks;
 using Chill;
 using FluentAssertions;
-using Histrio.Behaviors;
 using Histrio.Collections.Stack;
-using Histrio.Commands;
-using Histrio.Expressions;
 using Histrio.Testing;
 using Xunit;
 
@@ -24,7 +21,7 @@ namespace Histrio.Tests.Stack
         {
             _numberOfPops = numberOfPops;
             _expectedValueRetrievedByPop = expectedValueRetrievedByPop;
-            
+
             Given(() =>
             {
                 SetThe<IActorNamingService>().To(new InMemoryNamingService());

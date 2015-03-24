@@ -1,36 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Chill;
-using Chill.StateBuilders;
 using FluentAssertions;
-using Histrio.Behaviors;
-using Histrio.Commands;
-using Histrio.Expressions;
 using Histrio.Net.Http;
 using Histrio.Testing;
-using Histrio.Tests.Factorial;
-using Histrio.Tests.StorageCell;
 using Microsoft.Owin.Builder;
-using Xunit;
 using NSubstitute;
+using Xunit;
 using AppFunc = System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>;
 
 namespace Histrio.Tests.Http
 {
     public class When_sending_a_message_to_a_remote_actor_that_is_accessible_via_http : GivenSubject<Theater>
     {
-        private readonly TaskCompletionSource<SomethingHappened> _promiseOfTheActualValue =
-                new TaskCompletionSource<SomethingHappened>();
-
-        private readonly Uri _universalActorLocationOfRemoteActor = new Uri("http://remotehost");
-        private readonly Uri _universalActorLocationOfLocalActor = new Uri("http://localhost");
-        private IAddress _remoteActor;
         private const string TheThingThatHappened = "Hell froze over...";
+
+        private readonly TaskCompletionSource<SomethingHappened> _promiseOfTheActualValue =
+            new TaskCompletionSource<SomethingHappened>();
+
+        private readonly Uri _universalActorLocationOfLocalActor = new Uri("http://localhost");
+        private readonly Uri _universalActorLocationOfRemoteActor = new Uri("http://remotehost");
+        private IAddress _remoteActor;
 
         public When_sending_a_message_to_a_remote_actor_that_is_accessible_via_http()
         {
@@ -46,7 +38,8 @@ namespace Histrio.Tests.Http
                     .ResolveActorLocation(Arg.Any<Uri>())
                     .Returns(_universalActorLocationOfRemoteActor);
                 var remoteTheater = new Theater(TheNamed<IActorNamingService>("remoteActorNamingService"));
-                _remoteActor = remoteTheater.CreateActor(new AssertionBehavior<SomethingHappened>(_promiseOfTheActualValue, 1));
+                _remoteActor =
+                    remoteTheater.CreateActor(new AssertionBehavior<SomethingHappened>(_promiseOfTheActualValue, 1));
 
                 var appFunc = BuildHistrioMiddleware(remoteTheater);
                 var remoteHttpClient = BuildHttpClient(appFunc);
@@ -57,7 +50,7 @@ namespace Histrio.Tests.Http
                 Subject.PermitMessageDispatchOverHttp(localHttpClient);
                 remoteTheater.PermitMessageDispatchOverHttp(remoteHttpClient);
             });
-            
+
             When(() =>
             {
                 var somethingHappened = new SomethingHappened(TheThingThatHappened);
@@ -75,7 +68,7 @@ namespace Histrio.Tests.Http
                 Theater = remoteTheater
             };
             appBuilder.UseHistrio(histrioSettings);
-            AppFunc appFunc = appBuilder.Build();
+            var appFunc = appBuilder.Build();
             return appFunc;
         }
 
