@@ -6,13 +6,13 @@ namespace Histrio
 {
     internal sealed class MailboxArbiter : IArbiter
     {
-        public MailboxArbiter(Buffer buffer)
+        public MailboxArbiter(MailBox mailBox)
         {
             MailBox = new BlockingCollection<IMessage>();
             new TaskFactory(TaskCreationOptions.LongRunning, TaskContinuationOptions.None)
                 .StartNew(() =>
                 {
-                    var messages = buffer.Messages;
+                    var messages = mailBox.Messages;
                     foreach (var message in messages.GetConsumingEnumerable())
                     {
                         MailBox.Add(message);

@@ -5,10 +5,9 @@ using Microsoft.Owin.Builder;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Owin;
-using MidFunc =
-    System.Func
-        <System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>,
-            System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>>;
+using MidFunc = System.Func
+    <System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>,
+        System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>>;
 
 namespace Histrio.Net.Http
 {
@@ -16,10 +15,12 @@ namespace Histrio.Net.Http
     {
         public HistrioMiddleware(HistrioSettings histrioSettings)
         {
+            var controllerActivator = new TheaterControlerActivator(histrioSettings.Theater);
+
             MidFunc = next =>
             {
                 var app = new AppBuilder();
-                app.UseWebApi(GetWebApiConfiguration());
+                app.UseWebApi(GetWebApiConfiguration(controllerActivator));
                 app.Run(ctx => next(ctx.Environment));
                 return app.Build();
             };
@@ -27,7 +28,7 @@ namespace Histrio.Net.Http
 
         public MidFunc MidFunc { get; }
 
-        private static HttpConfiguration GetWebApiConfiguration()
+        private static HttpConfiguration GetWebApiConfiguration(IHttpControllerActivator controllerActivator)
         {
             var config = new HttpConfiguration();
 
@@ -38,8 +39,8 @@ namespace Histrio.Net.Http
 
             config.Services.Replace(typeof (IHttpControllerTypeResolver),
                 new HttpControllerTypeResolver<HistrioMiddleware>());
-            //config.Services.Replace(typeof (IHttpControllerActivator),
-            //    new CommonServiceLocatorServiceActivator());
+            config.Services.Replace(typeof(IHttpControllerActivator),
+                controllerActivator);
             config.MapHttpAttributeRoutes();
 
             return config;

@@ -22,7 +22,14 @@ namespace Histrio.Tests.Factorial
                 For = message.X,
                 Result = _x*message.X
             };
-            Send.Message(factorialCalculated).To(_customer);
+            SendFactorialCalculated(factorialCalculated);
+        }
+
+        private void SendFactorialCalculated(FactorialCalculated factorialCalculated)
+        {
+            var factorialCalculatedMessage = factorialCalculated.AsMessage();
+            factorialCalculatedMessage.To = _customer;
+            Actor.Send(factorialCalculatedMessage);
         }
 
         public void Accept(FactorialCalculated message)
@@ -32,7 +39,7 @@ namespace Histrio.Tests.Factorial
                 For = message.For,
                 Result = _x*message.Result
             };
-            Send.Message(factorialCalculated).To(_customer);
+            SendFactorialCalculated(factorialCalculated);
         }
     }
 }

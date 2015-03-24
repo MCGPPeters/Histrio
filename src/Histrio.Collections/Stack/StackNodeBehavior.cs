@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using Histrio.Behaviors;
 using Histrio.Commands;
 using Histrio.Expressions;
@@ -18,14 +19,16 @@ namespace Histrio.Collections.Stack
         public void Accept(Pop message)
         {
             Actor.Become(_link);
-            Send.Message(_content).To(message.Customer);
+            var content = _content.AsMessage();
+            content.To = message.Customer;
+            Actor.Send(content);
         }
 
         public void Accept(Push<T> message)
         {
-            var p = New.Actor(new StackNodeBehavior<T>(_content, _link));
-            var stackNodBehaviore = new StackNodeBehavior<T>(message.Value, p);
-            var stackNode = New.Actor(stackNodBehaviore);
+            var p = Actor.Create(new StackNodeBehavior<T>(_content, _link));
+            var stackNodeBehavior = new StackNodeBehavior<T>(message.Value, p);
+            var stackNode = Actor.Create(stackNodeBehavior);
             Actor.Become(stackNode);
         }
     }

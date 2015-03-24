@@ -128,6 +128,10 @@
       <Project>{C4D16365-ECE0-46FB-8864-4DCBE40EFCDF}</Project>
       <Name>Histrio.Net.Http</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Histrio.Testing\Histrio.Testing.csproj">
+      <Project>{E7FE514A-51D6-44D3-97A6-E0D7643AD252}</Project>
+      <Name>Histrio.Testing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Histrio\Histrio.csproj">
       <Project>{3fcd7d6a-51cd-4dbb-93c3-7584ecc4c7d7}</Project>
       <Name>Histrio</Name>

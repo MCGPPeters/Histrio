@@ -1,5 +1,3 @@
-using Histrio.Commands;
-
 namespace Histrio.Behaviors
 {
     public class SendBehavior : BehaviorBase
@@ -13,7 +11,8 @@ namespace Histrio.Behaviors
 
         public override void Accept<T>(Message<T> message)
         {
-            Send.Message(message).To(_address);
+            message.To = _address;
+            Actor.Send(message);
         }
     }
 }

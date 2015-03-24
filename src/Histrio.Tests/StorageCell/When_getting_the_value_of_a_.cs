@@ -1,17 +1,16 @@
 using System.Threading.Tasks;
 using Chill;
 using FluentAssertions;
-using Histrio.Behaviors;
 using Histrio.Behaviors.StorageCell;
 using Histrio.Commands;
 using Histrio.Expressions;
+using Histrio.Testing;
 using Xunit;
 
 namespace Histrio.Tests.StorageCell
 {
     public abstract class When_getting_the_value_of_a_<T> : GivenSubject<Theater>
     {
-        private T _actualValue;
         private IAddress _customer;
         private T _expectedValue;
         private IAddress _storageCell;
@@ -25,18 +24,22 @@ namespace Histrio.Tests.StorageCell
             {
                 _expectedValue = expectedValue;
 
-                _storageCell = New.Actor(new StorageCellBehavior<T>());
+                _storageCell = Subject.CreateActor(new StorageCellBehavior<T>());
                 var set = new Set<T>(_expectedValue);
-                Send.Message(set).To(_storageCell);
+                var setMessage = set.AsMessage();
+                setMessage.To = _storageCell;
+                Subject.Dispatch(setMessage);
 
                 _taskCompletionSource = new TaskCompletionSource<Reply<T>>();
-                _customer = New.Actor(new TaskCompletionBehavior<Reply<T>>(_taskCompletionSource, 1));
+                _customer = Subject.CreateActor(new AssertionBehavior<Reply<T>>(_taskCompletionSource, 1));
             });
 
             When(() =>
             {
                 var get = new Get(_customer);
-                Send.Message(get).To(_storageCell);
+                var getMessage = get.AsMessage();
+                getMessage.To = _storageCell;
+                Subject.Dispatch(getMessage);
             });
         }
 
@@ -47,17 +50,4 @@ namespace Histrio.Tests.StorageCell
             actualValue.Body.ShouldBeEquivalentTo(_expectedValue);
         }
     }
-
-    //public static class MessageMonad
-    //{
-    //    public static Message<T> AsMessage<T>(this T body)
-    //    {
-    //        return new Message<T>(body);
-    //    }
-
-    //    public static Message<U> SelectMany<T, U>(this Message<T> Message, Func<T, Message<U>> function)
-    //    {
-    //        return function(Message.Body);
-    //    }
-    //}
 }

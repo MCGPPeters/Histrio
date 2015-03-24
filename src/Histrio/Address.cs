@@ -4,14 +4,25 @@ namespace Histrio
 {
     public class Address : IAddress
     {
-        public Address(Uri universalActorName, Theater theater)
+        private bool Equals(IAddress other)
         {
-            Theater = theater;
+            return Equals(UniversalActorName, other.UniversalActorName);
+        }
+
+        public override int GetHashCode()
+        {
+            return (UniversalActorName != null ? UniversalActorName.GetHashCode() : 0);
+        }
+
+        public Address(Uri universalActorName)
+        {
             UniversalActorName = universalActorName;
         }
 
         public Uri UniversalActorName { get; }
-
-        public Theater Theater { get; private set; }
+        public override bool Equals(object obj)
+        {
+            return Equals((Address) obj);
+        }
     }
 }

@@ -6,6 +6,7 @@ using Histrio.Behaviors;
 using Histrio.Collections.Stack;
 using Histrio.Commands;
 using Histrio.Expressions;
+using Histrio.Testing;
 using Xunit;
 
 namespace Histrio.Tests.Stack
@@ -28,13 +29,15 @@ namespace Histrio.Tests.Stack
             {
                 SetThe<IActorNamingService>().To(new InMemoryNamingService());
 
-                _stack = New.Actor(new StackNodeBehavior<int>(default(int), null));
+                _stack = Subject.CreateActor(new StackNodeBehavior<int>(default(int), null));
                 foreach (var i in valuesToPush)
                 {
                     var push = new Push<int>(i);
-                    Send.Message(push).To(_stack);
+                    var pushMessage = push.AsMessage();
+                    pushMessage.To = _stack;
+                    Subject.Dispatch(pushMessage);
                 }
-                _customer = New.Actor(new TaskCompletionBehavior<int>(_promiseOfTheActualValue, _numberOfPops));
+                _customer = Subject.CreateActor(new AssertionBehavior<int>(_promiseOfTheActualValue, _numberOfPops));
             });
 
             When(() =>
@@ -42,7 +45,9 @@ namespace Histrio.Tests.Stack
                 for (var i = 0; i < numberOfPops; i++)
                 {
                     var pop = new Pop(_customer);
-                    Send.Message(pop).To(_stack);
+                    var popMessage = pop.AsMessage();
+                    popMessage.To = _stack;
+                    Subject.Dispatch(popMessage);
                 }
             });
         }

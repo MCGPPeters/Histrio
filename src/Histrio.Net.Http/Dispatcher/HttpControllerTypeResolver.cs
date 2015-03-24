@@ -10,10 +10,10 @@ namespace Histrio.Net.Http.Dispatcher
     {
         public ICollection<Type> GetControllerTypes(IAssembliesResolver _)
         {
-            var controllerTypes = typeof(TController)
+            var controllerTypes = typeof (TController)
                 .Assembly
                 .GetTypes()
-                .Where(t => t.IsClass && !t.IsAbstract && typeof(IHttpController).IsAssignableFrom(t))
+                .Where(t => t.IsClass && !t.IsAbstract && typeof (IHttpController).IsAssignableFrom(t))
                 .ToList();
             return controllerTypes;
         }

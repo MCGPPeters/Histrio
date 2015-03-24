@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Histrio.Behaviors;
 
@@ -7,15 +9,16 @@ namespace Histrio
     {
         private BehaviorBase _behavior;
 
-        public Actor(BehaviorBase behavior, IAddress address, IArbiter arbiter)
+        public Actor(BehaviorBase behavior, IAddress address, MailBox mailBox, Theater theater)
         {
             _behavior = behavior;
             Address = address;
+            Theater = theater;
             _behavior.Actor = this;
             new TaskFactory(TaskCreationOptions.LongRunning, TaskContinuationOptions.None)
                 .StartNew(() =>
                 {
-                    var messages = arbiter.MailBox;
+                    var messages = mailBox.Messages;
                     foreach (var message in messages.GetConsumingEnumerable())
                     {
                         message.GetHandledBy(_behavior);
@@ -23,11 +26,22 @@ namespace Histrio
                 });
         }
 
+        public void Send<T>(Message<T> message)
+        {
+            Theater.Dispatch(message);
+        }
+
         public void Become(IAddress address)
         {
-            _behavior = new SendBehavior(address);
+            _behavior = new SendBehavior(address) {Actor = this};
+        }
+
+        public IAddress Create(BehaviorBase behavior)
+        {
+            return Theater.CreateActor(behavior);
         }
 
         public IAddress Address { get; }
+        private Theater Theater { get; set; }
     }
 }

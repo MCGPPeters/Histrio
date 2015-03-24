@@ -8,19 +8,24 @@ namespace Histrio.Tests.Factorial
     {
         public void Accept(CalculateFactorialFor message)
         {
-            Actor.Become(New.Actor(new FactorialCalculationBehavior()));
+            var address = Actor.Create(new FactorialCalculationBehavior());
+            Actor.Become(address);
 
             var x = message.X;
             if (x == 0)
             {
                 var factorialCalculated = new FactorialCalculated {For = x, Result = 1};
-                Send.Message(factorialCalculated).To(message.Customer);
+                var factorialCalculatedMessage = factorialCalculated.AsMessage();
+                factorialCalculatedMessage.To = message.Customer;
+                Actor.Send(factorialCalculatedMessage);
             }
             else
             {
-                var continuation = New.Actor(new FactorialContinuationBehavior(message));
+                var continuation = Actor.Create(new FactorialContinuationBehavior(message));
                 var calculateFactorialFor = new CalculateFactorialFor(x - 1, continuation);
-                Send.Message(calculateFactorialFor).To(Actor.Address);
+                var calculateFactorialForMessage = calculateFactorialFor.AsMessage();
+                calculateFactorialForMessage.To = Actor.Address;
+                Actor.Send(calculateFactorialForMessage);
             }
         }
     }

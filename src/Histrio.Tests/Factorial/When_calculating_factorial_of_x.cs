@@ -4,6 +4,7 @@ using FluentAssertions;
 using Histrio.Behaviors;
 using Histrio.Commands;
 using Histrio.Expressions;
+using Histrio.Testing;
 using Xunit;
 
 namespace Histrio.Tests.Factorial
@@ -24,14 +25,16 @@ namespace Histrio.Tests.Factorial
             {
                 SetThe<IActorNamingService>().To(new InMemoryNamingService());
 
-                _customer = New.Actor(new TaskCompletionBehavior<FactorialCalculated>(_promiseOfTheActualValue, 1), Subject);
+                _customer = Subject.CreateActor(new AssertionBehavior<FactorialCalculated>(_promiseOfTheActualValue, 1));
             });
 
             When(() =>
             {
-                var factorialCalculator = New.Actor(new FactorialCalculationBehavior(), Subject);
+                var factorialCalculator = Subject.CreateActor(new FactorialCalculationBehavior());
                 var calculateFactorialFor = new CalculateFactorialFor(expectedInput, _customer);
-                Send.Message(calculateFactorialFor).To(factorialCalculator);
+                var calculateFactorialForMessage = calculateFactorialFor.AsMessage();
+                calculateFactorialForMessage.To = factorialCalculator;
+                Subject.Dispatch(calculateFactorialForMessage);
             });
         }
 

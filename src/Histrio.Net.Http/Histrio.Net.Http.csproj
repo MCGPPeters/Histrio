@@ -79,8 +79,8 @@
   <ItemGroup>
     <Compile Include="AppBuilderExtensions.cs" />
     <Compile Include="Controlers\TheaterController.cs" />
-    <Compile Include="Dispatcher\CommonServiceLocatorServiceActivator.cs" />
     <Compile Include="Dispatcher\HttpControllerTypeResolver.cs" />
+    <Compile Include="Dispatcher\TheaterControlerActivator.cs" />
     <Compile Include="HistrioMiddleware.cs" />
     <Compile Include="HttpDispatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

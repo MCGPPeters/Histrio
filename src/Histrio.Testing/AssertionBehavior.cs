@@ -1,15 +1,16 @@
 using System.Threading;
 using System.Threading.Tasks;
+using Histrio.Behaviors;
 
-namespace Histrio.Behaviors
+namespace Histrio.Testing
 {
-    public class TaskCompletionBehavior<TMessage> : BehaviorBase, IHandle<TMessage>
+    public class AssertionBehavior<TMessage> : BehaviorBase, IHandle<TMessage>
     {
         private readonly int _numberOfExpectedMessagesWhereAfterToComplete;
         private readonly TaskCompletionSource<TMessage> _taskCompletionSource;
         private int _numberOfMessagesReceived;
 
-        public TaskCompletionBehavior(TaskCompletionSource<TMessage> taskCompletionSource,
+        public AssertionBehavior(TaskCompletionSource<TMessage> taskCompletionSource,
             int numberOfExpectedMessagesWhereAfterToComplete)
         {
             _taskCompletionSource = taskCompletionSource;

@@ -6,12 +6,15 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Chill;
+using Chill.StateBuilders;
 using FluentAssertions;
 using Histrio.Behaviors;
 using Histrio.Commands;
 using Histrio.Expressions;
 using Histrio.Net.Http;
+using Histrio.Testing;
 using Histrio.Tests.Factorial;
+using Histrio.Tests.StorageCell;
 using Microsoft.Owin.Builder;
 using Xunit;
 using NSubstitute;
@@ -24,7 +27,8 @@ namespace Histrio.Tests.Http
         private readonly TaskCompletionSource<SomethingHappened> _promiseOfTheActualValue =
                 new TaskCompletionSource<SomethingHappened>();
 
-        private readonly Uri _universalActorLocationOfRemoteActor = new Uri("http://localhost");
+        private readonly Uri _universalActorLocationOfRemoteActor = new Uri("http://remotehost");
+        private readonly Uri _universalActorLocationOfLocalActor = new Uri("http://localhost");
         private IAddress _remoteActor;
         private const string TheThingThatHappened = "Hell froze over...";
 
@@ -32,32 +36,47 @@ namespace Histrio.Tests.Http
         {
             Given(() =>
             {
-                //make sure the remote actor is created in another theatre that will be simulating the remote theater
-                var remoteTheater = new Theater(The<IActorNamingService>());
-
-                _remoteActor = New.Actor(new TaskCompletionBehavior<SomethingHappened>(_promiseOfTheActualValue, 1), remoteTheater);
                 The<IActorNamingService>()
-                    .ResolveActorLocation(_remoteActor.UniversalActorName)
+                    .ResolveActorLocation(Arg.Any<Uri>())
+                    .Returns(_universalActorLocationOfLocalActor);
+
+                //make sure the remote actor is created in another theatre that will be simulating the remote theater
+                // SetThe<IActorNamingService>().Named("remoteActorNamingService").To(new InMemoryNamingService());
+                TheNamed<IActorNamingService>("remoteActorNamingService")
+                    .ResolveActorLocation(Arg.Any<Uri>())
                     .Returns(_universalActorLocationOfRemoteActor);
+                var remoteTheater = new Theater(TheNamed<IActorNamingService>("remoteActorNamingService"));
+                _remoteActor = remoteTheater.CreateActor(new AssertionBehavior<SomethingHappened>(_promiseOfTheActualValue, 1));
 
-                var appBuilder = new AppBuilder();
-                var histrioSettings = new HistrioSettings
-                {
-                    Theater = remoteTheater
-                };
-                appBuilder.UseHistrio(histrioSettings);
-                AppFunc appFunc = appBuilder.Build();
-                var httpClient = BuildHttpClient(appFunc);
+                var appFunc = BuildHistrioMiddleware(remoteTheater);
+                var remoteHttpClient = BuildHttpClient(appFunc);
 
+                var localAppFunc = BuildHistrioMiddleware(remoteTheater);
+                var localHttpClient = BuildHttpClient(localAppFunc);
 
-                Subject.PermitMessageDispatchOverHttp(httpClient);
+                Subject.PermitMessageDispatchOverHttp(localHttpClient);
+                remoteTheater.PermitMessageDispatchOverHttp(remoteHttpClient);
             });
             
             When(() =>
             {
                 var somethingHappened = new SomethingHappened(TheThingThatHappened);
-                Send.Message(somethingHappened).To(_remoteActor);
+                var somethingHappenedMessage = somethingHappened.AsMessage();
+                somethingHappenedMessage.To = _remoteActor;
+                Subject.Dispatch(somethingHappenedMessage);
             });
+        }
+
+        private static AppFunc BuildHistrioMiddleware(Theater remoteTheater)
+        {
+            var appBuilder = new AppBuilder();
+            var histrioSettings = new HistrioSettings
+            {
+                Theater = remoteTheater
+            };
+            appBuilder.UseHistrio(histrioSettings);
+            AppFunc appFunc = appBuilder.Build();
+            return appFunc;
         }
 
         [Fact]

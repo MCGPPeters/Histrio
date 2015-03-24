@@ -42,13 +42,13 @@
     <Compile Include="Actor.cs" />
     <Compile Include="Address.cs" />
     <Compile Include="Behaviors\BehaviorBase.cs" />
-    <Compile Include="Behaviors\TaskCompletionBehavior.cs" />
     <Compile Include="Behaviors\SendBehavior.cs" />
     <Compile Include="Behaviors\StorageCell\Get.cs" />
     <Compile Include="Behaviors\StorageCell\Reply.cs" />
     <Compile Include="Behaviors\StorageCell\Set.cs" />
     <Compile Include="Behaviors\StorageCell\StorageCellBehavior.cs" />
-    <Compile Include="Buffer.cs" />
+    <Compile Include="Dispatchable.cs" />
+    <Compile Include="MailBox.cs" />
     <Compile Include="Commands\Send.cs" />
     <Compile Include="Expressions\New.cs" />
     <Compile Include="IActor.cs" />

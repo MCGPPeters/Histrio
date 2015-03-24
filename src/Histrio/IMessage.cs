@@ -4,7 +4,7 @@ namespace Histrio
 {
     public interface IMessage
     {
-        IAddress Address { get; }
+        IAddress To { get; }
         void GetHandledBy(BehaviorBase behavior);
     }
 }

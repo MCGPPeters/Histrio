@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("Histrio.Net.Http")]
+[assembly: AssemblyTitle("Histrio.Testing")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Histrio.Net.Http")]
+[assembly: AssemblyProduct("Histrio.Testing")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 
-[assembly: Guid("c4d16365-ece0-46fb-8864-4dcbe40efcdf")]
+[assembly: Guid("e7fe514a-51d6-44d3-97a6-e0d7643ad252")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -9,42 +9,38 @@ namespace Histrio
     public sealed class Theater
     {
         private readonly IActorNamingService _actorNamingService;
-        private readonly Dictionary<IAddress, Buffer> _localAddresses = new Dictionary<IAddress, Buffer>();
+        private readonly Dictionary<IAddress, MailBox> _localAddresses = new Dictionary<IAddress, MailBox>();
         private readonly List<IDispatcher> _remoteMessageDispatchers = new List<IDispatcher>();
 
         public Theater(IActorNamingService actorNamingService)
         {
             _actorNamingService = actorNamingService;
             Name = Guid.NewGuid().ToString();
-            SetInstance(this);
         }
 
-        public string Name { get; private set; }
+        private string Name { get; set; }
 
-        private static Theater _instance;
-
-        public static Theater GetInstance()
+        public IAddress CreateActor(BehaviorBase behavior)
         {
-            return _instance ?? new Theater(new InMemoryNamingService());
+            var uriString = string.Format("uan://{0}/{1}", this.Name, Guid.NewGuid());
+            var universalActorName = new Uri(uriString);
+            var address = new Address(universalActorName);
+            var mailBox = new MailBox(new BlockingCollection<IMessage>());
+            _localAddresses.Add(address, mailBox);
+            new Actor(behavior, address, mailBox, this);
+            return address;
         }
 
-        private static void SetInstance(Theater value)
+        public void Dispatch<T>(Message<T> message, Uri universalActorName)
         {
-            _instance = value;
-        }
-
-        public void Register(Address address, BehaviorBase behavior)
-        {
-            var buffer = new Buffer(new BlockingCollection<IMessage>());
-            var arbiter = new MailboxArbiter(buffer);
-            new Actor(behavior, address, arbiter);
-            _localAddresses.Add(address, buffer);
+            message.To = new Address(universalActorName);
+            Dispatch(message);
         }
 
         public void Dispatch<T>(Message<T> message)
         {
-            var address = message.Address;
-            if(_localAddresses.ContainsKey(address))
+            var address = message.To;
+            if (_localAddresses.ContainsKey(address))
             {
                 var buffer = _localAddresses[address];
                 buffer.Add(message);
@@ -52,7 +48,7 @@ namespace Histrio
             else
             {
                 var actorLocation = _actorNamingService.ResolveActorLocation(address.UniversalActorName);
-                var capableDispatchers = SelectDispatcherForCustomerOfMessage(actorLocation);
+                var capableDispatchers = SelectDispatchersForCustomerOfMessage(actorLocation);
                 foreach (var dispatcher in capableDispatchers)
                 {
                     dispatcher.Dispatch(message, actorLocation);
@@ -60,7 +56,7 @@ namespace Histrio
             }
         }
 
-        private IEnumerable<IDispatcher> SelectDispatcherForCustomerOfMessage(Uri universalActorLocation)
+        private IEnumerable<IDispatcher> SelectDispatchersForCustomerOfMessage(Uri universalActorLocation)
         {
             return from dispatcher in _remoteMessageDispatchers
                 where dispatcher.CanDispathFor(universalActorLocation)

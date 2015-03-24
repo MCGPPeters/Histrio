@@ -3,9 +3,9 @@ using System.Collections.Concurrent;
 
 namespace Histrio
 {
-    internal sealed class Buffer : IDisposable
+    internal sealed class MailBox : IDisposable
     {
-        public Buffer(BlockingCollection<IMessage> blockingCollection)
+        public MailBox(BlockingCollection<IMessage> blockingCollection)
         {
             Messages = blockingCollection;
         }
