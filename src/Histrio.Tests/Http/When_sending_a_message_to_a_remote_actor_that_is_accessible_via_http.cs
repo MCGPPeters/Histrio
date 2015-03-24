@@ -60,12 +60,12 @@ namespace Histrio.Tests.Http
             });
         }
 
-        private static AppFunc BuildHistrioMiddleware(Theater remoteTheater)
+        private static AppFunc BuildHistrioMiddleware(Theater theater)
         {
             var appBuilder = new AppBuilder();
             var histrioSettings = new HistrioSettings
             {
-                Theater = remoteTheater
+                Theater = theater
             };
             appBuilder.UseHistrio(histrioSettings);
             var appFunc = appBuilder.Build();

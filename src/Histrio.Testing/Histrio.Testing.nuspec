@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+    <metadata>
+        <id>Histrio.Testing</id>
+        <version>1.0.0-unstable1</version>
+        <title>Histrio Testing</title>
+        <authors>Maurice CGP Peters</authors>
+        <owners>Maurice CGP Peters</owners>
+        <licenseUrl>https://github.com/MCGPPeters/Histrio/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/MCGPPeters/Histrio</projectUrl>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
+        <description>Components for testing Histrio based actor systems</description>
+        <releaseNotes />
+        <copyright>Copyright 2015</copyright>
+        <tags>Actor System Testing</tags>
+    </metadata>
+</package>
