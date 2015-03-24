@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
     <metadata>
-        <id>Histrio</id>
-        <version>1.0.0-unstable6</version>
-        <title>Histrio</title>
+        <id>Histrio.Net.Http</id>
+        <version>1.0.0-unstable1</version>
+        <title>Histrio Http</title>
         <authors>Maurice CGP Peters</authors>
         <owners>Maurice CGP Peters</owners>
         <licenseUrl>https://github.com/MCGPPeters/Histrio/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/MCGPPeters/Histrio</projectUrl>
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
-        <description>A library for implementing systems based on the Actor Model</description>
+        <description>Histrio extensions for location transparant remote communication using http</description>
         <releaseNotes />
         <copyright>Copyright 2015</copyright>
-        <tags>Actor System</tags>
+        <tags>Actor System Http</tags>
     </metadata>
 </package>
