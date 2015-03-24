@@ -18,7 +18,7 @@ namespace Histrio
             Name = Guid.NewGuid().ToString();
         }
 
-        private string Name { get; }
+        private string Name { get; set; }
 
         public IAddress CreateActor(BehaviorBase behavior)
         {

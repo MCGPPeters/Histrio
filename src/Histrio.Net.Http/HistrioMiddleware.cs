@@ -26,7 +26,7 @@ namespace Histrio.Net.Http
             };
         }
 
-        public MidFunc MidFunc { get; }
+        public MidFunc MidFunc { get; private set; }
 
         private static HttpConfiguration GetWebApiConfiguration(IHttpControllerActivator controllerActivator)
         {

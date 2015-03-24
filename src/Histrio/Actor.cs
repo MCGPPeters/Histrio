@@ -24,7 +24,7 @@ namespace Histrio
                 });
         }
 
-        private Theater Theater { get; }
+        private Theater Theater { get; set; }
 
         public void Send<T>(Message<T> message)
         {
