@@ -12,6 +12,8 @@ namespace Histrio.Net.Http
         public HttpDispatcher(HttpClient httpClient)
         {
             _httpClient = httpClient;
+            _httpClient.DefaultRequestHeaders.Accept.Clear();
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         public bool CanDispathFor(Uri universalActorLocation)
@@ -21,9 +23,6 @@ namespace Histrio.Net.Http
 
         public async void Dispatch<T>(Message<T> message, Uri universalActorLocation)
         {
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
             var untypedMessage = new UntypedMessage(typeof (T).AssemblyQualifiedName,
                 message.To.UniversalActorName.ToString(), message.Body);
 

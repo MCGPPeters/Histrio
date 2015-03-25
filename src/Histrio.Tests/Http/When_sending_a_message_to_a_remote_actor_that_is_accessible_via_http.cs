@@ -29,26 +29,22 @@ namespace Histrio.Tests.Http
             Given(() =>
             {
                 The<IActorNamingService>()
-                    .ResolveActorLocation(Arg.Any<Uri>())
-                    .Returns(_universalActorLocationOfLocalActor);
-
-                //make sure the remote actor is created in another theatre that will be simulating the remote theater
-                // SetThe<IActorNamingService>().Named("remoteActorNamingService").To(new InMemoryNamingService());
-                TheNamed<IActorNamingService>("remoteActorNamingService")
-                    .ResolveActorLocation(Arg.Any<Uri>())
+                    .ResolveActorLocation(Arg.Any<IAddress>())
                     .Returns(_universalActorLocationOfRemoteActor);
-                var remoteTheater = new Theater(TheNamed<IActorNamingService>("remoteActorNamingService"));
+
+                var inMemoryNamingService = new InMemoryNamingService();
+                var remoteTheater = new Theater(inMemoryNamingService);
                 _remoteActor =
                     remoteTheater.CreateActor(new AssertionBehavior<SomethingHappened>(_promiseOfTheActualValue, 1));
 
                 var appFunc = BuildHistrioMiddleware(remoteTheater);
                 var remoteHttpClient = BuildHttpClient(appFunc);
 
-                var localAppFunc = BuildHistrioMiddleware(remoteTheater);
+                var localAppFunc = BuildHistrioMiddleware(Subject);
                 var localHttpClient = BuildHttpClient(localAppFunc);
 
-                Subject.PermitMessageDispatchOverHttp(localHttpClient);
-                remoteTheater.PermitMessageDispatchOverHttp(remoteHttpClient);
+                Subject.PermitMessageDispatchOverHttp(remoteHttpClient);
+                remoteTheater.PermitMessageDispatchOverHttp(localHttpClient);
             });
 
             When(() =>

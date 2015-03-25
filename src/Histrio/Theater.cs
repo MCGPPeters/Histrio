@@ -47,7 +47,7 @@ namespace Histrio
             }
             else
             {
-                var actorLocation = _actorNamingService.ResolveActorLocation(address.UniversalActorName);
+                var actorLocation = _actorNamingService.ResolveActorLocation(address);
                 var capableDispatchers = SelectDispatchersForCustomerOfMessage(actorLocation);
                 foreach (var dispatcher in capableDispatchers)
                 {

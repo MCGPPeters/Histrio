@@ -7,9 +7,9 @@ namespace Histrio
     {
         private readonly Dictionary<Uri, Uri> _addresses = new Dictionary<Uri, Uri>();
 
-        public Uri ResolveActorLocation(Uri universalActorNameOfRemoteActor)
+        public Uri ResolveActorLocation(IAddress address)
         {
-            return _addresses[universalActorNameOfRemoteActor];
+            return _addresses[address.UniversalActorName];
         }
 
         public void Register(Uri universalActorName, Uri universalActorLocation)

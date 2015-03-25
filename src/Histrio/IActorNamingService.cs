@@ -4,7 +4,7 @@ namespace Histrio
 {
     public interface IActorNamingService
     {
-        Uri ResolveActorLocation(Uri universalActorNameOfRemoteActor);
+        Uri ResolveActorLocation(IAddress address);
         void Register(Uri universalActorName, Uri universalActorLocation);
     }
 }

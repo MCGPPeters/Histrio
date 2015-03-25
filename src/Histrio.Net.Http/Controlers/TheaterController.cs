@@ -27,7 +27,7 @@ namespace Histrio.Net.Http.Controlers
             var messageBody = JsonConvert.DeserializeObject(jtoken.ToString(), conversionType);
             var dispatchMethod = DispatchMethodInfo.MakeGenericMethod(conversionType);
 
-            var universalActorName = new Uri(untypedMessage.Address);
+            var universalActorName = untypedMessage.Address;
 
             dispatchMethod.Invoke(this, new[] {_theater, messageBody, universalActorName});
 
@@ -35,11 +35,11 @@ namespace Histrio.Net.Http.Controlers
         }
 
         private static void Dispatch<TMessage>(Theater theater,
-            TMessage body, Uri universalActorName)
+            TMessage body, string universalActorName)
             where TMessage : class
         {
             var message = new Message<TMessage>(body);
-            theater.Dispatch(message, universalActorName);
+            theater.Dispatch(message, new Uri(universalActorName));
         }
     }
 }
