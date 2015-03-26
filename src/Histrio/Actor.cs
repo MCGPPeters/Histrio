@@ -7,7 +7,7 @@ namespace Histrio
     {
         private BehaviorBase _behavior;
 
-        public Actor(BehaviorBase behavior, IAddress address, MailBox mailBox, Theater theater)
+        public Actor(BehaviorBase behavior, Address address, MailBox mailBox, Theater theater)
         {
             _behavior = behavior;
             Address = address;
@@ -31,16 +31,16 @@ namespace Histrio
             Theater.Dispatch(message);
         }
 
-        public void Become(IAddress address)
+        public void Become(Address address)
         {
             _behavior = new SendBehavior(address) {Actor = this};
         }
 
-        public IAddress Create(BehaviorBase behavior)
+        public Address Create(BehaviorBase behavior)
         {
             return Theater.CreateActor(behavior);
         }
 
-        public IAddress Address { get; private set; }
+        public Address Address { get; private set; }
     }
 }

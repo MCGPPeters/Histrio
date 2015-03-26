@@ -5,7 +5,7 @@ namespace Histrio.Tests.Factorial
     public class FactorialContinuationBehavior : BehaviorBase, IHandle<CalculateFactorialFor>,
         IHandle<FactorialCalculated>
     {
-        private readonly IAddress _customer;
+        private readonly Address _customer;
         private readonly int _x;
 
         public FactorialContinuationBehavior(CalculateFactorialFor message)

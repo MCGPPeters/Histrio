@@ -5,14 +5,14 @@ namespace Histrio
 {
     public class InMemoryNamingService : IActorNamingService
     {
-        private readonly Dictionary<IAddress, Uri> _addresses = new Dictionary<IAddress, Uri>();
+        private readonly Dictionary<Address, Uri> _addresses = new Dictionary<Address, Uri>();
 
-        public Uri ResolveActorLocation(IAddress address)
+        public Uri ResolveActorLocation(Address address)
         {
             return _addresses[address];
         }
 
-        public void Register(IAddress address, Uri universalActorLocation)
+        public void Register(Address address, Uri universalActorLocation)
         {
             _addresses.Add(address, universalActorLocation);
         }

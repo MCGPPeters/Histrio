@@ -2,11 +2,11 @@
 {
     public class Get
     {
-        public Get(IAddress address)
+        public Get(Address address)
         {
             Customer = address;
         }
 
-        public IAddress Customer { get; private set; }
+        public Address Customer { get; private set; }
     }
 }

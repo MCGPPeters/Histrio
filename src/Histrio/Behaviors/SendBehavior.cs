@@ -2,9 +2,9 @@ namespace Histrio.Behaviors
 {
     public class SendBehavior : BehaviorBase
     {
-        private readonly IAddress _address;
+        private readonly Address _address;
 
-        public SendBehavior(IAddress address)
+        public SendBehavior(Address address)
         {
             _address = address;
         }

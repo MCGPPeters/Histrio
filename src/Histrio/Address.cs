@@ -2,7 +2,7 @@ using System;
 
 namespace Histrio
 {
-    public class Address : IAddress
+    public class Address
     {
         public Address(string actorName)
         {
@@ -11,7 +11,7 @@ namespace Histrio
 
         public string ActorName { get; private set; }
 
-        private bool Equals(IAddress other)
+        private bool Equals(Address other)
         {
             return Equals(ActorName, other.ActorName);
         }

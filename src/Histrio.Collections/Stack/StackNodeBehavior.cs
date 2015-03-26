@@ -5,9 +5,9 @@ namespace Histrio.Collections.Stack
     public class StackNodeBehavior<T> : BehaviorBase, IHandle<Push<T>>, IHandle<Pop>
     {
         private readonly T _content;
-        private readonly IAddress _link;
+        private readonly Address _link;
 
-        public StackNodeBehavior(T content, IAddress link)
+        public StackNodeBehavior(T content, Address link)
         {
             _content = content;
             _link = link;

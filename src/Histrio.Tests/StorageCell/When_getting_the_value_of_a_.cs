@@ -9,9 +9,9 @@ namespace Histrio.Tests.StorageCell
 {
     public abstract class When_getting_the_value_of_a_<T> : GivenSubject<Theater>
     {
-        private IAddress _customer;
+        private Address _customer;
         private T _expectedValue;
-        private IAddress _storageCell;
+        private Address _storageCell;
         private TaskCompletionSource<Reply<T>> _taskCompletionSource;
 
         protected When_getting_the_value_of_a_(T expectedValue)

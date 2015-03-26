@@ -13,7 +13,7 @@ namespace Histrio.Tests.Factorial
         private readonly TaskCompletionSource<FactorialCalculated> _promiseOfTheActualValue =
             new TaskCompletionSource<FactorialCalculated>();
 
-        private IAddress _customer;
+        private Address _customer;
 
         protected When_calculating_factorial_of_x(int expectedInput, int expectedValue)
         {

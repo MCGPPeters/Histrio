@@ -2,11 +2,11 @@ namespace Histrio.Collections.Stack
 {
     public class Pop
     {
-        public Pop(IAddress customer)
+        public Pop(Address customer)
         {
             Customer = customer;
         }
 
-        public IAddress Customer { get; private set; }
+        public Address Customer { get; private set; }
     }
 }

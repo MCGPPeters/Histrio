@@ -4,9 +4,9 @@ namespace Histrio
 {
     public interface IActor
     {
-        IAddress Address { get; }
-        void Become(IAddress address);
-        IAddress Create(BehaviorBase behavior);
+        Address Address { get; }
+        void Become(Address address);
+        Address Create(BehaviorBase behavior);
         void Send<T>(Message<T> message);
     }
 }

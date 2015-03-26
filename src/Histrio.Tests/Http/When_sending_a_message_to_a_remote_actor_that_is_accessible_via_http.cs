@@ -21,7 +21,7 @@ namespace Histrio.Tests.Http
             new TaskCompletionSource<T>();
 
         private readonly Uri _universalActorLocationOfRemoteActor = new Uri("http://remotehost");
-        private IAddress _remoteActor;
+        private Address _remoteActor;
 
         protected When_sending_a_message_to_a_remote_actor_that_is_accessible_via_http(T message)
         {
@@ -29,7 +29,7 @@ namespace Histrio.Tests.Http
             Given(() =>
             {
                 The<IActorNamingService>()
-                    .ResolveActorLocation(Arg.Any<IAddress>())
+                    .ResolveActorLocation(Arg.Any<Address>())
                     .Returns(_universalActorLocationOfRemoteActor);
 
                 var inMemoryNamingService = new InMemoryNamingService();

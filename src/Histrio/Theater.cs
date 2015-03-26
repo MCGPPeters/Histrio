@@ -9,7 +9,7 @@ namespace Histrio
     public sealed class Theater
     {
         private readonly IActorNamingService _actorNamingService;
-        private readonly Dictionary<IAddress, MailBox> _localAddresses = new Dictionary<IAddress, MailBox>();
+        private readonly Dictionary<Address, MailBox> _localAddresses = new Dictionary<Address, MailBox>();
         private readonly List<IDispatcher> _remoteMessageDispatchers = new List<IDispatcher>();
 
         public Theater(IActorNamingService actorNamingService)
@@ -20,13 +20,13 @@ namespace Histrio
 
         private string Name { get; set; }
 
-        public IAddress CreateActor(BehaviorBase behavior)
+        public Address CreateActor(BehaviorBase behavior)
         {
             var universalActorName = string.Format("uan://{0}/{1}", Name, Guid.NewGuid());
             return CreateActor(behavior, universalActorName);
         }
 
-        public IAddress CreateActor(BehaviorBase behavior, string actorName)
+        public Address CreateActor(BehaviorBase behavior, string actorName)
         {
             
             var address = new Address(actorName);

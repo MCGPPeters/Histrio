@@ -13,8 +13,8 @@ namespace Histrio.Tests.Stack
         private readonly int _expectedValueRetrievedByPop;
         private readonly int _numberOfPops;
         private readonly TaskCompletionSource<int> _promiseOfTheActualValue = new TaskCompletionSource<int>();
-        private IAddress _customer;
-        private IAddress _stack;
+        private Address _customer;
+        private Address _stack;
 
         protected When_pushing_values_onto_the_stack(IEnumerable<int> valuesToPush, int numberOfPops,
             int expectedValueRetrievedByPop)

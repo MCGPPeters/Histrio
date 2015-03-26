@@ -10,7 +10,7 @@ namespace Histrio
         }
 
         public T Body { get; set; }
-        public IAddress To { get; set; }
+        public Address To { get; set; }
 
         public void GetHandledBy(BehaviorBase behavior)
         {

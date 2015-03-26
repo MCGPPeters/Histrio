@@ -4,7 +4,7 @@ namespace Histrio.Expressions
 {
     public static class New
     {
-        public static IAddress Actor(BehaviorBase behavior, Theater theater)
+        public static Address Actor(BehaviorBase behavior, Theater theater)
         {
             return theater.CreateActor(behavior);
         }
