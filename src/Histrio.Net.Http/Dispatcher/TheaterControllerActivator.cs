@@ -6,11 +6,11 @@ using Histrio.Net.Http.Controlers;
 
 namespace Histrio.Net.Http.Dispatcher
 {
-    public class TheaterControlerActivator : IHttpControllerActivator
+    public class TheaterControllerActivator : IHttpControllerActivator
     {
         private readonly Theater _theater;
 
-        public TheaterControlerActivator(Theater theater)
+        public TheaterControllerActivator(Theater theater)
         {
             _theater = theater;
         }

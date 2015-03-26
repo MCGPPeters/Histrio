@@ -24,7 +24,7 @@ namespace Histrio.Net.Http
         public async void Dispatch<T>(Message<T> message, Uri universalActorLocation)
         {
             var untypedMessage = new UntypedMessage(typeof (T).AssemblyQualifiedName,
-                message.To.UniversalActorName.ToString(), message.Body);
+                message.To.ActorName.ToString(), message.Body);
 
             var response = await _httpClient.PostAsJsonAsync(universalActorLocation, untypedMessage);
             Debug.AutoFlush = true;
@@ -33,19 +33,5 @@ namespace Histrio.Net.Http
             var readAsStringAsync = await response.Content.ReadAsStringAsync();
             Debug.WriteLine(readAsStringAsync);
         }
-    }
-
-    public class UntypedMessage
-    {
-        public UntypedMessage(string assemblyQualifiedName, string address, object body)
-        {
-            AssemblyQualifiedName = assemblyQualifiedName;
-            Body = body;
-            Address = address;
-        }
-
-        public string AssemblyQualifiedName { get; set; }
-        public object Body { get; set; }
-        public string Address { get; set; }
     }
 }

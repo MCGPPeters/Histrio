@@ -13,19 +13,19 @@ using AppFunc = System.Func<System.Collections.Generic.IDictionary<string, objec
 
 namespace Histrio.Tests.Http
 {
-    public class When_sending_a_message_to_a_remote_actor_that_is_accessible_via_http : GivenSubject<Theater>
+    public abstract class When_sending_a_message_to_a_remote_actor_that_is_accessible_via_http<T> : GivenSubject<Theater>
     {
-        private const string TheThingThatHappened = "Hell froze over...";
+        private readonly T _message;
 
-        private readonly TaskCompletionSource<SomethingHappened> _promiseOfTheActualValue =
-            new TaskCompletionSource<SomethingHappened>();
+        private readonly TaskCompletionSource<T> _promiseOfTheActualValue =
+            new TaskCompletionSource<T>();
 
-        private readonly Uri _universalActorLocationOfLocalActor = new Uri("http://localhost");
         private readonly Uri _universalActorLocationOfRemoteActor = new Uri("http://remotehost");
         private IAddress _remoteActor;
 
-        public When_sending_a_message_to_a_remote_actor_that_is_accessible_via_http()
+        protected When_sending_a_message_to_a_remote_actor_that_is_accessible_via_http(T message)
         {
+            _message = message;
             Given(() =>
             {
                 The<IActorNamingService>()
@@ -35,7 +35,7 @@ namespace Histrio.Tests.Http
                 var inMemoryNamingService = new InMemoryNamingService();
                 var remoteTheater = new Theater(inMemoryNamingService);
                 _remoteActor =
-                    remoteTheater.CreateActor(new AssertionBehavior<SomethingHappened>(_promiseOfTheActualValue, 1));
+                    remoteTheater.CreateActor(new AssertionBehavior<T>(_promiseOfTheActualValue, 1));
 
                 var appFunc = BuildHistrioMiddleware(remoteTheater);
                 var remoteHttpClient = BuildHttpClient(appFunc);
@@ -49,11 +49,18 @@ namespace Histrio.Tests.Http
 
             When(() =>
             {
-                var somethingHappened = new SomethingHappened(TheThingThatHappened);
-                var somethingHappenedMessage = somethingHappened.AsMessage();
-                somethingHappenedMessage.To = _remoteActor;
-                Subject.Dispatch(somethingHappenedMessage);
+                var messageToSend = message.AsMessage();
+                messageToSend.To = _remoteActor;
+                Subject.Dispatch(messageToSend);
             });
+        }
+
+        [Fact]
+        public async Task The_remote_actor_should_receive_the_message()
+        {
+            var actualMessage = await _promiseOfTheActualValue.Task;
+
+            actualMessage.ShouldBeEquivalentTo(_message);
         }
 
         private static AppFunc BuildHistrioMiddleware(Theater theater)
@@ -68,14 +75,6 @@ namespace Histrio.Tests.Http
             return appFunc;
         }
 
-        [Fact]
-        public async Task The_remote_actor_should_receive_the_message()
-        {
-            var actualMessage = await _promiseOfTheActualValue.Task;
-
-            actualMessage.TheThingThatHappened.Should().Be(TheThingThatHappened);
-        }
-
         private static HttpClient BuildHttpClient(AppFunc appFunc)
         {
             HttpMessageHandler handler = new OwinHttpMessageHandler(appFunc)
@@ -87,6 +86,30 @@ namespace Histrio.Tests.Http
             var httpClient = new HttpClient(handler);
             return httpClient;
         }
+    }
+
+    public class When_sending_a_non_nested_message_to_a_remote_actor_that_is_accessible_via_http : When_sending_a_message_to_a_remote_actor_that_is_accessible_via_http<SomethingHappened>
+    {
+        public When_sending_a_non_nested_message_to_a_remote_actor_that_is_accessible_via_http() : base(new SomethingHappened("Hell froze over ..."))
+        {
+        }
+    }
+
+    public class When_sending_a_nested_message_to_a_remote_actor_that_is_accessible_via_http : When_sending_a_message_to_a_remote_actor_that_is_accessible_via_http<Nested<SomethingHappened>>
+    {
+        public When_sending_a_nested_message_to_a_remote_actor_that_is_accessible_via_http() : base(new Nested<SomethingHappened>(new SomethingHappened("Hell froze over ...")))
+        {
+        }
+    }
+
+    public class Nested<T>
+    {
+        public Nested(T inner)
+        {
+            Inner = inner;
+        }
+
+        public T Inner { get; private set; }
     }
 
     public class SomethingHappened

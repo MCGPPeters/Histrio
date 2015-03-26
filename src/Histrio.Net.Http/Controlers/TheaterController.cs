@@ -39,7 +39,7 @@ namespace Histrio.Net.Http.Controlers
             where TMessage : class
         {
             var message = new Message<TMessage>(body);
-            theater.Dispatch(message, new Uri(universalActorName));
+            theater.Dispatch(message, universalActorName);
         }
     }
 }

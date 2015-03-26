@@ -4,6 +4,6 @@ namespace Histrio
 {
     public interface IAddress
     {
-        Uri UniversalActorName { get; }
+        string ActorName { get; }
     }
 }

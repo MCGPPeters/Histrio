@@ -15,7 +15,7 @@ namespace Histrio.Net.Http
     {
         public HistrioMiddleware(HistrioSettings histrioSettings)
         {
-            var controllerActivator = new TheaterControlerActivator(histrioSettings.Theater);
+            var controllerActivator = new TheaterControllerActivator(histrioSettings.Theater);
 
             MidFunc = next =>
             {

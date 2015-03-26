@@ -22,16 +22,21 @@ namespace Histrio
 
         public IAddress CreateActor(BehaviorBase behavior)
         {
-            var uriString = string.Format("uan://{0}/{1}", Name, Guid.NewGuid());
-            var universalActorName = new Uri(uriString);
-            var address = new Address(universalActorName);
+            var universalActorName = string.Format("uan://{0}/{1}", Name, Guid.NewGuid());
+            return CreateActor(behavior, universalActorName);
+        }
+
+        public IAddress CreateActor(BehaviorBase behavior, string actorName)
+        {
+            
+            var address = new Address(actorName);
             var mailBox = new MailBox(new BlockingCollection<IMessage>());
             _localAddresses.Add(address, mailBox);
             new Actor(behavior, address, mailBox, this);
             return address;
         }
 
-        public void Dispatch<T>(Message<T> message, Uri universalActorName)
+        public void Dispatch<T>(Message<T> message, string universalActorName)
         {
             message.To = new Address(universalActorName);
             Dispatch(message);
