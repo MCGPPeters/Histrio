@@ -1,15 +1,15 @@
 ﻿namespace Histrio.Net.Http
 {
     /// <summary>
-    /// Settings for hosting theater middleware
+    ///     Settings for hosting theater middleware
     /// </summary>
     public class TheaterSettings
     {
         /// <summary>
-        /// Gets or sets the theater.
+        ///     Gets or sets the theater.
         /// </summary>
         /// <value>
-        /// The theater.
+        ///     The theater.
         /// </value>
         public Theater Theater { get; set; }
     }

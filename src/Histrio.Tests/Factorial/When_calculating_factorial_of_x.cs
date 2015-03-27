@@ -29,9 +29,7 @@ namespace Histrio.Tests.Factorial
             {
                 var factorialCalculator = Subject.CreateActor(new FactorialCalculationBehavior());
                 var calculateFactorialFor = new CalculateFactorialFor(expectedInput, _customer);
-                var calculateFactorialForMessage = calculateFactorialFor.AsMessage();
-                calculateFactorialForMessage.To = factorialCalculator;
-                Subject.Dispatch(calculateFactorialForMessage);
+                Subject.Dispatch(calculateFactorialFor, factorialCalculator);
             });
         }
 

@@ -1,14 +1,14 @@
 namespace Histrio
 {
     /// <summary>
-    /// A message that carries a typed payload anabling strongly type message handling
-    /// using POCO (Plain Old CLR Objects).
+    ///     A message that carries a typed payload anabling strongly type message handling
+    ///     using POCO (Plain Old CLR Objects).
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class Message<T> : IMessage
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Message{T}"/> class.
+        ///     Initializes a new instance of the <see cref="Message{T}" /> class.
         /// </summary>
         /// <param name="body">The body.</param>
         public Message(T body)
@@ -17,23 +17,23 @@ namespace Histrio
         }
 
         /// <summary>
-        /// Gets or sets the body.
+        ///     Gets or sets the body.
         /// </summary>
         /// <value>
-        /// The body.
+        ///     The body.
         /// </value>
         public T Body { get; private set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="Address"/> of the Actor that is the recipient of this message
+        ///     Gets or sets the <see cref="Address" /> of the Actor that is the recipient of this message
         /// </summary>
         /// <value>
-        /// To.
+        ///     To.
         /// </value>
         public Address To { get; set; }
 
         /// <summary>
-        /// Gets the handled by.
+        ///     Gets the handled by.
         /// </summary>
         /// <param name="behavior">The behavior.</param>
         public void GetHandledBy(BehaviorBase behavior)
@@ -42,7 +42,7 @@ namespace Histrio
         }
 
         /// <summary>
-        /// Gets the handled by.
+        ///     Gets the handled by.
         /// </summary>
         /// <param name="behavior">The behavior.</param>
         internal void GetHandledBy(IHandle<T> behavior)

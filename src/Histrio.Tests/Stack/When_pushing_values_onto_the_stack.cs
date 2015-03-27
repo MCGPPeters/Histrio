@@ -30,9 +30,7 @@ namespace Histrio.Tests.Stack
                 foreach (var i in valuesToPush)
                 {
                     var push = new Push<int>(i);
-                    var pushMessage = push.AsMessage();
-                    pushMessage.To = _stack;
-                    Subject.Dispatch(pushMessage);
+                    Subject.Dispatch(push, _stack);
                 }
                 _customer = Subject.CreateActor(new AssertionBehavior<int>(_promiseOfTheActualValue, _numberOfPops));
             });
@@ -42,9 +40,7 @@ namespace Histrio.Tests.Stack
                 for (var i = 0; i < numberOfPops; i++)
                 {
                     var pop = new Pop(_customer);
-                    var popMessage = pop.AsMessage();
-                    popMessage.To = _stack;
-                    Subject.Dispatch(popMessage);
+                    Subject.Dispatch(pop, _stack);
                 }
             });
         }

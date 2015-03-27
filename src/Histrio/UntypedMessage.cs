@@ -1,13 +1,13 @@
 namespace Histrio
 {
     /// <summary>
-    /// Represents a message that is used for enabling serialization of strongly typed messages (<see cref="Message{T}"/>) 
-    /// and deserialing it afterwards
+    ///     Represents a message that is used for enabling serialization of strongly typed messages (<see cref="Message{T}" />)
+    ///     and deserialing it afterwards
     /// </summary>
     public class UntypedMessage
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UntypedMessage"/> class.
+        ///     Initializes a new instance of the <see cref="UntypedMessage" /> class.
         /// </summary>
         /// <param name="assemblyQualifiedName">Name of the assembly qualified.</param>
         /// <param name="address">The address.</param>
@@ -20,26 +20,26 @@ namespace Histrio
         }
 
         /// <summary>
-        /// Gets or sets the name of the assembly qualified.
+        ///     Gets or sets the name of the assembly qualified.
         /// </summary>
         /// <value>
-        /// The name of the assembly qualified.
+        ///     The name of the assembly qualified.
         /// </value>
         public string AssemblyQualifiedName { get; private set; }
 
         /// <summary>
-        /// Gets or sets the body.
+        ///     Gets or sets the body.
         /// </summary>
         /// <value>
-        /// The body.
+        ///     The body.
         /// </value>
         public object Body { get; private set; }
 
         /// <summary>
-        /// Gets or sets the address.
+        ///     Gets or sets the address.
         /// </summary>
         /// <value>
-        /// The address.
+        ///     The address.
         /// </value>
         public string Address { get; private set; }
     }

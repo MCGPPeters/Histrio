@@ -13,7 +13,8 @@ using AppFunc = System.Func<System.Collections.Generic.IDictionary<string, objec
 
 namespace Histrio.Tests.Http
 {
-    public abstract class When_sending_a_message_to_a_remote_actor_that_is_accessible_via_http<T> : GivenSubject<Theater>
+    public abstract class When_sending_a_message_to_a_remote_actor_that_is_accessible_via_http<T> :
+        GivenSubject<Theater>
     {
         private readonly T _message;
 
@@ -47,12 +48,7 @@ namespace Histrio.Tests.Http
                 remoteTheater.PermitMessageDispatchOverHttp(localHttpClient);
             });
 
-            When(() =>
-            {
-                var messageToSend = message.AsMessage();
-                messageToSend.To = _remoteActor;
-                Subject.Dispatch(messageToSend);
-            });
+            When(() => { Subject.Dispatch(message, _remoteActor); });
         }
 
         [Fact]
@@ -88,16 +84,20 @@ namespace Histrio.Tests.Http
         }
     }
 
-    public class When_sending_a_non_nested_message_to_a_remote_actor_that_is_accessible_via_http : When_sending_a_message_to_a_remote_actor_that_is_accessible_via_http<SomethingHappened>
+    public class When_sending_a_non_nested_message_to_a_remote_actor_that_is_accessible_via_http :
+        When_sending_a_message_to_a_remote_actor_that_is_accessible_via_http<SomethingHappened>
     {
-        public When_sending_a_non_nested_message_to_a_remote_actor_that_is_accessible_via_http() : base(new SomethingHappened("Hell froze over ..."))
+        public When_sending_a_non_nested_message_to_a_remote_actor_that_is_accessible_via_http()
+            : base(new SomethingHappened("Hell froze over ..."))
         {
         }
     }
 
-    public class When_sending_a_nested_message_to_a_remote_actor_that_is_accessible_via_http : When_sending_a_message_to_a_remote_actor_that_is_accessible_via_http<Nested<SomethingHappened>>
+    public class When_sending_a_nested_message_to_a_remote_actor_that_is_accessible_via_http :
+        When_sending_a_message_to_a_remote_actor_that_is_accessible_via_http<Nested<SomethingHappened>>
     {
-        public When_sending_a_nested_message_to_a_remote_actor_that_is_accessible_via_http() : base(new Nested<SomethingHappened>(new SomethingHappened("Hell froze over ...")))
+        public When_sending_a_nested_message_to_a_remote_actor_that_is_accessible_via_http()
+            : base(new Nested<SomethingHappened>(new SomethingHappened("Hell froze over ...")))
         {
         }
     }

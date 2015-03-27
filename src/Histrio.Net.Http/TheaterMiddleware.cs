@@ -3,8 +3,6 @@ using System.Web.Http.Dispatcher;
 using Histrio.Net.Http.Controlers;
 using Histrio.Net.Http.Dispatcher;
 using Microsoft.Owin.Builder;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Owin;
 using MidFunc = System.Func
     <System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>,
@@ -13,12 +11,12 @@ using MidFunc = System.Func
 namespace Histrio.Net.Http
 {
     /// <summary>
-    /// OWIN middleware that exposes a Theater via HTTP
+    ///     OWIN middleware that exposes a Theater via HTTP
     /// </summary>
     internal class TheaterMiddleware
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TheaterMiddleware"/> class.
+        ///     Initializes a new instance of the <see cref="TheaterMiddleware" /> class.
         /// </summary>
         /// <param name="theaterSettings">The histrio settings used to configure the middelware</param>
         internal TheaterMiddleware(TheaterSettings theaterSettings)
@@ -35,10 +33,10 @@ namespace Histrio.Net.Http
         }
 
         /// <summary>
-        /// Gets the function representing the middleware
+        ///     Gets the function representing the middleware
         /// </summary>
         /// <value>
-        /// The function representing the middleware
+        ///     The function representing the middleware
         /// </value>
         internal MidFunc MidFunc { get; private set; }
 

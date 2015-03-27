@@ -23,9 +23,7 @@ namespace Histrio.Tests.Cell
 
                 _storageCell = Subject.CreateActor(new CellBehavior<T>());
                 var set = new Set<T>(_expectedValue);
-                var setMessage = set.AsMessage();
-                setMessage.To = _storageCell;
-                Subject.Dispatch(setMessage);
+                Subject.Dispatch(set, _storageCell);
 
                 _taskCompletionSource = new TaskCompletionSource<Reply<T>>();
                 _customer = Subject.CreateActor(new AssertionBehavior<Reply<T>>(_taskCompletionSource, 1));
@@ -34,9 +32,7 @@ namespace Histrio.Tests.Cell
             When(() =>
             {
                 var get = new Get(_customer);
-                var getMessage = get.AsMessage();
-                getMessage.To = _storageCell;
-                Subject.Dispatch(getMessage);
+                Subject.Dispatch(get, _storageCell);
             });
         }
 

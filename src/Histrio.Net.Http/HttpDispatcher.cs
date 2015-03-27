@@ -5,14 +5,13 @@ using System.Net.Http.Headers;
 namespace Histrio.Net.Http
 {
     /// <summary>
-    /// 
     /// </summary>
     internal class HttpDispatcher : IDispatcher
     {
         private readonly HttpClient _httpClient;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HttpDispatcher"/> class.
+        ///     Initializes a new instance of the <see cref="HttpDispatcher" /> class.
         /// </summary>
         /// <param name="httpClient">The HTTP client.</param>
         internal HttpDispatcher(HttpClient httpClient)
@@ -23,7 +22,7 @@ namespace Histrio.Net.Http
         }
 
         /// <summary>
-        /// Determines whether this instance [can dispatch to] the specified actor location.
+        ///     Determines whether this instance [can dispatch to] the specified actor location.
         /// </summary>
         /// <param name="actorLocation">The actor location.</param>
         /// <returns></returns>
@@ -33,14 +32,14 @@ namespace Histrio.Net.Http
         }
 
         /// <summary>
-        /// Dispatches the specified message.
+        ///     Dispatches the specified message.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="message">The message.</param>
         /// <param name="actorLocation">The actor location.</param>
         public async void Dispatch<T>(Message<T> message, Uri actorLocation)
         {
-            var untypedMessage = new UntypedMessage(typeof(T).AssemblyQualifiedName,
+            var untypedMessage = new UntypedMessage(typeof (T).AssemblyQualifiedName,
                 message.To.ActorName, message.Body);
 
             await _httpClient.PostAsJsonAsync(actorLocation, untypedMessage);

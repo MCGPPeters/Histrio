@@ -1,7 +1,7 @@
 namespace Histrio.Collections.Stack
 {
     /// <summary>
-    /// A behavior implementing a strongly type stack
+    ///     A behavior implementing a strongly type stack
     /// </summary>
     /// <typeparam name="T">The type of the value stored into a stack node</typeparam>
     public class StackNodeBehavior<T> : BehaviorBase, IHandle<Push<T>>, IHandle<Pop>
@@ -10,7 +10,7 @@ namespace Histrio.Collections.Stack
         private readonly Address _link;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StackNodeBehavior{T}"/> class.
+        ///     Initializes a new instance of the <see cref="StackNodeBehavior{T}" /> class.
         /// </summary>
         /// <param name="content">The content.</param>
         /// <param name="link">The link.</param>
@@ -21,7 +21,7 @@ namespace Histrio.Collections.Stack
         }
 
         /// <summary>
-        /// Accepts the specified message. Accept is Actor Model terminology for "I can do something with this message"
+        ///     Accepts the specified message. Accept is Actor Model terminology for "I can do something with this message"
         /// </summary>
         /// <param name="message">The message.</param>
         public void Accept(Pop message)
@@ -33,7 +33,7 @@ namespace Histrio.Collections.Stack
         }
 
         /// <summary>
-        /// Accepts the specified message. Accept is Actor Model terminology for "I can do something with this message"
+        ///     Accepts the specified message. Accept is Actor Model terminology for "I can do something with this message"
         /// </summary>
         /// <param name="message">The message.</param>
         public void Accept(Push<T> message)

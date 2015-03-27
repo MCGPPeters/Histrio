@@ -3,12 +3,12 @@
 namespace Histrio.Net.Http
 {
     /// <summary>
-    /// Appbuilder extensions
+    ///     Appbuilder extensions
     /// </summary>
     public static class AppBuilderExtensions
     {
         /// <summary>
-        /// Uses the histrio.
+        ///     Uses the histrio.
         /// </summary>
         /// <param name="appBuilder">The application builder.</param>
         /// <param name="theaterSettings">The histrio settings.</param>

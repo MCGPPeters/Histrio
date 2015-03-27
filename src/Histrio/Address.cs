@@ -1,14 +1,12 @@
-using System;
-
 namespace Histrio
 {
     /// <summary>
-    /// Represents a reference to an Actor.
+    ///     Represents a reference to an Actor.
     /// </summary>
     public class Address
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Address"/> class.
+        ///     Initializes a new instance of the <see cref="Address" /> class.
         /// </summary>
         /// <param name="actorName">Name of the actor. An actor name should be a unique reference to a specific Actor at runtime</param>
         internal Address(string actorName)
@@ -17,10 +15,10 @@ namespace Histrio
         }
 
         /// <summary>
-        /// Gets the name of the actor.
+        ///     Gets the name of the actor.
         /// </summary>
         /// <value>
-        /// The name of the actor.
+        ///     The name of the actor.
         /// </value>
         public string ActorName { get; private set; }
 
@@ -30,10 +28,10 @@ namespace Histrio
         }
 
         /// <summary>
-        /// Returns a hash code for this instance.
+        ///     Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        ///     A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {
@@ -41,11 +39,11 @@ namespace Histrio
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="System.Object" />, is equal to this instance.
+        ///     Determines whether the specified <see cref="System.Object" />, is equal to this instance.
         /// </summary>
         /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
         /// <returns>
-        ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+        ///     <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
         public override bool Equals(object obj)
         {

@@ -6,8 +6,8 @@ using System.Linq;
 namespace Histrio
 {
     /// <summary>
-    /// A Theater is a isolated container of Actors running at a location (server / vm / ...)
-    /// Multiple Theaters can exist at a location
+    ///     A Theater is a isolated container of Actors running at a location (server / vm / ...)
+    ///     Multiple Theaters can exist at a location
     /// </summary>
     public sealed class Theater
     {
@@ -16,7 +16,7 @@ namespace Histrio
         private readonly List<IDispatcher> _remoteMessageDispatchers = new List<IDispatcher>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Theater"/> class.
+        ///     Initializes a new instance of the <see cref="Theater" /> class.
         /// </summary>
         /// <param name="actorNamingService">The actor naming service.</param>
         public Theater(IActorNamingService actorNamingService)
@@ -28,7 +28,7 @@ namespace Histrio
         private string Name { get; set; }
 
         /// <summary>
-        /// Creates the actor.
+        ///     Creates the actor.
         /// </summary>
         /// <param name="behavior">The behavior.</param>
         /// <returns></returns>
@@ -39,14 +39,13 @@ namespace Histrio
         }
 
         /// <summary>
-        /// Creates the actor.
+        ///     Creates the actor.
         /// </summary>
         /// <param name="behavior">The behavior.</param>
         /// <param name="actorName">Name of the actor.</param>
         /// <returns></returns>
         public Address CreateActor(BehaviorBase behavior, string actorName)
         {
-            
             var address = new Address(actorName);
             var mailBox = new MailBox(new BlockingCollection<IMessage>());
             _localAddresses.Add(address, mailBox);
@@ -55,19 +54,41 @@ namespace Histrio
         }
 
         /// <summary>
-        /// Dispatches the specified message.
+        ///     Dispatches the specified message.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="messageContent">The content that will be wtapped in a message.</param>
+        /// <param name="actorName">Name of the universal actor.</param>
+        public void Dispatch<T>(T messageContent, string actorName)
+        {
+            Dispatch(messageContent.AsMessage(), new Address(actorName));
+        }
+
+        /// <summary>
+        ///     Dispatches the specified message.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="messageContent">The content that will be wtapped in a message.</param>
+        /// <param name="to">Address to send the message to</param>
+        public void Dispatch<T>(T messageContent, Address to)
+        {
+            Dispatch(messageContent.AsMessage(), to);
+        }
+
+        /// <summary>
+        ///     Dispatches the specified message.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="message">The message.</param>
-        /// <param name="universalActorName">Name of the universal actor.</param>
-        public void Dispatch<T>(Message<T> message, string universalActorName)
+        /// <param name="to">Address to send the message to</param>
+        public void Dispatch<T>(Message<T> message, Address to)
         {
-            message.To = new Address(universalActorName);
+            message.To = to;
             Dispatch(message);
         }
 
         /// <summary>
-        /// Dispatches the specified message.
+        ///     Dispatches the specified message.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="message">The message.</param>
@@ -98,7 +119,7 @@ namespace Histrio
         }
 
         /// <summary>
-        /// Adds the dispatcher.
+        ///     Adds the dispatcher.
         /// </summary>
         /// <param name="dispatcher">The dispatcher.</param>
         public void AddDispatcher(IDispatcher dispatcher)
