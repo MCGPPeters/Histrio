@@ -1,5 +1,3 @@
-using Histrio.Behaviors;
-
 namespace Histrio.Tests.Factorial
 {
     public class FactorialContinuationBehavior : BehaviorBase, IHandle<CalculateFactorialFor>,

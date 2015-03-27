@@ -1,4 +1,4 @@
-﻿namespace Histrio.Tests.StorageCell
+﻿namespace Histrio.Tests.Cell
 {
     public class When_getting_the_value_of_a_reference_type : When_getting_the_value_of_a_reference_type<bool[]>
     {

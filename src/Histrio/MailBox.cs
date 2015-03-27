@@ -5,14 +5,14 @@ namespace Histrio
 {
     internal sealed class MailBox : IDisposable
     {
-        public MailBox(BlockingCollection<IMessage> blockingCollection)
+        internal MailBox(BlockingCollection<IMessage> blockingCollection)
         {
             Messages = blockingCollection;
         }
 
-        public BlockingCollection<IMessage> Messages { get; private set; }
+        internal BlockingCollection<IMessage> Messages { get; private set; }
 
-        public void Add(IMessage message)
+        internal void Add(IMessage message)
         {
             Messages.Add(message);
         }

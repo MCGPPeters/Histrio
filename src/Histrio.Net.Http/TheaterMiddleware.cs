@@ -15,13 +15,13 @@ namespace Histrio.Net.Http
     /// <summary>
     /// OWIN middleware that exposes a Theater via HTTP
     /// </summary>
-    public class TheaterMiddleware
+    internal class TheaterMiddleware
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TheaterMiddleware"/> class.
         /// </summary>
         /// <param name="theaterSettings">The histrio settings used to configure the middelware</param>
-        public TheaterMiddleware(TheaterSettings theaterSettings)
+        internal TheaterMiddleware(TheaterSettings theaterSettings)
         {
             var controllerActivator = new TheaterControllerActivator(theaterSettings.Theater);
 
@@ -40,7 +40,7 @@ namespace Histrio.Net.Http
         /// <value>
         /// The function representing the middleware
         /// </value>
-        public MidFunc MidFunc { get; private set; }
+        internal MidFunc MidFunc { get; private set; }
 
         private static HttpConfiguration GetWebApiConfiguration(IHttpControllerActivator controllerActivator)
         {

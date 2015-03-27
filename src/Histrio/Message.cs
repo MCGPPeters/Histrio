@@ -1,5 +1,3 @@
-using Histrio.Behaviors;
-
 namespace Histrio
 {
     /// <summary>
@@ -24,7 +22,7 @@ namespace Histrio
         /// <value>
         /// The body.
         /// </value>
-        public T Body { get; set; }
+        public T Body { get; private set; }
 
         /// <summary>
         /// Gets or sets the <see cref="Address"/> of the Actor that is the recipient of this message
@@ -47,7 +45,7 @@ namespace Histrio
         /// Gets the handled by.
         /// </summary>
         /// <param name="behavior">The behavior.</param>
-        public void GetHandledBy(IHandle<T> behavior)
+        internal void GetHandledBy(IHandle<T> behavior)
         {
             behavior.Accept(Body);
         }

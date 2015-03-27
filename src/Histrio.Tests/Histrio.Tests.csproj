@@ -100,12 +100,12 @@
     <Compile Include="Stack\When_pushing_values_1_2_and_3_onto_the_stack.cs" />
     <Compile Include="Stack\When_pushing_values_5_200_and_243_onto_the_stack.cs" />
     <Compile Include="Stack\When_pushing_values_onto_the_stack.cs" />
-    <Compile Include="StorageCell\When_getting_the_value_of_a_.cs" />
-    <Compile Include="StorageCell\When_getting_the_value_of_a_boolean.cs" />
-    <Compile Include="StorageCell\When_getting_the_value_of_a_integer.cs" />
-    <Compile Include="StorageCell\When_getting_the_value_of_a_reference_type.cs" />
-    <Compile Include="StorageCell\When_getting_the_value_of_a_string.cs" />
-    <Compile Include="StorageCell\When_getting_the_value_of_a_value_type.cs" />
+    <Compile Include="Cell\When_getting_the_value_of_a_.cs" />
+    <Compile Include="Cell\When_getting_the_value_of_a_boolean.cs" />
+    <Compile Include="Cell\When_getting_the_value_of_a_integer.cs" />
+    <Compile Include="Cell\When_getting_the_value_of_a_reference_type.cs" />
+    <Compile Include="Cell\When_getting_the_value_of_a_string.cs" />
+    <Compile Include="Cell\When_getting_the_value_of_a_value_type.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

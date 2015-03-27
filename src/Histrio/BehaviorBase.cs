@@ -1,6 +1,6 @@
 using System;
 
-namespace Histrio.Behaviors
+namespace Histrio
 {
     /// <summary>
     /// A base class for implementing behaviors that get injected into Actors

@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 
@@ -8,7 +7,7 @@ namespace Histrio.Net.Http
     /// <summary>
     /// 
     /// </summary>
-    public class HttpDispatcher : IDispatcher
+    internal class HttpDispatcher : IDispatcher
     {
         private readonly HttpClient _httpClient;
 
@@ -16,7 +15,7 @@ namespace Histrio.Net.Http
         /// Initializes a new instance of the <see cref="HttpDispatcher"/> class.
         /// </summary>
         /// <param name="httpClient">The HTTP client.</param>
-        public HttpDispatcher(HttpClient httpClient)
+        internal HttpDispatcher(HttpClient httpClient)
         {
             _httpClient = httpClient;
             _httpClient.DefaultRequestHeaders.Accept.Clear();

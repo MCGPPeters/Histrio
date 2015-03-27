@@ -1,11 +1,10 @@
 using System.Threading.Tasks;
 using Chill;
 using FluentAssertions;
-using Histrio.Behaviors.StorageCell;
 using Histrio.Testing;
 using Xunit;
 
-namespace Histrio.Tests.StorageCell
+namespace Histrio.Tests.Cell
 {
     public abstract class When_getting_the_value_of_a_<T> : GivenSubject<Theater>
     {
@@ -22,7 +21,7 @@ namespace Histrio.Tests.StorageCell
             {
                 _expectedValue = expectedValue;
 
-                _storageCell = Subject.CreateActor(new StorageCellBehavior<T>());
+                _storageCell = Subject.CreateActor(new CellBehavior<T>());
                 var set = new Set<T>(_expectedValue);
                 var setMessage = set.AsMessage();
                 setMessage.To = _storageCell;

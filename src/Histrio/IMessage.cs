@@ -1,5 +1,3 @@
-using Histrio.Behaviors;
-
 namespace Histrio
 {
     internal interface IMessage

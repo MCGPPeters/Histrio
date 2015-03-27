@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Histrio.Behaviors;
 
 namespace Histrio
 {
@@ -7,7 +6,7 @@ namespace Histrio
     {
         private BehaviorBase _behavior;
 
-        public Actor(BehaviorBase behavior, Address address, MailBox mailBox, Theater theater)
+        internal Actor(BehaviorBase behavior, Address address, MailBox mailBox, Theater theater)
         {
             _behavior = behavior;
             Address = address;

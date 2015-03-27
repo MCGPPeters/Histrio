@@ -25,7 +25,7 @@ namespace Histrio
         /// <value>
         /// The name of the assembly qualified.
         /// </value>
-        public string AssemblyQualifiedName { get; set; }
+        public string AssemblyQualifiedName { get; private set; }
 
         /// <summary>
         /// Gets or sets the body.
@@ -33,7 +33,7 @@ namespace Histrio
         /// <value>
         /// The body.
         /// </value>
-        public object Body { get; set; }
+        public object Body { get; private set; }
 
         /// <summary>
         /// Gets or sets the address.
@@ -41,6 +41,6 @@ namespace Histrio
         /// <value>
         /// The address.
         /// </value>
-        public string Address { get; set; }
+        public string Address { get; private set; }
     }
 }

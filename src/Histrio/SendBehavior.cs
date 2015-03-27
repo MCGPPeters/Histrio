@@ -1,4 +1,4 @@
-namespace Histrio.Behaviors
+namespace Histrio
 {
     /// <summary>
     /// A behavior that simply forwards message to an address of another actor

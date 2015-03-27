@@ -1,7 +1,7 @@
-﻿namespace Histrio.Behaviors.StorageCell
+﻿namespace Histrio
 {
     /// <summary>
-    /// A message to send to the <see cref="StorageCellBehavior{T}"/> to retrieve content from it
+    /// A message to send to the <see cref="CellBehavior{T}"/> to retrieve content from it
     /// </summary>
     public class Get
     {
@@ -18,7 +18,7 @@
         /// Gets the customer.
         /// </summary>
         /// <value>
-        /// The customer receiving the content from the Actor hosting the <see cref="StorageCellBehavior{T}"/>
+        /// The customer receiving the content from the Actor hosting the <see cref="CellBehavior{T}"/>
         /// </value>
         public Address Customer { get; private set; }
     }

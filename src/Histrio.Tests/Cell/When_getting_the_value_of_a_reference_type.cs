@@ -1,4 +1,4 @@
-namespace Histrio.Tests.StorageCell
+namespace Histrio.Tests.Cell
 {
     public abstract class When_getting_the_value_of_a_reference_type<T> : When_getting_the_value_of_a_<T>
         where T : class

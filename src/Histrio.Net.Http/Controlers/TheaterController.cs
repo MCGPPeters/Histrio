@@ -14,7 +14,7 @@ namespace Histrio.Net.Http.Controlers
 
         private readonly Theater _theater;
 
-        public TheaterController(Theater theater)
+        internal TheaterController(Theater theater)
         {
             _theater = theater;
         }
