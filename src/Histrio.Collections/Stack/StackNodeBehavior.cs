@@ -27,9 +27,7 @@ namespace Histrio.Collections.Stack
         public void Accept(Pop message)
         {
             Actor.Become(_link);
-            var content = _content.AsMessage();
-            content.To = message.Customer;
-            Actor.Send(content);
+            Actor.Send(_content, message.Customer);
         }
 
         /// <summary>

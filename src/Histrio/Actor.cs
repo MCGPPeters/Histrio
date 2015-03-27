@@ -30,6 +30,16 @@ namespace Histrio
             Theater.Dispatch(message);
         }
 
+        public void Send<T>(T messageContent, Address to)
+        {
+            Theater.Dispatch(messageContent.AsMessage(), to);
+        }
+
+        public void Send<T>(T messageContent, string actorName)
+        {
+            Theater.Dispatch(messageContent.AsMessage(), new Address(actorName));
+        }
+
         public void Become(Address address)
         {
             _behavior = new SendBehavior(address) {Actor = this};

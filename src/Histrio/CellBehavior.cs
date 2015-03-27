@@ -15,9 +15,7 @@
         public void Accept(Get message)
         {
             var reply = new Reply<T>(_contents);
-            var replyMessage = reply.AsMessage();
-            replyMessage.To = message.Customer;
-            Actor.Send(replyMessage);
+            Actor.Send(reply, message.Customer);
         }
 
         /// <summary>

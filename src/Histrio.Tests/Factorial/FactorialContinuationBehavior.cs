@@ -34,9 +34,7 @@ namespace Histrio.Tests.Factorial
 
         private void SendFactorialCalculated(FactorialCalculated factorialCalculated)
         {
-            var factorialCalculatedMessage = factorialCalculated.AsMessage();
-            factorialCalculatedMessage.To = _customer;
-            Actor.Send(factorialCalculatedMessage);
+            Actor.Send(factorialCalculated, _customer);
         }
     }
 }

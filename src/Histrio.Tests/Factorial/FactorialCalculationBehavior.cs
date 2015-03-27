@@ -11,17 +11,13 @@ namespace Histrio.Tests.Factorial
             if (x == 0)
             {
                 var factorialCalculated = new FactorialCalculated {For = x, Result = 1};
-                var factorialCalculatedMessage = factorialCalculated.AsMessage();
-                factorialCalculatedMessage.To = message.Customer;
-                Actor.Send(factorialCalculatedMessage);
+                Actor.Send(factorialCalculated, message.Customer);
             }
             else
             {
                 var continuation = Actor.Create(new FactorialContinuationBehavior(message));
                 var calculateFactorialFor = new CalculateFactorialFor(x - 1, continuation);
-                var calculateFactorialForMessage = calculateFactorialFor.AsMessage();
-                calculateFactorialForMessage.To = Actor.Address;
-                Actor.Send(calculateFactorialForMessage);
+                Actor.Send(calculateFactorialFor, Actor.Address);
             }
         }
     }

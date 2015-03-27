@@ -33,5 +33,21 @@ namespace Histrio
         /// <typeparam name="T">The type of (the content / body) the message carries</typeparam>
         /// <param name="message">The message.</param>
         void Send<T>(Message<T> message);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="messageContent"></param>
+        /// <param name="to"></param>
+        /// <typeparam name="T"></typeparam>
+        void Send<T>(T messageContent, Address to);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="messageContent"></param>
+        /// <param name="actorName"></param>
+        /// <typeparam name="T"></typeparam>
+        void Send<T>(T messageContent, string actorName);
     }
 }
