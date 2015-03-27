@@ -1,12 +1,26 @@
 ﻿namespace Histrio.Behaviors.StorageCell
 {
+    /// <summary>
+    /// A message used by <see cref="StorageCellBehavior{T}"/> to send the content to the customer
+    /// </summary>
+    /// <typeparam name="T">The type of the content stored in the <see cref="StorageCellBehavior{T}"/></typeparam>
     public class Reply<T>
     {
-        public Reply(T body)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Reply{T}"/> class.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        public Reply(T content)
         {
-            Body = body;
+            Content = content;
         }
 
-        public T Body { get; private set; }
+        /// <summary>
+        /// Gets the content.
+        /// </summary>
+        /// <value>
+        /// The content.
+        /// </value>
+        public T Content { get; private set; }
     }
 }

@@ -5,10 +5,17 @@ using System.Net.Http.Headers;
 
 namespace Histrio.Net.Http
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class HttpDispatcher : IDispatcher
     {
         private readonly HttpClient _httpClient;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpDispatcher"/> class.
+        /// </summary>
+        /// <param name="httpClient">The HTTP client.</param>
         public HttpDispatcher(HttpClient httpClient)
         {
             _httpClient = httpClient;
@@ -16,22 +23,30 @@ namespace Histrio.Net.Http
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public bool CanDispathFor(Uri universalActorLocation)
+        /// <summary>
+        /// Determines whether this instance [can dispatch to] the specified actor location.
+        /// </summary>
+        /// <param name="actorLocation">The actor location.</param>
+        /// <returns></returns>
+        public bool CanDispatchTo(Uri actorLocation)
         {
-            return universalActorLocation.Scheme == "http";
+            return actorLocation.Scheme == "http";
         }
 
-        public async void Dispatch<T>(Message<T> message, Uri universalActorLocation)
+        /// <summary>
+        /// Dispatches the specified message.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="message">The message.</param>
+        /// <param name="actorLocation">The actor location.</param>
+        public async void Dispatch<T>(Message<T> message, Uri actorLocation)
         {
-            var untypedMessage = new UntypedMessage(typeof (T).AssemblyQualifiedName,
-                message.To.ActorName.ToString(), message.Body);
+            var untypedMessage = new UntypedMessage(typeof(T).AssemblyQualifiedName,
+                message.To.ActorName, message.Body);
 
-            var response = await _httpClient.PostAsJsonAsync(universalActorLocation, untypedMessage);
-            Debug.AutoFlush = true;
+            await _httpClient.PostAsJsonAsync(actorLocation, untypedMessage);
 
-
-            var readAsStringAsync = await response.Content.ReadAsStringAsync();
-            Debug.WriteLine(readAsStringAsync);
+            //TODO : => exception handling based on the statuscode, response.StatusCode;
         }
     }
 }

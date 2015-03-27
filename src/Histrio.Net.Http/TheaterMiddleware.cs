@@ -1,5 +1,6 @@
 ﻿using System.Web.Http;
 using System.Web.Http.Dispatcher;
+using Histrio.Net.Http.Controlers;
 using Histrio.Net.Http.Dispatcher;
 using Microsoft.Owin.Builder;
 using Newtonsoft.Json;
@@ -11,11 +12,18 @@ using MidFunc = System.Func
 
 namespace Histrio.Net.Http
 {
-    public class HistrioMiddleware
+    /// <summary>
+    /// OWIN middleware that exposes a Theater via HTTP
+    /// </summary>
+    public class TheaterMiddleware
     {
-        public HistrioMiddleware(HistrioSettings histrioSettings)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TheaterMiddleware"/> class.
+        /// </summary>
+        /// <param name="theaterSettings">The histrio settings used to configure the middelware</param>
+        public TheaterMiddleware(TheaterSettings theaterSettings)
         {
-            var controllerActivator = new TheaterControllerActivator(histrioSettings.Theater);
+            var controllerActivator = new TheaterControllerActivator(theaterSettings.Theater);
 
             MidFunc = next =>
             {
@@ -26,19 +34,20 @@ namespace Histrio.Net.Http
             };
         }
 
+        /// <summary>
+        /// Gets the function representing the middleware
+        /// </summary>
+        /// <value>
+        /// The function representing the middleware
+        /// </value>
         public MidFunc MidFunc { get; private set; }
 
         private static HttpConfiguration GetWebApiConfiguration(IHttpControllerActivator controllerActivator)
         {
             var config = new HttpConfiguration();
 
-            config.Formatters.JsonFormatter.SerializerSettings = new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
-
             config.Services.Replace(typeof (IHttpControllerTypeResolver),
-                new HttpControllerTypeResolver<HistrioMiddleware>());
+                new SingleHttpControllerTypeResolver<TheaterController>());
             config.Services.Replace(typeof (IHttpControllerActivator),
                 controllerActivator);
             config.MapHttpAttributeRoutes();

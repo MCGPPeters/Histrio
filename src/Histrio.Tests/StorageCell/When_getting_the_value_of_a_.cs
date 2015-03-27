@@ -45,7 +45,7 @@ namespace Histrio.Tests.StorageCell
         public async Task Then_value_of_the_retrieved_primitive_is_returned()
         {
             var actualValue = await _taskCompletionSource.Task;
-            actualValue.Body.ShouldBeEquivalentTo(_expectedValue);
+            actualValue.Content.ShouldBeEquivalentTo(_expectedValue);
         }
     }
 }

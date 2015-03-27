@@ -2,11 +2,20 @@
 
 namespace Histrio.Net.Http
 {
+    /// <summary>
+    /// Appbuilder extensions
+    /// </summary>
     public static class AppBuilderExtensions
     {
-        public static IAppBuilder UseHistrio(this IAppBuilder appBuilder, HistrioSettings histrioSettings)
+        /// <summary>
+        /// Uses the histrio.
+        /// </summary>
+        /// <param name="appBuilder">The application builder.</param>
+        /// <param name="theaterSettings">The histrio settings.</param>
+        /// <returns></returns>
+        public static IAppBuilder UseTheater(this IAppBuilder appBuilder, TheaterSettings theaterSettings)
         {
-            appBuilder.Use(new HistrioMiddleware(histrioSettings).MidFunc);
+            appBuilder.Use(new TheaterMiddleware(theaterSettings).MidFunc);
             return appBuilder;
         }
     }

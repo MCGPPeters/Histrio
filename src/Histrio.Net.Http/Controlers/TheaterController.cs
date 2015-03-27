@@ -34,6 +34,8 @@ namespace Histrio.Net.Http.Controlers
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
+        // ReSharper disable once UnusedMember.Local
+        // This mthod is called using reflection
         private static void Dispatch<TMessage>(Theater theater,
             TMessage body, string universalActorName)
             where TMessage : class

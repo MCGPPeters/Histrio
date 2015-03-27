@@ -22,6 +22,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>bin\Debug\Histrio.Net.Http.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -73,14 +75,13 @@
   <ItemGroup>
     <Compile Include="AppBuilderExtensions.cs" />
     <Compile Include="Controlers\TheaterController.cs" />
-    <Compile Include="Dispatcher\HttpControllerTypeResolver.cs" />
+    <Compile Include="Dispatcher\SingleHttpControllerTypeResolver.cs" />
     <Compile Include="Dispatcher\TheaterControllerActivator.cs" />
-    <Compile Include="HistrioMiddleware.cs" />
+    <Compile Include="TheaterMiddleware.cs" />
     <Compile Include="HttpDispatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="HistrioSettings.cs" />
+    <Compile Include="TheaterSettings.cs" />
     <Compile Include="TheaterExtensions.cs" />
-    <Compile Include="UntypedMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

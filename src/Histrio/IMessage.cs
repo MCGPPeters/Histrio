@@ -2,7 +2,7 @@ using Histrio.Behaviors;
 
 namespace Histrio
 {
-    public interface IMessage
+    internal interface IMessage
     {
         Address To { get; }
         void GetHandledBy(BehaviorBase behavior);
