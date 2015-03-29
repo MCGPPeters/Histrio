@@ -102,6 +102,18 @@ namespace Histrio.Tests.Http
         }
     }
 
+    /// <summary>
+    /// Creates a fixture for the fact that an address needs to be serializable (public constructor)
+    /// </summary>
+    public class When_sending_a_message_containging_an_address_to_a_remote_actor_that_is_accessible_via_http :
+        When_sending_a_message_to_a_remote_actor_that_is_accessible_via_http<WithAddress>
+    {
+        public When_sending_a_message_containging_an_address_to_a_remote_actor_that_is_accessible_via_http()
+            : base(new WithAddress { Address = new Address("foo") })
+        {
+        }
+    }
+
     public class Nested<T>
     {
         public Nested(T inner)
@@ -110,6 +122,11 @@ namespace Histrio.Tests.Http
         }
 
         public T Inner { get; private set; }
+    }
+
+    public class WithAddress
+    {
+        public Address Address { get; set; }
     }
 
     public class SomethingHappened
