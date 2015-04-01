@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
     <metadata>
         <id>Histrio.Testing</id>
-        <version>0.1.0.3</version>
+        <version>$version$</version>
         <title>Histrio Testing</title>
         <authors>Maurice CGP Peters</authors>
         <owners>Maurice CGP Peters</owners>
