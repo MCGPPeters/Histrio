@@ -64,6 +64,9 @@
     <Compile Include="Theater.cs" />
     <Compile Include="UntypedMessage.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Histrio.nuspec" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
