@@ -33,7 +33,7 @@ namespace Histrio.Tests.Http
                     .ResolveActorLocation(Arg.Any<Address>())
                     .Returns(_universalActorLocationOfRemoteActor);
 
-                var inMemoryNamingService = new InMemoryNamingService();
+                var inMemoryNamingService = new InMemoryActorNamingService();
                 var remoteTheater = new Theater(inMemoryNamingService);
                 _remoteActor =
                     remoteTheater.CreateActor(new AssertionBehavior<T>(_promiseOfTheActualValue, 1));

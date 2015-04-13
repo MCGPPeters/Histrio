@@ -15,6 +15,7 @@ namespace Histrio
         private readonly Dictionary<Address, MailBox> _localAddresses = new Dictionary<Address, MailBox>();
         private readonly List<IDispatcher> _remoteMessageDispatchers = new List<IDispatcher>();
 
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="Theater" /> class.
         /// </summary>
@@ -23,6 +24,15 @@ namespace Histrio
         {
             _actorNamingService = actorNamingService;
             Name = Guid.NewGuid().ToString();
+        }
+
+        /// <summary>
+        /// Creates a theater with an <see cref="InMemoryActorNamingService" /> as the default <see cref="IActorNamingService" />
+        /// </summary>
+        /// <returns></returns>
+        public Theater() : this(new InMemoryActorNamingService())
+        {
+            
         }
 
         private string Name { get; set; }
@@ -46,10 +56,9 @@ namespace Histrio
         /// <returns></returns>
         public Address CreateActor(BehaviorBase behavior, string actorName)
         {
-            var address = new Address(actorName);
             var mailBox = new MailBox(new BlockingCollection<IMessage>());
+            var address = Actor.Create(behavior, actorName, mailBox, this);
             _localAddresses.Add(address, mailBox);
-            new Actor(behavior, address, mailBox, this);
             return address;
         }
 

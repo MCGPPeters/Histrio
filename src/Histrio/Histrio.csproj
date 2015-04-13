@@ -53,7 +53,7 @@
     <Compile Include="IHandle.cs" />
     <Compile Include="IDispatcher.cs" />
     <Compile Include="IMessage.cs" />
-    <Compile Include="InMemoryNamingService.cs" />
+    <Compile Include="InMemoryActorNamingService.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="MessageExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

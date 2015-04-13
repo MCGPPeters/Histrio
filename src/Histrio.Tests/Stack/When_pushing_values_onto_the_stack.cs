@@ -24,7 +24,7 @@ namespace Histrio.Tests.Stack
 
             Given(() =>
             {
-                SetThe<IActorNamingService>().To(new InMemoryNamingService());
+                SetThe<IActorNamingService>().To(new InMemoryActorNamingService());
 
                 _stack = Subject.CreateActor(new StackNodeBehavior<int>(default(int), null));
                 foreach (var i in valuesToPush)

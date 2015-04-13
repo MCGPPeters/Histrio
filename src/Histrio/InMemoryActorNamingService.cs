@@ -8,7 +8,7 @@ namespace Histrio
     ///     Suitable for testing scenario's and static configuration of Actor systems that span multiple
     ///     locations
     /// </summary>
-    public class InMemoryNamingService : IActorNamingService
+    public class InMemoryActorNamingService : IActorNamingService
     {
         private readonly Dictionary<Address, Uri> _addresses = new Dictionary<Address, Uri>();
 

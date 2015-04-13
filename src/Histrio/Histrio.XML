@@ -1,0 +1,478 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Histrio</name>
+    </assembly>
+    <members>
+        <member name="T:Histrio.Address">
+            <summary>
+                Represents a reference to an Actor.
+            </summary>
+        </member>
+        <member name="M:Histrio.Address.#ctor(System.String)">
+            <summary>
+                Initializes a new instance of the <see cref="T:Histrio.Address" /> class.
+            </summary>
+            <param name="actorName">Name of the actor. An actor name should be a unique reference to a specific Actor at runtime</param>
+            
+        </member>
+        <member name="P:Histrio.Address.ActorName">
+            <summary>
+                Gets the name of the actor.
+            </summary>
+            <value>
+                The name of the actor.
+            </value>
+        </member>
+        <member name="M:Histrio.Address.GetHashCode">
+            <summary>
+                Returns a hash code for this instance.
+            </summary>
+            <returns>
+                A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
+            </returns>
+        </member>
+        <member name="M:Histrio.Address.Equals(System.Object)">
+            <summary>
+                Determines whether the specified <see cref="T:System.Object" />, is equal to this instance.
+            </summary>
+            <param name="obj">The <see cref="T:System.Object" /> to compare with this instance.</param>
+            <returns>
+                <c>true</c> if the specified <see cref="T:System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="T:Histrio.BehaviorBase">
+            <summary>
+                A base class for implementing behaviors that get injected into Actors
+            </summary>
+        </member>
+        <member name="P:Histrio.BehaviorBase.Actor">
+            <summary>
+                Gets or sets the actor the behavior is injected to. Use this reference to create new Actors,
+                send messages to other Actors and replace this Actor with a new one
+            </summary>
+            <value>
+                The actor.
+            </value>
+        </member>
+        <member name="M:Histrio.BehaviorBase.Accept``1(Histrio.Message{``0})">
+            <summary>
+                Accepts the specified message and checkes if the message can be handled by this behavior.
+                If so, it notifies the message it can be handled. It uses a double dispatch to let the message
+                handle itself in s strongly typed fashion by the behavior
+            </summary>
+            ///
+            <typeparam name="T">The type of content the message enbodies</typeparam>
+            <param name="message">The message.</param>
+            <exception cref="T:System.InvalidOperationException">
+                The exception is thrown when the behavior can not handle this type of
+                message content
+            </exception>
+        </member>
+        <member name="T:Histrio.Get">
+            <summary>
+                A message to send to the <see cref="T:Histrio.CellBehavior`1" /> to retrieve content from it
+            </summary>
+        </member>
+        <member name="M:Histrio.Get.#ctor(Histrio.Address)">
+            <summary>
+                Initializes a new instance of the <see cref="T:Histrio.Get" /> class.
+            </summary>
+            <param name="customer">The customer receiving the content</param>
+        </member>
+        <member name="P:Histrio.Get.Customer">
+            <summary>
+                Gets the customer.
+            </summary>
+            <value>
+                The customer receiving the content from the Actor hosting the <see cref="T:Histrio.CellBehavior`1" />
+            </value>
+        </member>
+        <member name="M:Histrio.MailBox.Dispose">
+            <summary>
+                Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="M:Histrio.MailBox.Dispose(System.Boolean)">
+            <summary>
+            </summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="M:Histrio.MailBox.Finalize">
+            <summary>
+                Allows an object to try to free resources and perform other cleanup operations before it is reclaimed by garbage
+                collection.
+            </summary>
+        </member>
+        <member name="T:Histrio.IActor">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Histrio.IActor.Address">
+            <summary>
+                Gets the address of the actor
+            </summary>
+            <value>
+                The address.
+            </value>
+        </member>
+        <member name="M:Histrio.IActor.Become(Histrio.Address)">
+            <summary>
+                The become command, signifying that a replacement behavior will be used for the next message
+                that will arrive at the <see cref="P:Histrio.IActor.Address" />
+            </summary>
+            <param name="address">The address.</param>
+        </member>
+        <member name="M:Histrio.IActor.Create(Histrio.BehaviorBase)">
+            <summary>
+                Creates a new actor with the specified behavior.
+            </summary>
+            <param name="behavior">The behavior.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Histrio.IActor.Send``1(Histrio.Message{``0})">
+            <summary>
+                Sends the specified message to the Address specified in the To property of the
+                <paramref name="message">message</paramref>
+            </summary>
+            <typeparam name="T">The type of (the content / body) the message carries</typeparam>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:Histrio.IActor.Send``1(``0,Histrio.Address)">
+            <summary>
+            
+            </summary>
+            <param name="messageContent"></param>
+            <param name="to"></param>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Histrio.IActor.Send``1(``0,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="messageContent"></param>
+            <param name="actorName"></param>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Histrio.IActorNamingService">
+            <summary>
+                An Actor naming service is used to resolve the location (represented by a Uri) of an Actor.
+                Think of it it as DNS for addresses that reference Actors
+            </summary>
+        </member>
+        <member name="M:Histrio.IActorNamingService.ResolveActorLocation(Histrio.Address)">
+            <summary>
+                Resolves the actor location.
+            </summary>
+            <param name="address">The address.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Histrio.IActorNamingService.Register(Histrio.Address,System.Uri)">
+            <summary>
+                Registers the specified address.
+            </summary>
+            <param name="address">The address.</param>
+            <param name="universalActorLocation">The location of the Actor</param>
+        </member>
+        <member name="T:Histrio.IHandle`1">
+            <summary>
+                An interface that is used to specify that a behavior can handle a specific type of message
+            </summary>
+            <typeparam name="T">The type of the message it can handle</typeparam>
+        </member>
+        <member name="M:Histrio.IHandle`1.Accept(`0)">
+            <summary>
+                Accepts the specified message. Accept is Actor Model terminology for "I can do something with this message"
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="T:Histrio.IDispatcher">
+            <summary>
+                A dispatcher is used for sending messages to Actors in that are located in another Theater (for instance via HTTP)
+            </summary>
+        </member>
+        <member name="M:Histrio.IDispatcher.CanDispatchTo(System.Uri)">
+            <summary>
+                Determines whether this instance [can dispatch to] the specified actor location.
+            </summary>
+            <param name="actorLocation">The actor location.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Histrio.IDispatcher.Dispatch``1(Histrio.Message{``0},System.Uri)">
+            <summary>
+                Dispatches the specified message.
+            </summary>
+            <typeparam name="T">The type of message to dispatch</typeparam>
+            <param name="message">The message.</param>
+            <param name="actorLocation">The actor location.</param>
+        </member>
+        <member name="T:Histrio.InMemoryActorNamingService">
+            <summary>
+                An implementation of a naming service that stores locations of actor addresses in memory
+                Suitable for testing scenario's and static configuration of Actor systems that span multiple
+                locations
+            </summary>
+        </member>
+        <member name="M:Histrio.InMemoryActorNamingService.ResolveActorLocation(Histrio.Address)">
+            <summary>
+                Resolves the actor location.
+            </summary>
+            <param name="address">The address.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Histrio.InMemoryActorNamingService.Register(Histrio.Address,System.Uri)">
+            <summary>
+                Registers the specified address.
+            </summary>
+            <param name="address">The address.</param>
+            <param name="universalActorLocation">The location of the Actor</param>
+        </member>
+        <member name="T:Histrio.Message`1">
+            <summary>
+                A message that carries a typed payload anabling strongly type message handling
+                using POCO (Plain Old CLR Objects).
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Histrio.Message`1.#ctor(`0)">
+            <summary>
+                Initializes a new instance of the <see cref="T:Histrio.Message`1" /> class.
+            </summary>
+            <param name="body">The body.</param>
+        </member>
+        <member name="P:Histrio.Message`1.Body">
+            <summary>
+                Gets or sets the body.
+            </summary>
+            <value>
+                The body.
+            </value>
+        </member>
+        <member name="P:Histrio.Message`1.To">
+            <summary>
+                Gets or sets the <see cref="T:Histrio.Address" /> of the Actor that is the recipient of this message
+            </summary>
+            <value>
+                To.
+            </value>
+        </member>
+        <member name="M:Histrio.Message`1.GetHandledBy(Histrio.BehaviorBase)">
+            <summary>
+                Gets the handled by.
+            </summary>
+            <param name="behavior">The behavior.</param>
+        </member>
+        <member name="M:Histrio.Message`1.GetHandledBy(Histrio.IHandle{`0})">
+            <summary>
+                Gets the handled by.
+            </summary>
+            <param name="behavior">The behavior.</param>
+        </member>
+        <member name="T:Histrio.MessageExtensions">
+            <summary>
+                Extension methods for <see cref="T:Histrio.Message`1" />
+            </summary>
+        </member>
+        <member name="M:Histrio.MessageExtensions.AsMessage``1(``0)">
+            <summary>
+                Convenience method to wrap a POCO into a message
+            </summary>
+            <typeparam name="T">The type of the POCO</typeparam>
+            <param name="body">The object to wrap</param>
+            <returns>A new message</returns>
+        </member>
+        <member name="T:Histrio.Reply`1">
+            <summary>
+                A message used by <see cref="T:Histrio.CellBehavior`1" /> to send the content to the customer
+            </summary>
+            <typeparam name="T">The type of the content stored in the <see cref="T:Histrio.CellBehavior`1" /></typeparam>
+        </member>
+        <member name="M:Histrio.Reply`1.#ctor(`0)">
+            <summary>
+                Initializes a new instance of the <see cref="T:Histrio.Reply`1" /> class.
+            </summary>
+            <param name="content">The content.</param>
+        </member>
+        <member name="P:Histrio.Reply`1.Content">
+            <summary>
+                Gets the content.
+            </summary>
+            <value>
+                The content.
+            </value>
+        </member>
+        <member name="T:Histrio.SendBehavior">
+            <summary>
+                A behavior that simply forwards message to an address of another actor
+            </summary>
+        </member>
+        <member name="M:Histrio.SendBehavior.#ctor(Histrio.Address)">
+            <summary>
+                Initializes a new instance of the <see cref="T:Histrio.SendBehavior" /> class.
+            </summary>
+            <param name="address">The address the behavior fill forward messages to</param>
+        </member>
+        <member name="M:Histrio.SendBehavior.Accept``1(Histrio.Message{``0})">
+            <summary>
+                Overrides the behavior of the BehaviorBase, so that it doesn't check if it can handle the message.
+                It doesn't need to know the type of the message because it only forwards it
+            </summary>
+            <typeparam name="T">The type of content the message enbodies</typeparam>
+            <param name="message">The message.</param>
+        </member>
+        <member name="T:Histrio.Set`1">
+            <summary>
+                A message to send to the <see cref="T:Histrio.CellBehavior`1" /> to store content in it
+            </summary>
+            <typeparam name="T">The type of content that is to be stored in the <see cref="T:Histrio.CellBehavior`1" /></typeparam>
+        </member>
+        <member name="M:Histrio.Set`1.#ctor(`0)">
+            <summary>
+                Initializes a new instance of the <see cref="T:Histrio.Set`1" /> class.
+            </summary>
+            <param name="content">The content that is to be stored in the <see cref="T:Histrio.CellBehavior`1" /></param>
+        </member>
+        <member name="P:Histrio.Set`1.Content">
+            <summary>
+                Gets the content.
+            </summary>
+            <value>
+                The content.
+            </value>
+        </member>
+        <member name="T:Histrio.CellBehavior`1">
+            <summary>
+                A Cell behaves like a property. One can get en set value in / from it using message passing
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Histrio.CellBehavior`1.Accept(Histrio.Get)">
+            <summary>
+                Processes a Get message and sends the content to the customer
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:Histrio.CellBehavior`1.Accept(Histrio.Set{`0})">
+            <summary>
+                Processes a Set message and stores the content in it locally
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="T:Histrio.Theater">
+            <summary>
+                A Theater is a isolated container of Actors running at a location (server / vm / ...)
+                Multiple Theaters can exist at a location
+            </summary>
+        </member>
+        <member name="M:Histrio.Theater.#ctor(Histrio.IActorNamingService)">
+            <summary>
+                Initializes a new instance of the <see cref="T:Histrio.Theater" /> class.
+            </summary>
+            <param name="actorNamingService">The actor naming service.</param>
+        </member>
+        <member name="M:Histrio.Theater.Create(Histrio.IActorNamingService)">
+            <summary>
+            Creates a theater with the specified <see cref="T:Histrio.IActorNamingService" />
+            </summary>
+            <param name="actorNamingService"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Histrio.Theater.Create">
+            <summary>
+            Creates a theater with an <see cref="T:Histrio.InMemoryActorNamingService" /> as the default <see cref="T:Histrio.IActorNamingService" />
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Histrio.Theater.CreateActor(Histrio.BehaviorBase)">
+            <summary>
+                Creates the actor.
+            </summary>
+            <param name="behavior">The behavior.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Histrio.Theater.CreateActor(Histrio.BehaviorBase,System.String)">
+            <summary>
+                Creates the actor.
+            </summary>
+            <param name="behavior">The behavior.</param>
+            <param name="actorName">Name of the actor.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Histrio.Theater.Dispatch``1(``0,System.String)">
+            <summary>
+                Dispatches the specified message.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="messageContent">The content that will be wtapped in a message.</param>
+            <param name="actorName">Name of the universal actor.</param>
+        </member>
+        <member name="M:Histrio.Theater.Dispatch``1(``0,Histrio.Address)">
+            <summary>
+                Dispatches the specified message.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="messageContent">The content that will be wtapped in a message.</param>
+            <param name="to">Address to send the message to</param>
+        </member>
+        <member name="M:Histrio.Theater.Dispatch``1(Histrio.Message{``0},Histrio.Address)">
+            <summary>
+                Dispatches the specified message.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="message">The message.</param>
+            <param name="to">Address to send the message to</param>
+        </member>
+        <member name="M:Histrio.Theater.Dispatch``1(Histrio.Message{``0})">
+            <summary>
+                Dispatches the specified message.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:Histrio.Theater.AddDispatcher(Histrio.IDispatcher)">
+            <summary>
+                Adds the dispatcher.
+            </summary>
+            <param name="dispatcher">The dispatcher.</param>
+        </member>
+        <member name="T:Histrio.UntypedMessage">
+            <summary>
+                Represents a message that is used for enabling serialization of strongly typed messages (<see cref="T:Histrio.Message`1" />)
+                and deserialing it afterwards
+            </summary>
+        </member>
+        <member name="M:Histrio.UntypedMessage.#ctor(System.String,System.String,System.Object)">
+            <summary>
+                Initializes a new instance of the <see cref="T:Histrio.UntypedMessage" /> class.
+            </summary>
+            <param name="assemblyQualifiedName">Name of the assembly qualified.</param>
+            <param name="address">The address.</param>
+            <param name="body">The body.</param>
+        </member>
+        <member name="P:Histrio.UntypedMessage.AssemblyQualifiedName">
+            <summary>
+                Gets or sets the name of the assembly qualified.
+            </summary>
+            <value>
+                The name of the assembly qualified.
+            </value>
+        </member>
+        <member name="P:Histrio.UntypedMessage.Body">
+            <summary>
+                Gets or sets the body.
+            </summary>
+            <value>
+                The body.
+            </value>
+        </member>
+        <member name="P:Histrio.UntypedMessage.Address">
+            <summary>
+                Gets or sets the address.
+            </summary>
+            <value>
+                The address.
+            </value>
+        </member>
+    </members>
+</doc>

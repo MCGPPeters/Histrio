@@ -15,8 +15,6 @@ namespace Histrio.Tests.Cell
 
         protected When_getting_the_value_of_a_(T expectedValue)
         {
-            SetThe<IActorNamingService>().To(new InMemoryNamingService());
-
             Given(() =>
             {
                 _expectedValue = expectedValue;

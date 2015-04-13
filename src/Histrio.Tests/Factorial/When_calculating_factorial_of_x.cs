@@ -20,8 +20,6 @@ namespace Histrio.Tests.Factorial
             _expectedValue = expectedValue;
             Given(() =>
             {
-                SetThe<IActorNamingService>().To(new InMemoryNamingService());
-
                 _customer = Subject.CreateActor(new AssertionBehavior<FactorialCalculated>(_promiseOfTheActualValue, 1));
             });
 
