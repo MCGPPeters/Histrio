@@ -371,14 +371,7 @@
             </summary>
             <param name="actorNamingService">The actor naming service.</param>
         </member>
-        <member name="M:Histrio.Theater.Create(Histrio.IActorNamingService)">
-            <summary>
-            Creates a theater with the specified <see cref="T:Histrio.IActorNamingService" />
-            </summary>
-            <param name="actorNamingService"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Histrio.Theater.Create">
+        <member name="M:Histrio.Theater.#ctor">
             <summary>
             Creates a theater with an <see cref="T:Histrio.InMemoryActorNamingService" /> as the default <see cref="T:Histrio.IActorNamingService" />
             </summary>
