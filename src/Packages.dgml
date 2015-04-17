@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="LeftToRight" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="Histrio.Net.Http" Label="Histrio.Net.Http" Category="Project" />
+    <Node Id="Microsoft.AspNet.WebApi.Client 5.2.3" Label="Microsoft.AspNet.WebApi.Client 5.2.3" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Core 5.2.3" Label="Microsoft.AspNet.WebApi.Core 5.2.3" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Owin 5.2.3" Label="Microsoft.AspNet.WebApi.Owin 5.2.3" Category="Package" />
+    <Node Id="Microsoft.Owin 3.0.1" Label="Microsoft.Owin 3.0.1" Category="Package" />
+    <Node Id="Microsoft.Owin.Hosting 3.0.1" Label="Microsoft.Owin.Hosting 3.0.1" Category="Package" />
+    <Node Id="Newtonsoft.Json 6.0.4" Label="Newtonsoft.Json 6.0.4" Category="Package" />
+    <Node Id="Owin 1.0" Label="Owin 1.0" Category="Package" />
+    <Node Id="Histrio.Tests" Label="Histrio.Tests" Category="Project" />
+    <Node Id="Autofac 3.5.2" Label="Autofac 3.5.2" Category="Package" />
+    <Node Id="Chill 2.1.0" Label="Chill 2.1.0" Category="Package" />
+    <Node Id="Chill.AutofacNSubstitute 2.0.0" Label="Chill.AutofacNSubstitute 2.0.0" Category="Package" />
+    <Node Id="FluentAssertions 3.3.0" Label="FluentAssertions 3.3.0" Category="Package" />
+    <Node Id="Microsoft.Owin 3.0.1" Label="Microsoft.Owin 3.0.1" Category="Package" />
+    <Node Id="NSubstitute 1.8.1.0" Label="NSubstitute 1.8.1.0" Category="Package" />
+    <Node Id="Owin 1.0" Label="Owin 1.0" Category="Package" />
+    <Node Id="OwinHttpMessageHandler 1.3.0" Label="OwinHttpMessageHandler 1.3.0" Category="Package" />
+    <Node Id="xunit 1.9.2" Label="xunit 1.9.2" Category="Package" />
+  </Nodes>
+  <Links>
+    <Link Source="Microsoft.AspNet.WebApi.Client 5.2.3" Target="Newtonsoft.Json 6.0.4" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 5.2.3" Target="Newtonsoft.Json 6.0.4" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Core 5.2.3" Target="Microsoft.AspNet.WebApi.Client 5.2.3" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Owin 5.2.3" Target="Microsoft.AspNet.WebApi.Core 5.2.3" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Owin 5.2.3" Target="Microsoft.Owin 3.0.1" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Owin 5.2.3" Target="Owin 1.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin 3.0.1" Target="Owin 1.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Hosting 3.0.1" Target="Owin 1.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Hosting 3.0.1" Target="Microsoft.Owin 3.0.1" Category="Package Dependency" />
+    <Link Source="Histrio.Net.Http" Target="Microsoft.AspNet.WebApi.Owin 5.2.3" Category="Installed Package" />
+    <Link Source="Histrio.Net.Http" Target="Microsoft.Owin.Hosting 3.0.1" Category="Installed Package" />
+    <Link Source="Chill.AutofacNSubstitute 2.0.0" Target="Chill 2.1.0" Category="Package Dependency" />
+    <Link Source="Chill.AutofacNSubstitute 2.0.0" Target="Autofac 3.5.2" Category="Package Dependency" />
+    <Link Source="Chill.AutofacNSubstitute 2.0.0" Target="NSubstitute 1.8.1.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin 3.0.1" Target="Owin 1.0" Category="Package Dependency" />
+    <Link Source="Histrio.Tests" Target="Chill.AutofacNSubstitute 2.0.0" Category="Installed Package" />
+    <Link Source="Histrio.Tests" Target="FluentAssertions 3.3.0" Category="Installed Package" />
+    <Link Source="Histrio.Tests" Target="Microsoft.Owin 3.0.1" Category="Installed Package" />
+    <Link Source="Histrio.Tests" Target="OwinHttpMessageHandler 1.3.0" Category="Installed Package" />
+    <Link Source="Histrio.Tests" Target="xunit 1.9.2" Category="Installed Package" />
+  </Links>
+  <Categories>
+    <Category Id="Project" />
+    <Category Id="Package" />
+  </Categories>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Project" ValueLabel="True">
+      <Condition Expression="HasCategory('Project')" />
+      <Setter Property="Background" Value="Blue" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Package Dependency" ValueLabel="True">
+      <Condition Expression="HasCategory('Package Dependency')" />
+      <Setter Property="Background" Value="Yellow" />
+    </Style>
+  </Styles>
+</DirectedGraph>
