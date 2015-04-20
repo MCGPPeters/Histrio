@@ -44,7 +44,11 @@ namespace Histrio
         /// <returns></returns>
         public Address CreateActor(BehaviorBase behavior)
         {
+#if(DEBUG)
+            var universalActorName = string.Format("uan://{0}/{1}/{2}", Name, behavior.GetType().Name, Guid.NewGuid());
+#else
             var universalActorName = string.Format("uan://{0}/{1}", Name, Guid.NewGuid());
+#endif
             return CreateActor(behavior, universalActorName);
         }
 
