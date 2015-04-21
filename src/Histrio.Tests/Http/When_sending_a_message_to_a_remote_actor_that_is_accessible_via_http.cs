@@ -115,13 +115,38 @@ namespace Histrio.Tests.Http
     /// <summary>
     /// Creates a fixture for the fact that an address needs to be serializable (public constructor)
     /// </summary>
-    public class When_sending_a_message_containging_an_address_to_a_remote_actor_that_is_accessible_via_http :
+    public class When_sending_a_message_containing_an_address_to_a_remote_actor_that_is_accessible_via_http :
         When_sending_a_message_to_a_remote_actor_that_is_accessible_via_http<WithAddress>
     {
-        public When_sending_a_message_containging_an_address_to_a_remote_actor_that_is_accessible_via_http()
+        public When_sending_a_message_containing_an_address_to_a_remote_actor_that_is_accessible_via_http()
             : base(new WithAddress { Address = new Address("foo") })
         {
         }
+    }
+
+
+    public class When_sending_a_message_as_its_abstract_base_to_a_remote_actor_that_is_accessible_via_http :
+        When_sending_a_message_to_a_remote_actor_that_is_accessible_via_http<Base>
+    {
+        public When_sending_a_message_as_its_abstract_base_to_a_remote_actor_that_is_accessible_via_http()
+            : base(new Derived())
+        {
+        }
+    }
+
+    public abstract class Base
+    {
+        public string Someprop { get; set; }
+    }
+
+    class Derived : Base
+    {
+        public Derived()
+        {
+            Someprop = "foo";
+        }
+
+        
     }
 
     public class Nested<T>
