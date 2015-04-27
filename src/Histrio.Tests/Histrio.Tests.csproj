@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\xunit.core.2.0.0\build\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.core.props" Condition="Exists('..\packages\xunit.core.2.0.0\build\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.core.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -19,7 +20,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>5067e868</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>4e7ae71f</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -70,8 +71,14 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="xunit">
-      <HintPath>..\packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
+    <Reference Include="xunit.abstractions">
+      <HintPath>..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.assert">
+      <HintPath>..\packages\xunit.assert.2.0.0\lib\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.assert.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.core">
+      <HintPath>..\packages\xunit.extensibility.core.2.0.0\lib\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.core.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Choose>
@@ -89,23 +96,13 @@
     <Compile Include="Chill\TestBaseExtensions.cs" />
     <Compile Include="Factorial\CalculateFactorialFor.cs" />
     <Compile Include="Factorial\FactorialCalculationBehavior.cs" />
-    <Compile Include="Factorial\FactorialCalculated.cs" />
+    <Compile Include="Factorial\AssertThatTheFactorialIsCalculatedCorrectly.cs" />
     <Compile Include="Factorial\FactorialContinuationBehavior.cs" />
-    <Compile Include="Factorial\When_calculating_factorial_of_0.cs" />
-    <Compile Include="Factorial\When_calculating_factorial_of_1.cs" />
-    <Compile Include="Factorial\When_calculating_factorial_of_3.cs" />
-    <Compile Include="Factorial\When_calculating_factorial_of_4.cs" />
     <Compile Include="Factorial\When_calculating_factorial_of_x.cs" />
+    <Compile Include="GivenWhenThen.cs" />
     <Compile Include="Http\When_sending_a_message_to_a_remote_actor_that_is_accessible_via_http.cs" />
-    <Compile Include="Stack\When_pushing_values_1_2_and_3_onto_the_stack.cs" />
-    <Compile Include="Stack\When_pushing_values_5_200_and_243_onto_the_stack.cs" />
     <Compile Include="Stack\When_pushing_values_onto_the_stack.cs" />
-    <Compile Include="Cell\When_getting_the_value_of_a_.cs" />
-    <Compile Include="Cell\When_getting_the_value_of_a_boolean.cs" />
-    <Compile Include="Cell\When_getting_the_value_of_a_integer.cs" />
-    <Compile Include="Cell\When_getting_the_value_of_a_reference_type.cs" />
-    <Compile Include="Cell\When_getting_the_value_of_a_string.cs" />
-    <Compile Include="Cell\When_getting_the_value_of_a_value_type.cs" />
+    <Compile Include="Cell\When_getting_a_value_from_a_cell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +154,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+    <Error Condition="!Exists('..\packages\xunit.core.2.0.0\build\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.core.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.core.2.0.0\build\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.core.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Chill;
 using FluentAssertions;
 using Histrio.Collections.Stack;
 using Histrio.Testing;
@@ -8,49 +7,47 @@ using Xunit;
 
 namespace Histrio.Tests.Stack
 {
-    public abstract class When_pushing_values_onto_the_stack : GivenSubject<Theater>
+    public class When_pushing_values_onto_the_stack : GivenWhenThen
     {
-        private readonly int _expectedValueRetrievedByPop;
-        private readonly int _numberOfPops;
-        private readonly TaskCompletionSource<int> _promiseOfTheActualValue = new TaskCompletionSource<int>();
-        private Address _customer;
-        private Address _stack;
-
-        protected When_pushing_values_onto_the_stack(IEnumerable<int> valuesToPush, int numberOfPops,
+        [Theory,
+         InlineData(new[] {1, 2, 3}, 1, 3),
+         InlineData(new[] { 5, 200, 243 }, 2, 200)]
+        public void Then_a_specific_value_is_retrieved_by_a_number_of_pops(int[] valuesToPush,
+            int numberOfPops,
             int expectedValueRetrievedByPop)
         {
-            _numberOfPops = numberOfPops;
-            _expectedValueRetrievedByPop = expectedValueRetrievedByPop;
+            Theater theater = new Theater();
+            var promiseOfTheActualValue = new TaskCompletionSource<int>();
+            Address customer = null;
+            Address stack = null;
 
             Given(() =>
             {
                 SetThe<IActorNamingService>().To(new InMemoryActorNamingService());
 
-                _stack = Subject.CreateActor(new StackNodeBehavior<int>(default(int), null));
+                stack = theater.CreateActor(new StackNodeBehavior<int>(default(int), null));
                 foreach (var i in valuesToPush)
                 {
                     var push = new Push<int>(i);
-                    Subject.Dispatch(push, _stack);
+                    theater.Dispatch(push, stack);
                 }
-                _customer = Subject.CreateActor(new AssertionBehavior<int>(_promiseOfTheActualValue, _numberOfPops));
+                customer = theater.CreateActor(new AssertionBehavior<int>(promiseOfTheActualValue, numberOfPops));
             });
 
             When(() =>
             {
                 for (var i = 0; i < numberOfPops; i++)
                 {
-                    var pop = new Pop(_customer);
-                    Subject.Dispatch(pop, _stack);
+                    var pop = new Pop(customer);
+                    theater.Dispatch(pop, stack);
                 }
             });
-        }
 
-        [Fact]
-        public async Task Then_the_value_on_top_of_the_stack_is_retrieved_by_a_pop()
-        {
-            var actualValue = await _promiseOfTheActualValue.Task;
-
-            actualValue.Should().Be(_expectedValueRetrievedByPop);
+            Then(async () =>
+            {
+                var actualValue = await promiseOfTheActualValue.Task;
+                actualValue.Should().Be(expectedValueRetrievedByPop);
+            });
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Chill;
 using FluentAssertions;
@@ -6,37 +7,36 @@ using Xunit;
 
 namespace Histrio.Tests.Factorial
 {
-    public abstract class When_calculating_factorial_of_x : GivenSubject<Theater>
+    public class When_calculating_factorial_of_x : GivenWhenThen
     {
-        private readonly int _expectedValue;
-
-        private readonly TaskCompletionSource<FactorialCalculated> _promiseOfTheActualValue =
-            new TaskCompletionSource<FactorialCalculated>();
-
-        private Address _customer;
-
-        protected When_calculating_factorial_of_x(int expectedInput, int expectedValue)
+        [Theory, 
+            InlineData(0, 1),
+            InlineData(1, 1),
+            InlineData(3, 6),
+            InlineData(4, 24)]
+        public void Then_factorial_of_x_is_calculated(int input, int expectedValue)
         {
-            _expectedValue = expectedValue;
+            Theater theater = new Theater();
+            Address customer = null;
+            var promiseOfTheActualValue = new TaskCompletionSource<CalculatedFactorial>();
+
             Given(() =>
             {
-                _customer = Subject.CreateActor(new AssertionBehavior<FactorialCalculated>(_promiseOfTheActualValue, 1));
+                customer = theater.CreateActor(new AssertionBehavior<CalculatedFactorial>(promiseOfTheActualValue, 1));
             });
 
             When(() =>
             {
-                var factorialCalculator = Subject.CreateActor(new FactorialCalculationBehavior());
-                var calculateFactorialFor = new CalculateFactorialFor(expectedInput, _customer);
-                Subject.Dispatch(calculateFactorialFor, factorialCalculator);
+                var factorialCalculator = theater.CreateActor(new FactorialCalculationBehavior());
+                var calculateFactorialFor = new CalculateFactorialFor(input, customer);
+                theater.Dispatch(calculateFactorialFor, factorialCalculator);
             });
-        }
 
-        [Fact]
-        public async Task Then_factorial_of_x_is_calculated()
-        {
-            var actualValue = await _promiseOfTheActualValue.Task;
-
-            actualValue.Result.Should().Be(_expectedValue);
+            Then(async () =>
+            {
+                var calculatedFactorial = await promiseOfTheActualValue.Task;
+                calculatedFactorial.Result.Should().Be(expectedValue);
+            });
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Histrio.Tests.Factorial
             var x = message.X;
             if (x == 0)
             {
-                var factorialCalculated = new FactorialCalculated {For = x, Result = 1};
+                var factorialCalculated = new CalculatedFactorial{For = x, Result = 1};
                 Actor.Send(factorialCalculated, message.Customer);
             }
             else
