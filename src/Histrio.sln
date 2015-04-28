@@ -9,11 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Histrio.Collections", "Hist
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Histrio.Tests", "Histrio.Tests\Histrio.Tests.csproj", "{42043281-588C-4831-894A-57946B3F9DA2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C1157549-3D7C-49D3-8068-EF44D109A6D3}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Histrio.Net.Http", "Histrio.Net.Http\Histrio.Net.Http.csproj", "{C4D16365-ECE0-46FB-8864-4DCBE40EFCDF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Histrio.Testing", "Histrio.Testing\Histrio.Testing.csproj", "{E7FE514A-51D6-44D3-97A6-E0D7643AD252}"
