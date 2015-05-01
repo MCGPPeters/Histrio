@@ -7,7 +7,6 @@ using FluentAssertions;
 using Histrio.Net.Http;
 using Histrio.Testing;
 using Microsoft.Owin.Builder;
-using NSubstitute;
 using Xunit;
 using AppFunc = System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>;
 
@@ -21,7 +20,7 @@ namespace Histrio.Tests.Http
         private readonly TaskCompletionSource<T> _promiseOfTheActualValue =
             new TaskCompletionSource<T>();
 
-        private readonly Uri _universalActorLocationOfRemoteActor = new Uri("http://remotehost");
+        private readonly Uri endpointAddress = new Uri("http://remotehost");
         private Address _remoteActor;
 
         protected When_sending_a_message_to_a_remote_actor_that_is_accessible_via_http(T message)
@@ -29,23 +28,23 @@ namespace Histrio.Tests.Http
             _message = message;
             Given(() =>
             {
-                The<IActorNamingService>()
-                    .ResolveActorLocation(Arg.Any<Address>())
-                    .Returns(_universalActorLocationOfRemoteActor);
-
                 var inMemoryNamingService = new InMemoryActorNamingService();
+                SetThe<IActorNamingService>().To(inMemoryNamingService);
+
                 var remoteTheater = new Theater(inMemoryNamingService);
-                _remoteActor =
-                    remoteTheater.CreateActor(new AssertionBehavior<T>(_promiseOfTheActualValue, 1));
+                var remoteAppBuilder = new AppBuilder();
+                remoteTheater.AddHttpEndPoint(endpointAddress, remoteAppBuilder);
+                
+                var localAppBuilder = new AppBuilder();
+                Subject.AddHttpEndPoint(endpointAddress, localAppBuilder);
 
-                var appFunc = BuildHistrioMiddleware(remoteTheater);
-                var remoteHttpClient = BuildHttpClient(appFunc);
-
-                var localAppFunc = BuildHistrioMiddleware(Subject);
-                var localHttpClient = BuildHttpClient(localAppFunc);
+                var localHttpClient = BuildHttpClient(localAppBuilder.Build());
+                var remoteHttpClient = BuildHttpClient(remoteAppBuilder.Build());
 
                 Subject.PermitMessageDispatchOverHttp(remoteHttpClient);
                 remoteTheater.PermitMessageDispatchOverHttp(localHttpClient);
+
+                _remoteActor = remoteTheater.CreateActor(new AssertionBehavior<T>(_promiseOfTheActualValue, 1));
             });
 
             When(() => { Subject.Dispatch(message, _remoteActor); });
@@ -57,18 +56,6 @@ namespace Histrio.Tests.Http
             var actualMessage = await _promiseOfTheActualValue.Task;
 
             actualMessage.ShouldBeEquivalentTo(_message);
-        }
-
-        private static AppFunc BuildHistrioMiddleware(Theater theater)
-        {
-            var appBuilder = new AppBuilder();
-            var histrioSettings = new TheaterSettings
-            {
-                Theater = theater
-            };
-            appBuilder.UseTheater(histrioSettings);
-            var appFunc = appBuilder.Build();
-            return appFunc;
         }
 
         private static HttpClient BuildHttpClient(AppFunc appFunc)

@@ -1,4 +1,6 @@
-﻿namespace Histrio.Net.Http
+﻿using System;
+
+namespace Histrio.Net.Http
 {
     /// <summary>
     ///     Settings for hosting theater middleware
@@ -12,5 +14,13 @@
         ///     The theater.
         /// </value>
         public Theater Theater { get; set; }
+
+        /// <summary>
+        /// Gets or sets the endpoint address.
+        /// </summary>
+        /// <value>
+        /// The endpoint address.
+        /// </value>
+        public Uri EndpointAddress { get; set; }
     }
 }

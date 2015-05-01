@@ -23,13 +23,21 @@ namespace Histrio
         }
 
         /// <summary>
-        ///     Registers the specified address.
+        ///     Registers the specified address at the specified location
         /// </summary>
         /// <param name="address">The address.</param>
         /// <param name="universalActorLocation">The location of the Actor</param>
         public void Register(Address address, Uri universalActorLocation)
         {
-            _addresses.Add(address, universalActorLocation);
+            if (TheAddressIsNotRegistered(address))
+            {
+                _addresses.Add(address, universalActorLocation);
+            }
+        }
+
+        private bool TheAddressIsNotRegistered(Address address)
+        {
+            return !_addresses.ContainsKey(address);
         }
     }
 }

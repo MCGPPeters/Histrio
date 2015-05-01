@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
+using Owin;
 
 namespace Histrio.Net.Http
 {
@@ -15,6 +17,23 @@ namespace Histrio.Net.Http
         public static void PermitMessageDispatchOverHttp(this Theater theater, HttpClient httpClient)
         {
             theater.AddDispatcher(new HttpDispatcher(httpClient));
+        }
+
+        /// <summary>
+        /// Adds the HTTP end point.
+        /// </summary>
+        /// <param name="theater">The theater.</param>
+        /// <param name="endpointAddress">The endpoint address.</param>
+        /// <param name="appBuilder">The application builder.</param>
+        public static void AddHttpEndPoint(this Theater theater, Uri endpointAddress, IAppBuilder appBuilder)
+        {
+            var histrioSettings = new TheaterSettings
+            {
+                Theater = theater,
+                EndpointAddress = endpointAddress
+            };
+            theater.AddEndpoint(endpointAddress);
+            appBuilder.UseTheater(histrioSettings);
         }
     }
 }

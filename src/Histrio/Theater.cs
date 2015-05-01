@@ -14,6 +14,17 @@ namespace Histrio
         private readonly IActorNamingService _actorNamingService;
         private readonly Dictionary<Address, MailBox> _localAddresses = new Dictionary<Address, MailBox>();
         private readonly List<IDispatcher> _remoteMessageDispatchers = new List<IDispatcher>();
+        private readonly List<Uri> _endpointAddresses = new List<Uri>();
+
+        /// <summary>
+        /// Adds the endpoint.
+        /// </summary>
+        /// <param name="endpointAddress">The endpoint address.</param>
+        public void AddEndpoint(Uri endpointAddress)
+        {
+            EndpointAddresses.Add(endpointAddress);
+        }
+
 
 
         /// <summary>
@@ -36,6 +47,21 @@ namespace Histrio
         }
 
         private string Name { get; set; }
+
+        /// <summary>
+        /// Gets the endpoint addresses that can be used to communicate to this theater remotely
+        /// </summary>
+        /// <value>
+        /// The endpoint addresses.
+        /// </value>
+        public List<Uri> EndpointAddresses
+        {
+            get
+            {
+                return _endpointAddresses;
+            }
+        }
+
 
         /// <summary>
         ///     Creates the actor.
@@ -63,6 +89,11 @@ namespace Histrio
             var mailBox = new MailBox(new BlockingCollection<IMessage>());
             var address = Actor.Create(behavior, actorName, mailBox, this);
             _localAddresses.Add(address, mailBox);
+            foreach (Uri endpointAddress in EndpointAddresses)
+            {
+                _actorNamingService.Register(address, endpointAddress);
+            }
+           
             return address;
         }
 

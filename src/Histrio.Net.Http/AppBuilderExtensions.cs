@@ -16,6 +16,7 @@ namespace Histrio.Net.Http
         public static IAppBuilder UseTheater(this IAppBuilder appBuilder, TheaterSettings theaterSettings)
         {
             appBuilder.Use(new TheaterMiddleware(theaterSettings).MidFunc);
+            theaterSettings.Theater.AddEndpoint(theaterSettings.EndpointAddress);
             return appBuilder;
         }
     }
