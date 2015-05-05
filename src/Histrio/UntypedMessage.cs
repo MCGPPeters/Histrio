@@ -10,13 +10,13 @@ namespace Histrio
         ///     Initializes a new instance of the <see cref="UntypedMessage" /> class.
         /// </summary>
         /// <param name="assemblyQualifiedName">Name of the assembly qualified.</param>
-        /// <param name="address">The address.</param>
+        /// <param name="to">The address.</param>
         /// <param name="body">The body.</param>
-        public UntypedMessage(string assemblyQualifiedName, string address, object body)
+        public UntypedMessage(string assemblyQualifiedName, string to, object body)
         {
             AssemblyQualifiedName = assemblyQualifiedName;
             Body = body;
-            Address = address;
+            To = to;
         }
 
         /// <summary>
@@ -41,6 +41,6 @@ namespace Histrio
         /// <value>
         ///     The address.
         /// </value>
-        public string Address { get; private set; }
+        public string To { get; private set; }
     }
 }

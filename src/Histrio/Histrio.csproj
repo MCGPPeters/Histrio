@@ -37,9 +37,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NuGet.Extensions">
-      <HintPath>..\packages\NuGet.Extensions.1.2.71.14\lib\net40\NuGet.Extensions.dll</HintPath>
-    </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
@@ -47,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Actor.cs" />
     <Compile Include="Address.cs" />
+    <Compile Include="App_Packages\LibLog.4.2\LibLog.cs" />
     <Compile Include="BehaviorBase.cs" />
     <Compile Include="Get.cs" />
     <Compile Include="MailBox.cs" />
@@ -68,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Histrio.nuspec" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

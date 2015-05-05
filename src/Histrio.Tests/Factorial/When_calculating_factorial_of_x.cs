@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Chill;
 using FluentAssertions;
 using Histrio.Testing;
+using Serilog;
+using Serilog.Events;
 using Xunit;
 
 namespace Histrio.Tests.Factorial

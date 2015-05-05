@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppBuilderExtensions.cs" />
+    <Compile Include="App_Packages\LibLog.4.2\LibLog.cs" />
     <Compile Include="Controlers\TheaterController.cs" />
     <Compile Include="Dispatcher\SingleHttpControllerTypeResolver.cs" />
     <Compile Include="Dispatcher\TheaterControllerActivator.cs" />

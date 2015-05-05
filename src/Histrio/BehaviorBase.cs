@@ -1,4 +1,5 @@
 using System;
+using Histrio.Logging;
 
 namespace Histrio
 {
@@ -7,6 +8,8 @@ namespace Histrio
     /// </summary>
     public abstract class BehaviorBase
     {
+        private static readonly ILog Logger = LogProvider.For<BehaviorBase>();
+
         /// <summary>
         ///     Gets or sets the actor the behavior is injected to. Use this reference to create new Actors,
         ///     send messages to other Actors and replace this Actor with a new one
@@ -30,6 +33,11 @@ namespace Histrio
         /// </exception>
         public virtual void Accept<T>(Message<T> message)
         {
+            Logger.DebugFormat("A message of type '{0}' arrived at behavior of type '{1}' at address '{2}'",
+                typeof(T).Name, GetType().Name, Actor.Address);
+
+            Logger.TraceFormat("Message contents : {@message}", message.Body);
+
             var handler = this as IHandle<T>;
             if (handler != null)
             {
@@ -37,7 +45,13 @@ namespace Histrio
             }
             else
             {
-                throw new InvalidOperationException();
+                var exceptionMessage = "A message of type {0} cannot be handled by this behavior since it does not implement IHandle<{1}>";
+                var messageType = typeof(T);
+                var invalidOperationException = new InvalidOperationException(string.Format(exceptionMessage, messageType.FullName, messageType.Name));
+                
+                Logger.ErrorException(exceptionMessage, invalidOperationException);
+
+                throw invalidOperationException;
             }
         }
     }

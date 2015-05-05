@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using Histrio.Logging;
 
 namespace Histrio
 {
@@ -15,6 +16,8 @@ namespace Histrio
         private readonly Dictionary<Address, MailBox> _localAddresses = new Dictionary<Address, MailBox>();
         private readonly List<IDispatcher> _remoteMessageDispatchers = new List<IDispatcher>();
         private readonly List<Uri> _endpointAddresses = new List<Uri>();
+
+        private static readonly ILog Logger = LogProvider.For<Theater>();
 
         /// <summary>
         /// Adds the endpoint.
@@ -70,11 +73,7 @@ namespace Histrio
         /// <returns></returns>
         public Address CreateActor(BehaviorBase behavior)
         {
-#if(DEBUG)
-            var universalActorName = string.Format("uan://{0}/{1}/{2}", Name, behavior.GetType().Name, Guid.NewGuid());
-#else
             var universalActorName = string.Format("uan://{0}/{1}", Name, Guid.NewGuid());
-#endif
             return CreateActor(behavior, universalActorName);
         }
 
@@ -143,6 +142,9 @@ namespace Histrio
             {
                 var buffer = _localAddresses[address];
                 buffer.Add(message);
+
+                Logger.DebugFormat("A message of type '{0}' was added to the mailbox of an actor in this theater at address '{1}'",
+                    typeof(T), message.To);
             }
             else
             {
@@ -151,8 +153,13 @@ namespace Histrio
                 foreach (var dispatcher in capableDispatchers)
                 {
                     dispatcher.Dispatch(message, actorLocation);
+
+                    Logger.DebugFormat("A message of type '{0}' was dispatched to address '{1}' in a theater at location '{2}'",
+                        typeof(T), message.To, actorLocation);
                 }
             }
+
+            Logger.TraceFormat("Message contents : {@message}", message.Body);
         }
 
         private IEnumerable<IDispatcher> SelectDispatchersForCustomerOfMessage(Uri universalActorLocation)

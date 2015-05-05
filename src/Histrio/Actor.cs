@@ -1,9 +1,12 @@
 using System.Threading.Tasks;
+using Histrio.Logging;
 
 namespace Histrio
 {
     internal class Actor : IActor
     {
+        private static readonly ILog Logger = LogProvider.For<Actor>();
+
         public static Address Create(BehaviorBase behavior, string name, MailBox mailBox, Theater theater)
         {
             var address = new Address(name);
@@ -35,16 +38,23 @@ namespace Histrio
         public void Send<T>(Message<T> message)
         {
             Theater.Dispatch(message);
+
+            Logger.DebugFormat("Sent message of type '{0}' from actor with behavior of type '{1}' at address '{2}' to an actor at address '{3}'",
+                typeof(T), _behavior.GetType().Name, Address, message.To);
+
+            Logger.TraceFormat("Sent message contents : {@message}", message.Body);
         }
 
         public void Send<T>(T messageContent, Address to)
         {
-            Theater.Dispatch(messageContent.AsMessage(), to);
+            var message = messageContent.AsMessage();
+            message.To = to;
+            Send(message);
         }
 
         public void Send<T>(T messageContent, string actorName)
         {
-            Theater.Dispatch(messageContent.AsMessage(), new Address(actorName));
+            Send(messageContent.AsMessage(), new Address(actorName));
         }
 
         public void Become(Address address)

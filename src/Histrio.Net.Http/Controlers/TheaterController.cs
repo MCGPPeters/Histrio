@@ -3,12 +3,15 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Web.Http;
+using Histrio.Net.Http.Logging;
 using Newtonsoft.Json;
 
 namespace Histrio.Net.Http.Controlers
 {
     internal class TheaterController : ApiController
     {
+        private static readonly ILog Logger = LogProvider.For<TheaterController>();
+
         private static readonly MethodInfo DispatchMethodInfo = typeof (TheaterController)
             .GetMethod("Dispatch", BindingFlags.Static | BindingFlags.NonPublic);
 
@@ -22,14 +25,25 @@ namespace Histrio.Net.Http.Controlers
         [Route("")]
         public HttpResponseMessage Post([FromBody] UntypedMessage untypedMessage)
         {
+            Logger.DebugFormat("A message of type '{0}' arrived at an endpoint for theater '{1}' via http at the url '{2}'",
+                untypedMessage.AssemblyQualifiedName, untypedMessage.To, Request.RequestUri.ToString());
+            Logger.TraceFormat("Sent message contents : {@message}", untypedMessage);
+
             var conversionType = Type.GetType(untypedMessage.AssemblyQualifiedName);
             var jtoken = untypedMessage.Body;
-            var messageBody = JsonConvert.DeserializeObject(jtoken.ToString(), conversionType);
+            object deserializedMessageBody;
+            try
+            {
+                deserializedMessageBody = JsonConvert.DeserializeObject(jtoken.ToString(), conversionType);
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorException("Unable to deserialize the body of this message : {@message}", ex, untypedMessage);
+                throw;
+            }
+            
             var dispatchMethod = DispatchMethodInfo.MakeGenericMethod(conversionType);
-
-            var universalActorName = untypedMessage.Address;
-
-            dispatchMethod.Invoke(this, new[] {_theater, messageBody, universalActorName});
+            dispatchMethod.Invoke(this, new[] {_theater, deserializedMessageBody, untypedMessage.To});
 
             return new HttpResponseMessage(HttpStatusCode.OK);
         }

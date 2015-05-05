@@ -1,3 +1,5 @@
+using Histrio.Logging;
+
 namespace Histrio
 {
     /// <summary>
@@ -7,6 +9,8 @@ namespace Histrio
     /// <typeparam name="T"></typeparam>
     public class Message<T> : IMessage
     {
+        private static readonly ILog Logger = LogProvider.For<Message<T>>();
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="Message{T}" /> class.
         /// </summary>
@@ -48,6 +52,11 @@ namespace Histrio
         internal void GetHandledBy(IHandle<T> behavior)
         {
             behavior.Accept(Body);
+
+            Logger.DebugFormat("A message of type '{0}' has been accepted by a behavior of type '{1}'",
+                typeof(T), behavior.GetType().Name);
+
+            Logger.TraceFormat("Accepted message contents : {@message}", Body);
         }
     }
 }
