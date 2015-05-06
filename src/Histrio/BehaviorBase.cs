@@ -45,9 +45,11 @@ namespace Histrio
             }
             else
             {
-                var exceptionMessage = "A message of type {0} cannot be handled by this behavior since it does not implement IHandle<{1}>";
+                var exceptionMessageFormat = "A message of type {0} cannot be handled by this behavior since it does not implement IHandle<{1}>";
+
                 var messageType = typeof(T);
-                var invalidOperationException = new InvalidOperationException(string.Format(exceptionMessage, messageType.FullName, messageType.Name));
+                var exceptionMessage = string.Format(exceptionMessageFormat, messageType.FullName, messageType.Name);
+                var invalidOperationException = new InvalidOperationException(exceptionMessage);
                 
                 Logger.ErrorException(exceptionMessage, invalidOperationException);
 
