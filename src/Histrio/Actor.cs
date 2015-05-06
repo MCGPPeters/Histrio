@@ -54,7 +54,7 @@ namespace Histrio
 
         public void Send<T>(T messageContent, string actorName)
         {
-            Send(messageContent.AsMessage(), new Address(actorName));
+            Send(messageContent, new Address(actorName));
         }
 
         public void Become(Address address)
