@@ -10,7 +10,7 @@
         <projectUrl>https://github.com/MCGPPeters/Histrio</projectUrl>
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
         <description>Histrio extensions for location transparant remote communication using http</description>
-        <releaseNotes />
+        <releaseNotes>BREAKING CHANGE : PermitDispatchOverHttp now takes a HttpMessageHandler and a Uri (BaseAddress)</releaseNotes>
         <copyright>Copyright 2015</copyright>
         <tags>Actor System Http</tags>
     </metadata>

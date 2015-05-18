@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using Owin;
 
 namespace Histrio.Net.Http
@@ -13,10 +14,21 @@ namespace Histrio.Net.Http
         ///     Permits the dispatch of messages over HTTP.
         /// </summary>
         /// <param name="theater">The theater.</param>
-        /// <param name="httpClient">The HTTP client.</param>
-        public static void PermitMessageDispatchOverHttp(this Theater theater, HttpClient httpClient)
+        /// <param name="httpMessageHandler"></param>
+        /// <param name="baseAddress"></param>
+        public static void PermitMessageDispatchOverHttp(this Theater theater, HttpMessageHandler httpMessageHandler, Uri baseAddress)
         {
-            theater.AddDispatcher(new HttpDispatcher(httpClient));
+            theater.AddDispatcher(new HttpDispatcher(httpMessageHandler, baseAddress));
+        }
+
+        /// <summary>
+        ///     Permits dispatch over HTTP using th default HttpClientHandler
+        /// </summary>
+        /// <param name="theater"></param>
+        /// <param name="baseAddress"></param>
+        public static void PermitMessageDispatchOverHttp(this Theater theater, Uri baseAddress)
+        {
+            PermitMessageDispatchOverHttp(theater, new HttpClientHandler(), baseAddress);
         }
 
         /// <summary>
