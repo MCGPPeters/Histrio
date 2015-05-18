@@ -17,10 +17,11 @@ namespace Histrio.Net.Http
         /// <summary>
         ///     Initializes a new instance of the <see cref="HttpDispatcher" /> class.
         /// </summary>
-        /// <param name="httpClient">The HTTP client.</param>
-        internal HttpDispatcher(HttpClient httpClient)
+        /// <param name="httpMessageHandler"></param>
+        /// <param name="baseAddress"></param>
+        internal HttpDispatcher(HttpMessageHandler httpMessageHandler, Uri baseAddress)
         {
-            _httpClient = httpClient;
+            _httpClient = new HttpClient(httpMessageHandler) { BaseAddress = baseAddress};
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }

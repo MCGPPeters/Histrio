@@ -20,7 +20,8 @@ namespace Histrio.Tests.Http
         private readonly TaskCompletionSource<T> _promiseOfTheActualValue =
             new TaskCompletionSource<T>();
 
-        private readonly Uri endpointAddress = new Uri("http://remotehost");
+        private readonly Uri _remoteBaseAddress = new Uri("http://remotehost");
+        private readonly Uri _localBaseAddress = new Uri("http://localhost");
         private Address _remoteActor;
 
         protected When_sending_a_message_to_a_remote_actor_that_is_accessible_via_http(T message)
@@ -33,16 +34,16 @@ namespace Histrio.Tests.Http
 
                 var remoteTheater = new Theater(inMemoryNamingService);
                 var remoteAppBuilder = new AppBuilder();
-                remoteTheater.AddHttpEndPoint(endpointAddress, remoteAppBuilder);
+                remoteTheater.AddHttpEndPoint(_remoteBaseAddress, remoteAppBuilder);
                 
                 var localAppBuilder = new AppBuilder();
-                Subject.AddHttpEndPoint(endpointAddress, localAppBuilder);
+                Subject.AddHttpEndPoint(_remoteBaseAddress, localAppBuilder);
 
-                var localHttpClient = BuildHttpClient(localAppBuilder.Build());
-                var remoteHttpClient = BuildHttpClient(remoteAppBuilder.Build());
+                var localHttpMessageHandler = BuildHttpMessageHandler(localAppBuilder.Build());
+                var remoteHttpMessageHandler = BuildHttpMessageHandler(remoteAppBuilder.Build());
 
-                Subject.PermitMessageDispatchOverHttp(remoteHttpClient);
-                remoteTheater.PermitMessageDispatchOverHttp(localHttpClient);
+                Subject.PermitMessageDispatchOverHttp(remoteHttpMessageHandler, _remoteBaseAddress);
+                remoteTheater.PermitMessageDispatchOverHttp(localHttpMessageHandler, _localBaseAddress);
 
                 _remoteActor = remoteTheater.CreateActor(new AssertionBehavior<T>(_promiseOfTheActualValue, 1));
             });
@@ -58,7 +59,7 @@ namespace Histrio.Tests.Http
             actualMessage.ShouldBeEquivalentTo(_message);
         }
 
-        private static HttpClient BuildHttpClient(AppFunc appFunc)
+        private static HttpMessageHandler BuildHttpMessageHandler(AppFunc appFunc)
         {
             HttpMessageHandler handler = new OwinHttpMessageHandler(appFunc)
             {
@@ -66,8 +67,7 @@ namespace Histrio.Tests.Http
                 CookieContainer = new CookieContainer(),
                 UseCookies = true
             };
-            var httpClient = new HttpClient(handler);
-            return httpClient;
+            return handler;
         }
     }
 
