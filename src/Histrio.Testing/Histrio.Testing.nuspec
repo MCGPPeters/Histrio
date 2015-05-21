@@ -13,5 +13,15 @@
         <releaseNotes />
         <copyright>Copyright 2015</copyright>
         <tags>Actor System Testing</tags>
+      <dependencies>
+        <group>
+          <dependency id="Histrio" version="[0.0.1,1.0)"/>
+        </group>
+      </dependencies>
     </metadata>
+    <files>
+      <file src="bin\Release\Histrio.Testing.dll" target="lib\net45" />
+      <file src="bin\Release\Histrio.Testing.pdb" target="lib\net45" />
+      <file src="bin\Release\Histrio.Testing.xml" target="lib\net45" />
+    </files>
 </package>
