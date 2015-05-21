@@ -6,12 +6,13 @@ properties {
     $mergedDir              = "$buildOutputDir\merged"
     $reportsDir             = "$buildOutputDir\reports"
     $srcDir                 = "$rootDir\src"
+	$toolsDir               = "$rootDir\tools"
     $packagesDir            = "$srcDir\packages"
     $solutionFilePath       = "$srcDir\$projectName.sln"
     $assemblyInfoFilePath   = "$srcDir\SharedAssemblyInfo.cs"
+	$nugetPath              = "$toolsDir\nuget.exe"
     $ilmergePath            = FindTool "ILRepack.*\tools\ILRepack.exe" "$packagesDir"
     $xunitRunner            = FindTool "xunit.runner.console.*\tools\xunit.console.exe" "$packagesDir"
-    $nugetPath              = FindTool "NuGet.CommandLine.*\tools\nuget.exe" "$packagesDir"
     $nugetSource            = "http://www.nuget.org/api/v2"
     $script:errorOccured    = $false
 }
@@ -50,7 +51,7 @@ task Compile {
     exec { msbuild /nologo /verbosity:quiet $solutionFilePath /p:Configuration=Release /p:platform="Any CPU"}
 }
 
-task RunTests -depends Compile {
+task RunTests -depends ILMerge {
     New-Item $reportsDir\xUnit\$project -Type Directory -ErrorAction SilentlyContinue
     .$xunitRunner "$srcDir\Histrio.Tests\bin\Release\Histrio.Tests.dll" -html "$reportsDir\xUnit\$project\index.html"
 }
