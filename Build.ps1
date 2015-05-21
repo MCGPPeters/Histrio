@@ -4,18 +4,7 @@
     [string]$nugetSource = "http://www.nuget.org/api/v2"
     )
 
-function FindTool {
-    param(
-        [string]$name,
-        [string]$packageDir
-    )
-
-    $result = Get-ChildItem "$packageDir\$name" | Select-Object -First 1
-
-    return $result.FullName
-}
-
-	$rootDir                = Resolve-Path ..\..\
+	$rootDir                = Resolve-Path .\
 	$srcDir                 = "$rootDir\src"
 	$toolsDir               = "$rootDir\tools"
 	$packagesDir            = "$srcDir\packages"

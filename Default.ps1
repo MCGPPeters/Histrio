@@ -1,7 +1,7 @@
 properties {
     $projectName            = "Histrio"
     $buildNumber            = 0
-    $rootDir                = Resolve-Path ..\..\
+    $rootDir                = Resolve-Path .\
     $buildOutputDir         = "$rootDir\build"
     $mergedDir              = "$buildOutputDir\merged"
     $reportsDir             = "$buildOutputDir\reports"
