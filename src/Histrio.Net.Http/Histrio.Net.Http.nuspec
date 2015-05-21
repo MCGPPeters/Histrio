@@ -13,5 +13,16 @@
         <releaseNotes>BREAKING CHANGE : PermitDispatchOverHttp now takes a HttpMessageHandler and a Uri (BaseAddress)</releaseNotes>
         <copyright>Copyright 2015</copyright>
         <tags>Actor System Http</tags>
+      <dependencies>
+        <group>
+          <dependency id="Histrio" version="[0.0.1,1.0)"/>
+          <dependency id="Owin" version="1.0"/>
+        </group>
+      </dependencies>
     </metadata>
+    <files>
+      <file src="..\..\Build\Merged\Histrio.Net.Http.dll" target="lib\net45" />
+      <file src="bin\Release\Histrio.Net.Http.pdb" target="lib\net45" />
+      <file src="bin\Release\Histrio.Net.Http.xml" target="lib\net45" />
+    </files>
 </package>
