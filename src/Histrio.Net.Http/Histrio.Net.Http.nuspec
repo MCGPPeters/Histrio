@@ -15,7 +15,7 @@
         <tags>Actor System Http</tags>
       <dependencies>
         <group>
-          <dependency id="Histrio" version="[0.0.1,1.0)"/>
+          <dependency id="Histrio" version="[0.3.0,1.0)"/>
           <dependency id="Owin" version="1.0"/>
         </group>
       </dependencies>

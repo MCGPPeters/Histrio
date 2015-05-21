@@ -18,7 +18,7 @@ if(Test-Path Env:\APPVEYOR_BUILD_NUMBER){
 
 "Build number $buildNumber"
 
-..\..\tools\Nuget.exe restore ..\..\src\Histrio.sln
+.\tools\Nuget.exe restore .\src\Histrio.sln
 
 Import-Module .\src\packages\psake.4.4.2\tools\psake.psm1
 

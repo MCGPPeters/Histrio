@@ -1,6 +1,6 @@
 version: 0.3.0.{build}
 build_script:
-  - ps: .\src\Histrio.Build\build.ps1
+  - ps: .\build.ps1
 artifacts:
   - path: build/*.nupkg
 deploy:

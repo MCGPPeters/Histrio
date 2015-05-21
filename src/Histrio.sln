@@ -16,6 +16,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{345E9D73-0F85-448F-9912-A883074242D3}"
 	ProjectSection(SolutionItems) = preProject
 		..\appveyor.yml = ..\appveyor.yml
+		..\Build.ps1 = ..\Build.ps1
+		..\Default.ps1 = ..\Default.ps1
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
 	EndProjectSection
 EndProject
@@ -45,10 +47,6 @@ Global
 		{E7FE514A-51D6-44D3-97A6-E0D7643AD252}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7FE514A-51D6-44D3-97A6-E0D7643AD252}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7FE514A-51D6-44D3-97A6-E0D7643AD252}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

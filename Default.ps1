@@ -72,7 +72,7 @@ task ILMerge -depends Compile {
 task CreateNuGetPackages -depends ILMerge {
     $versionString = Get-Version $assemblyInfoFilePath
     $version = New-Object Version $versionString
-    $packageVersion = $version.Major.ToString() + "." + $version.Minor.ToString() + "." + $version.Build.ToString() + "-build" + $buildNumber.ToString().PadLeft(5,'0')
+    $packageVersion = $version.Major.ToString() + "." + $version.Minor.ToString() + "." + $version.Build.ToString() + "." + $buildNumber.ToString()
     $packageVersion
     gci $srcDir -Recurse -Include *.nuspec | % {
         exec { .$nugetPath pack $_ -o $buildOutputDir -version $packageVersion }
