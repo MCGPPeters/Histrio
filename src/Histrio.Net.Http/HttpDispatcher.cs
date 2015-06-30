@@ -1,8 +1,10 @@
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using Histrio.Net.Http.Logging;
+using Newtonsoft.Json;
 
 namespace Histrio.Net.Http
 {
@@ -47,7 +49,15 @@ namespace Histrio.Net.Http
             var untypedMessage = new UntypedMessage(message.Body.GetType().AssemblyQualifiedName,
                 message.To.ActorName, message.Body);
 
-            var response = await _httpClient.PostAsJsonAsync(actorLocation, untypedMessage).ConfigureAwait(false);
+            var jsonMediaTypeFormatter = new JsonMediaTypeFormatter
+            {
+                SerializerSettings = new JsonSerializerSettings()
+                {
+                    TypeNameHandling = TypeNameHandling.Auto
+                }
+            };
+
+            var response = await _httpClient.PostAsync(actorLocation, untypedMessage, jsonMediaTypeFormatter).ConfigureAwait(false);
 
             Logger.DebugFormat("Sent message of type '{0}' via http to address '{1}' hosted in a theater at location '{2}'",
                 typeof(T), message.To, actorLocation);

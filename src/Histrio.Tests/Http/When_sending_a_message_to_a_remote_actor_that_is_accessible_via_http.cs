@@ -56,7 +56,7 @@ namespace Histrio.Tests.Http
         {
             var actualMessage = await _promiseOfTheActualValue.Task;
 
-            actualMessage.ShouldBeEquivalentTo(_message);
+            actualMessage.ShouldBeEquivalentTo(_message, options => options.IncludingAllRuntimeProperties());
         }
 
         private static HttpMessageHandler BuildHttpMessageHandler(AppFunc appFunc)
@@ -85,6 +85,14 @@ namespace Histrio.Tests.Http
     {
         public When_sending_a_nested_message_to_a_remote_actor_that_is_accessible_via_http()
             : base(new Nested<SomethingHappened>(new SomethingHappened("Hell froze over ...")))
+        {
+        }
+    }
+    public class When_sending_a_nested_untyped_message_to_a_remote_actor_that_is_accessible_via_http :
+        When_sending_a_message_to_a_remote_actor_that_is_accessible_via_http<NestedUntyped>
+    {
+        public When_sending_a_nested_untyped_message_to_a_remote_actor_that_is_accessible_via_http()
+            : base(new NestedUntyped(new SomethingHappened("Hell froze over ...")))
         {
         }
     }
@@ -144,6 +152,16 @@ namespace Histrio.Tests.Http
         }
 
         public T Inner { get; private set; }
+    }
+
+    public class NestedUntyped
+    {
+        public NestedUntyped(object inner)
+        {
+            Inner = inner;
+        }
+
+        public object Inner { get; private set; }
     }
 
     public class WithAddress
