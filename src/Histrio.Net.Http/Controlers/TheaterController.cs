@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Web.Http;
 using Histrio.Net.Http.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Histrio.Net.Http.Controlers
 {
@@ -30,11 +31,14 @@ namespace Histrio.Net.Http.Controlers
             Logger.TraceFormat("Sent message contents : {@message}", untypedMessage);
 
             var conversionType = Type.GetType(untypedMessage.AssemblyQualifiedName);
-            var jtoken = untypedMessage.Body;
+            JToken jtoken = (JToken) untypedMessage.Body;
             object deserializedMessageBody;
             try
             {
-                deserializedMessageBody = JsonConvert.DeserializeObject(jtoken.ToString(), conversionType);
+                deserializedMessageBody = JsonConvert.DeserializeObject(jtoken.ToString(), conversionType, new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Auto
+                });
             }
             catch (Exception ex)
             {
