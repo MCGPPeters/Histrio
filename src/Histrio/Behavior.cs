@@ -6,9 +6,9 @@ namespace Histrio
     /// <summary>
     ///     A base class for implementing behaviors that get injected into Actors
     /// </summary>
-    public abstract class BehaviorBase
+    public abstract class Behavior
     {
-        private static readonly ILog Logger = LogProvider.For<BehaviorBase>();
+        private static readonly ILog Logger = LogProvider.For<Behavior>();
 
         /// <summary>
         ///     Gets or sets the actor the behavior is injected to. Use this reference to create new Actors,
