@@ -1,6 +1,6 @@
 namespace Histrio.Tests.Factorial
 {
-    public class FactorialContinuationBehavior : BehaviorBase, IHandle<CalculateFactorialFor>,
+    public class FactorialContinuationBehavior : Behavior, IHandle<CalculateFactorialFor>,
         IHandle<CalculatedFactorial>
     {
         private readonly Address _customer;

@@ -71,7 +71,7 @@ namespace Histrio
         /// </summary>
         /// <param name="behavior">The behavior.</param>
         /// <returns></returns>
-        public Address CreateActor(BehaviorBase behavior)
+        public Address CreateActor(Behavior behavior)
         {
             var universalActorName = string.Format("uan://{0}/{1}", Name, Guid.NewGuid());
             return CreateActor(behavior, universalActorName);
@@ -83,7 +83,7 @@ namespace Histrio
         /// <param name="behavior">The behavior.</param>
         /// <param name="actorName">Name of the actor.</param>
         /// <returns></returns>
-        public Address CreateActor(BehaviorBase behavior, string actorName)
+        public Address CreateActor(Behavior behavior, string actorName)
         {
             var mailBox = new MailBox(new BlockingCollection<IMessage>());
             var address = Actor.Create(behavior, actorName, mailBox, this);

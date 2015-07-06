@@ -1,6 +1,6 @@
 namespace Histrio.Tests.Factorial
 {
-    public class FactorialCalculationBehavior : BehaviorBase, IHandle<CalculateFactorialFor>
+    public class FactorialCalculationBehavior : Behavior, IHandle<CalculateFactorialFor>
     {
         public void Accept(CalculateFactorialFor message)
         {

@@ -3,7 +3,7 @@ namespace Histrio
     /// <summary>
     ///     A behavior that simply forwards message to an address of another actor
     /// </summary>
-    public class SendBehavior : BehaviorBase
+    public class SendBehavior : Behavior
     {
         private readonly Address _address;
 
@@ -17,7 +17,7 @@ namespace Histrio
         }
 
         /// <summary>
-        ///     Overrides the behavior of the BehaviorBase, so that it doesn't check if it can handle the message.
+        ///     Overrides the behavior of the Behavior, so that it doesn't check if it can handle the message.
         ///     It doesn't need to know the type of the message because it only forwards it
         /// </summary>
         /// <typeparam name="T">The type of content the message enbodies</typeparam>

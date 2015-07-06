@@ -40,7 +40,7 @@ namespace Histrio
         ///     Gets the handled by.
         /// </summary>
         /// <param name="behavior">The behavior.</param>
-        public void GetHandledBy(BehaviorBase behavior)
+        public void GetHandledBy(Behavior behavior)
         {
             behavior.Accept(this);
         }

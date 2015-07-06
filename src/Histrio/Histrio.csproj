@@ -46,7 +46,7 @@
     <Compile Include="Actor.cs" />
     <Compile Include="Address.cs" />
     <Compile Include="App_Packages\LibLog.4.2\LibLog.cs" />
-    <Compile Include="BehaviorBase.cs" />
+    <Compile Include="Behavior.cs" />
     <Compile Include="Get.cs" />
     <Compile Include="MailBox.cs" />
     <Compile Include="IActor.cs" />

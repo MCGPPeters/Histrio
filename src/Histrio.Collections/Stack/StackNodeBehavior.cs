@@ -4,7 +4,7 @@ namespace Histrio.Collections.Stack
     ///     A behavior implementing a strongly type stack
     /// </summary>
     /// <typeparam name="T">The type of the value stored into a stack node</typeparam>
-    public class StackNodeBehavior<T> : BehaviorBase, IHandle<Push<T>>, IHandle<Pop>
+    public class StackNodeBehavior<T> : Behavior, IHandle<Push<T>>, IHandle<Pop>
     {
         private readonly T _content;
         private readonly Address _link;

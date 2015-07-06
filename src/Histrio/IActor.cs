@@ -24,7 +24,7 @@ namespace Histrio
         /// </summary>
         /// <param name="behavior">The behavior.</param>
         /// <returns></returns>
-        Address Create(BehaviorBase behavior);
+        Address Create(Behavior behavior);
 
         /// <summary>
         ///     Sends the specified message to the Address specified in the To property of the
