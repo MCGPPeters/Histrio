@@ -3,12 +3,20 @@ build_script:
 artifacts:
   - path: build/*.nupkg
   - path: build/ilmerge_log.txt
+    name: ilmergelog
 deploy:
 - provider: NuGet
   api_key:
     secure: VKjdo0FDOKVVrhJ4zAZ6FTaRcN34YdVbaSloJP+SkJzvhq8BEERYdE/wRt1JV2I6
   on:
     branch: master
+- provider: AzureBlob
+    storage_account_name: histrio
+    storage_access_key:
+      secure: eST+0/816dGBxwuIPMKzC07as/lCh9sDkmd8YxQQ1UxoDLvcl+AT+DyfktkQVYukl9lnIfbaymuD0SeDQ2Bu6A==
+    container: builds
+    folder: $(APPVEYOR_BUILD_VERSION)\logs
+    artifact: ilmergelog
 notifications:
 - provider: Webhook
   url: https://webhooks.gitter.im/e/60d8a5088f52066c232f
