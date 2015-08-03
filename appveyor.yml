@@ -5,11 +5,6 @@ artifacts:
   - path: build/ilmerge_log.txt
     name: ilmergelog
 deploy:
-- provider: NuGet
-  api_key:
-    secure: VKjdo0FDOKVVrhJ4zAZ6FTaRcN34YdVbaSloJP+SkJzvhq8BEERYdE/wRt1JV2I6
-  on:
-    branch: master
 - provider: AzureBlob
   storage_account_name: histrio
   storage_access_key:
@@ -17,6 +12,11 @@ deploy:
   container: builds
   folder: $(APPVEYOR_BUILD_VERSION)\logs
   artifact: ilmergelog
+- provider: NuGet
+  api_key:
+    secure: VKjdo0FDOKVVrhJ4zAZ6FTaRcN34YdVbaSloJP+SkJzvhq8BEERYdE/wRt1JV2I6
+  on:
+    branch: master
 notifications:
 - provider: Webhook
   url: https://webhooks.gitter.im/e/60d8a5088f52066c232f
