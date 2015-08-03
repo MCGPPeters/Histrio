@@ -1,27 +1,23 @@
 ﻿param(
-    [int]$buildNumber = 0,
-    [string]$task = "default",
-    [string]$nugetSource = "http://www.nuget.org/api/v2"
-    )
+    $task = "default",
+    $gitVersionUserName = "",
+    $gitVersionPassword = ""
+)
 
-	$rootDir                = Resolve-Path .\
-	$srcDir                 = "$rootDir\src"
-	$toolsDir               = "$rootDir\tools"
-	$packagesDir            = "$srcDir\packages"
-	$solutionFilePath       = "$srcDir\$projectName.sln"
-	$nugetPath              = "$toolsDir\nuget.exe"
+$base_directory = Resolve-Path .
+$src_directory = "$base_directory\src"
 
-if(Test-Path Env:\APPVEYOR_BUILD_NUMBER){
-    $buildNumber = [int]$Env:APPVEYOR_BUILD_NUMBER
-    Write-Output "Using APPVEYOR_BUILD_NUMBER"
-}
+get-module psake | remove-module
 
-"Build number $buildNumber"
+& "$base_directory\src\.nuget\NuGet.exe" install "$base_directory\src\.nuget\packages.config" -OutputDirectory "$base_directory\src\packages"
 
-.\tools\Nuget.exe restore .\src\Histrio.sln
+Import-Module (Get-ChildItem "$base_directory\src\packages\psake.*\tools\psake.psm1" | Select-Object -First 1)
 
-Import-Module .\src\packages\psake.4.4.2\tools\psake.psm1
+Import-Module $base_directory\IO.psm1
+Import-Module $base_directory\teamcity.psm1
 
-Invoke-Psake .\default.ps1 $task -framework "4.5.1x64" -properties @{ buildNumber=$buildNumber; nugetSource=$nugetSource }
+Invoke-Psake $base_directory\default.ps1 $task -framework "4.0x64" -properties @{ gitVersionUserName=$gitVersionUserName; gitVersionPassword=$gitVersionPassword }
 
+Remove-Module teamcity
 Remove-Module psake
+Remove-Module IO

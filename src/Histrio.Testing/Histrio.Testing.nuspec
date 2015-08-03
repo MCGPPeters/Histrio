@@ -20,8 +20,8 @@
       </dependencies>
     </metadata>
     <files>
-      <file src="bin\Release\Histrio.Testing.dll" target="lib\net45" />
-      <file src="bin\Release\Histrio.Testing.pdb" target="lib\net45" />
-      <file src="bin\Release\Histrio.Testing.xml" target="lib\net45" />
+      <file src="..\..\build\Histrio.Testing.dll" target="lib\net45" />
+      <file src="..\..\build\Histrio.Testing.pdb" target="lib\net45" />
+      <file src="..\..\build\Histrio.Testing.xml" target="lib\net45" />
     </files>
 </package>

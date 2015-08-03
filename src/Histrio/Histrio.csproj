@@ -43,6 +43,9 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Actor.cs" />
     <Compile Include="Address.cs" />
     <Compile Include="App_Packages\LibLog.4.2\LibLog.cs" />

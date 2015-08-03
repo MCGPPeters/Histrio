@@ -15,8 +15,8 @@
         <tags>Actor System</tags>
     </metadata>
   <files>
-    <file src="bin\Release\Histrio.dll" target="lib\net45" />
-    <file src="bin\Release\Histrio.pdb" target="lib\net45" />
-    <file src="bin\Release\Histrio.xml" target="lib\net45" />
+    <file src="..\..\build\Histrio.dll" target="lib\net45" />
+    <file src="..\..\build\Histrio.pdb" target="lib\net45" />
+    <file src="..\..\build\Histrio.xml" target="lib\net45" />
   </files>
 </package>

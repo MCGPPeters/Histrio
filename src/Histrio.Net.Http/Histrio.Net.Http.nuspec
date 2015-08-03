@@ -21,8 +21,8 @@
       </dependencies>
     </metadata>
     <files>
-      <file src="..\..\Build\Merged\Histrio.Net.Http.dll" target="lib\net45" />
-      <file src="bin\Release\Histrio.Net.Http.pdb" target="lib\net45" />
-      <file src="bin\Release\Histrio.Net.Http.xml" target="lib\net45" />
+      <file src="..\..\build\merged\Histrio.Net.Http.dll" target="lib\net45" />
+      <file src="..\..\build\Histrio.Net.Http.pdb" target="lib\net45" />
+      <file src="..\..\build\Histrio.Net.Http.xml" target="lib\net45" />
     </files>
 </package>

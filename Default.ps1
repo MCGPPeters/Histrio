@@ -1,133 +1,240 @@
-properties {
-    $projectName            = "Histrio"
-    $buildNumber            = 0
-    $rootDir                = Resolve-Path .\
-    $buildOutputDir         = "$rootDir\build"
-    $mergedDir              = "$buildOutputDir\merged"
-    $reportsDir             = "$buildOutputDir\reports"
-    $srcDir                 = "$rootDir\src"
-	$toolsDir               = "$rootDir\tools"
-    $packagesDir            = "$srcDir\packages"
-    $solutionFilePath       = "$srcDir\$projectName.sln"
-    $assemblyInfoFilePath   = "$srcDir\SharedAssemblyInfo.cs"
-	$nugetPath              = "$toolsDir\nuget.exe"
-    $ilmergePath            = FindTool "ILRepack.*\tools\ILRepack.exe" "$packagesDir"
-    $xunitRunner            = FindTool "xunit.runner.console.*\tools\xunit.console.exe" "$packagesDir"
-    $nugetSource            = "http://www.nuget.org/api/v2"
-    $script:errorOccured    = $false
+﻿properties {
+    $solution           = "Histrio.sln"
+    $target_config      = "Release"
+
+    $base_directory     = Resolve-Path .
+    $src_directory      = "$base_directory\src"
+    $output_directory   = "$base_directory\build"
+    $merged_directory   = "$output_directory\merged"
+    $package_directory  = "$src_directory\packages"
+    $nuget_directory    = "$src_directory\.nuget"
+
+    $sln_path           = "$src_directory\$solution"
+    $assemblyInfo_path  = "$src_directory\SharedAssemblyInfo.cs"
+    $nuget_path         = "$nuget_directory\nuget.exe"
+    $nugetConfig_path   = "$nuget_directory\nuget.config"
+    
+    $ilmerge_path       = FindTool("ILRepack.*\tools\ILRepack.exe")
+    $gitversion_path    = FindTool("GitVersion.CommandLine.*\tools\GitVersion.exe")
+	
+    $code_coverage      = $true
+    $framework_version  = "v4.5"
+    $build_number       = "$env:BUILD_NUMBER"
+
+    $gitVersionUserName = ""
+    $gitVersionPassword = ""
 }
 
 TaskSetup {
     $taskName = $($psake.context.Peek().currentTaskName)
+    TeamCity-OpenBlock $taskName
+    TeamCity-ReportBuildProgress "Running task $taskName"
 }
 
 TaskTearDown {
     $taskName = $($psake.context.Peek().currentTaskName)
+    TeamCity-CloseBlock $taskName
 }
 
-task default -depends Clean, UpdateVersion, RunTests, CreateNuGetPackages, AssertBuildResult
+task default -depends Test, Package
+
+task Init -depends Clean, VersionAssembly
+
+task Compile -depends CompileClr
+
+task Test -depends Compile, TestClr
 
 task Clean {
-    Remove-Item $buildOutputDir -Force -Recurse -ErrorAction SilentlyContinue
-    exec { msbuild /nologo /verbosity:quiet $solutionFilePath /t:Clean /p:platform="Any CPU"}
+    EnsureDirectory $output_directory
+
+    Clean-Item $output_directory -ea SilentlyContinue
 }
+
+task VersionAssembly {
+    $version = Get-Version
+
+    if ($version) {
+        Write-Output $version
+
+        $assembly_information = "
+			using System.Reflection;
+						
+			[assembly: AssemblyCompany(""Maurice CGP Peters"")]
+			[assembly: AssemblyProduct(""Histrio"")]
+		    [assembly: AssemblyCopyright(""Copyright © Maurice CGP Peters 2015"")]
+		    [assembly: System.Reflection.AssemblyVersion(""$($version.AssemblySemVer)"")]
+		    [assembly: System.Reflection.AssemblyFileVersion(""$($version.AssemblySemVer)"")]
+		    [assembly: System.Reflection.AssemblyInformationalVersion(""$($version.InformationalVersion)"")]
+    ".Trim()
+        Write-Output $assembly_information > $assemblyInfo_path
+    } else {
+        Write-Output "Warning: could not get assembly information."
+
+        Write-Output "" > $assemblyInfo_path
+    }
+}
+
+
 
 task RestoreNuget {
-    "Using nuget source $nugetSource"
-    Get-PackageConfigs |% {
+    Get-SolutionPackages |% {
         "Restoring " + $_
-        &$nugetPath install $_ -o "$srcDir\packages" -configfile $_ -source $nugetSource
+        &$nuget_path install $_ -o $package_directory -configfile $nugetConfig_path
     }
 }
 
-task UpdateVersion {
-    $version = Get-Version $assemblyInfoFilePath
-    $oldVersion = New-Object Version $version
-    $newVersion = New-Object Version ($oldVersion.Major, $oldVersion.Minor, $oldVersion.Build, $buildNumber)
-    Update-Version $newVersion $assemblyInfoFilePath
+task CompileClr -depends RestoreNuget, Init {
+    exec { msbuild /t:rebuild /nologo /verbosity:q $sln_path /p:"Configuration=$target_config;TargetFrameworkVersion=$framework_version;OutDir=$output_directory"  }
 }
 
-task Compile {
-    exec { msbuild /nologo /verbosity:quiet $solutionFilePath /p:Configuration=Release /p:platform="Any CPU"}
+task TestClr -depends CompileClr {
+    RunTest -test_project "Histrio"
 }
 
-task RunTests -depends ILMerge {
-    New-Item $reportsDir\xUnit\$project -Type Directory -ErrorAction SilentlyContinue
-    .$xunitRunner "$srcDir\Histrio.Tests\bin\Release\Histrio.Tests.dll" -html "$reportsDir\xUnit\$project\index.html"
-}
+Task ILMerge -depends Compile {
+    EnsureDirectory $merged_directory
 
-task ILMerge -depends Compile {
-    New-Item $mergedDir -Type Directory -ErrorAction SilentlyContinue
-
-    $dllDir = "$srcDir\Histrio.Net.Http\bin\Release"
-    $inputDlls = "$dllDir\Histrio.Net.Http.dll"
-    @(  "Microsoft.Owin",
-        "Newtonsoft.Json",
+    $merge = @(
+		"Microsoft.Owin",
+		"Newtonsoft.Json",
         "System.Net.Http.Formatting",
         "System.Web.Http",`
-        "System.Web.Http.Owin") |% { $inputDlls = "$inputDlls $dllDir\$_.dll" }
-    Invoke-Expression "$ilmergePath /targetplatform:v4 /internalize /allowDup /target:library /log /out:$mergedDir\Histrio.Net.Http.dll $inputDlls"
+        "System.Web.Http.Owin"
+    )
+
+    ILMerge -target "Histrio.Net.Http" -folder $output_directory -merge $merge
 }
 
-task CreateNuGetPackages -depends ILMerge {
-    $versionString = Get-Version $assemblyInfoFilePath
-    $version = New-Object Version $versionString
-    $packageVersion = $version.Major.ToString() + "." + $version.Minor.ToString() + "." + $version.Build.ToString() + "." + $buildNumber.ToString()
-    $packageVersion
-    gci $srcDir -Recurse -Include *.nuspec | % {
-        exec { .$nugetPath pack $_ -o $buildOutputDir -version $packageVersion }
+Task TestILMerge -depends ILMerge {
+    exec {
+        @(
+            "Histrio.Net.Http"
+        ) | %{ 
+            $script = {
+                $bytes = [System.IO.File]::ReadAllBytes($args[0])
+                $assembly = [System.Reflection.Assembly]::Load($bytes)
+                
+                $types = $assembly.GetTypes() | %{
+                    $_.FullName
+                }
+
+                $public_types = $assembly.GetExportedTypes() | %{
+                    $_.FullName
+                }
+                
+                $count = $types.Length
+                $public_count = $public_types.Length
+
+                Write-Output "$_"
+                Write-Output "Found $count Types."
+                Write-Output "Found $public_count public Types."
+                Write-Output "Public Types:"
+                Write-Output $public_types 
+            }
+            Start-Job $script -ArgumentList "$merged_directory\$_.dll"
+
+            while (Get-Job -State "Running") {
+                Start-Sleep 1
+            }
+
+            Get-Job | Receive-Job
+        }
     }
 }
 
-task AssertBuildResult {
-    if ($script:errorOccured){
-        Throw ("Error: One of the build tasks failed. Please check the output above")
+task Package -depends ILMerge {
+    $version = Get-Version
+
+    if ($version) {
+
+        gci "$src_directory" -Recurse -Include *.nuspec | % {
+            exec { 
+                & $nuget_path pack $_ -o $output_directory -version $version.NuGetVersionV2 
+            }
+        }
+    } else {
+        Write-Output "Warning: could not get version. No packages will be created."
     }
 }
 
-function Get-PackageConfigs {
-    $packages = gci $srcDir -Recurse "packages.config" -ea SilentlyContinue
-    $customPachage = gci $srcDir -Recurse "packages.*.config" -ea SilentlyContinue
-    $packages + $customPachage  | foreach-object { $_.FullName }
+function EnsureDirectory {
+    param($directory)
+
+    if(!(test-path $directory)) {
+        mkdir $directory
+    }
+}
+
+function Get-SolutionPackages {
+    gci $src_directory -Recurse "packages.config" -ea SilentlyContinue | foreach-object { $_.FullName }
+}
+
+function RunTest {
+    param(
+        [string] $test_project
+    )
+    $testrunner_path = FindTool("xunit.runner.console.*\tools\xunit.console.exe")
+	$dotcover_path   = FindTool("JetBrains.dotCover.CommandLineTools.*\tools\dotcover.exe")
+
+    $arguments = "$output_directory\$test_project.Tests.dll -parallel all"
+
+    $has_dot_cover = Test-Path $dotcover_path
+
+    if ($has_dot_cover -eq $false) {
+        TeamCity-WriteServiceMessage 'message' @{ text="Code coverage skipped. Could not find dotcover at $dotcover_path" }
+    }
+
+    if ($code_coverage -eq $true -and $has_dot_cover -eq $true) {
+        $dotcover_snapshot_path = "$output_directory\$test_project.Tests.Coverage.xml"
+        $dotcover_filter = "+:$test_project;+:$test_project.*;-:$test_project.Tests.*"
+        & $dotcover_path cover /TargetExecutable=$testrunner_path /TargetArguments=$arguments /Output=$dotcover_snapshot_path /ReportType=XML /Filters=$dotcover_filter
+        TeamCity-ImportDotNetCoverageResult -tool "dotcover" -path $dotcover_snapshot_path
+    } else {
+        & $testrunner_path $arguments.Split(' ')
+    }
+}
+
+function Get-Version {
+    TeamCity-WriteServiceMessage 'message' @{ text="getting git version using $($gitversion_path)" }
+
+    $result = Invoke-Expression "$gitversion_path /u $gitVersionUserName /p $gitVersionPassword"
+
+    if ($LASTEXITCODE -ne 0){
+        TeamCity-WriteServiceMessage 'message' @{ text="GERROR $($result)" }
+    } else{
+        return ConvertFrom-Json ($result -join "`n");
+    }
+}
+
+function ILMerge {
+    param(
+        [string] $target,
+        [string] $folder,
+        [string[]] $merge
+    )
+
+    "<configuration>
+  <startup>
+    <supportedRuntime version=""v2.0.50727""/>
+    <supportedRuntime version=""v4.0""/>
+  </startup>
+</configuration>" | Out-File -FilePath "$ilmerge_path.config"
+
+    $primary = "$folder\$target.dll"
+
+    $merge = $merge |%  { "$folder\$_.dll" }
+
+    $out = "$merged_directory\$target.dll"
+    
+    & $ilmerge_path /targetplatform:v4 /wildcards /internalize /allowDup /target:library /log /out:$out $primary $merge
 }
 
 function FindTool {
     param(
-        [string]$name,
-        [string]$packageDir
+        [string] $name
     )
 
-    $result = Get-ChildItem "$packageDir\$name" | Select-Object -First 1
+    $result = Get-ChildItem "$package_directory\$name" | Select-Object -First 1
 
     return $result.FullName
-}
-
-function Get-Version
-{
-    param
-    (
-        [string]$assemblyInfoFilePath
-    )
-    Write-Host "path $assemblyInfoFilePath"
-    $pattern = '(?<=^\[assembly\: AssemblyVersion\(\")(?<versionString>\d+\.\d+\.\d+\.\d+)(?=\"\))'
-    $assmblyInfoContent = Get-Content $assemblyInfoFilePath
-    return $assmblyInfoContent | Select-String -Pattern $pattern | Select -expand Matches |% {$_.Groups['versionString'].Value}
-}
-
-function Update-Version
-{
-    param
-    (
-        [string]$version,
-        [string]$assemblyInfoFilePath
-    )
-
-    $newVersion = 'AssemblyVersion("' + $version + '")';
-    $newFileVersion = 'AssemblyFileVersion("' + $version + '")';
-    $tmpFile = $assemblyInfoFilePath + ".tmp"
-
-    Get-Content $assemblyInfoFilePath |
-        %{$_ -replace 'AssemblyFileVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)', $newFileVersion }  | Out-File -Encoding UTF8 $tmpFile
-
-    Move-Item $tmpFile $assemblyInfoFilePath -force
 }
