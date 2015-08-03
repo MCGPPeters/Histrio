@@ -42,9 +42,6 @@ function Copy-Files {
 	)
 
     New-Directory $destination
-		
-    #Get-ChildItem $source -Recurse -Exclude $exclude | Copy-Item -Destination {Join-Path $destination $_.FullName.Substring($source.length)} 
-	
 	
 	$arguments = @($source, $destination, "*.*", "/e")
 	
