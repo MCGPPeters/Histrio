@@ -213,11 +213,10 @@ function ILMerge {
     )
 
     "<configuration>
-  <startup>
-    <supportedRuntime version=""v2.0.50727""/>
-    <supportedRuntime version=""v4.0""/>
-  </startup>
-</configuration>" | Out-File -FilePath "$ilmerge_path.config"
+	  <startup>	
+		<supportedRuntime version=""v4.0""/>
+	  </startup>
+	</configuration>" | Out-File -FilePath "$ilmerge_path.config"
 
     $primary = "$folder\$target.dll"
 
