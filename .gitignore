@@ -187,4 +187,4 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 
-src/SharedAssemblyInfo.cs
+SharedAssemblyInfo.cs

@@ -19,7 +19,6 @@
 	
     $code_coverage      = $true
     $framework_version  = "v4.5"
-    $build_number       = "$env:BUILD_NUMBER"
 
     $gitVersionUserName = ""
     $gitVersionPassword = ""
