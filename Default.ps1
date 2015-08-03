@@ -225,7 +225,7 @@ function ILMerge {
 
     $out = "$merged_directory\$target.dll"
     
-    & $ilmerge_path /targetplatform:v4 /wildcards /internalize /allowDup /target:library /log:$output_directory\ilmerge_log.txt /out:$out $primary $merge
+    & $ilmerge_path /targetplatform:v4 /verbose /wildcards /internalize /allowDup /target:library /log:$output_directory\ilmerge_log.txt /out:$out $primary $merge
 }
 
 function FindTool {
