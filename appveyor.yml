@@ -7,10 +7,9 @@ artifacts:
 deploy:
 - provider: AzureBlob
   storage_account_name: histrio
-  storage_access_key:
-    secure: eST+0/816dGBxwuIPMKzC07as/lCh9sDkmd8YxQQ1UxoDLvcl+AT+DyfktkQVYukl9lnIfbaymuD0SeDQ2Bu6A==
+  storage_access_key: eST+0/816dGBxwuIPMKzC07as/lCh9sDkmd8YxQQ1UxoDLvcl+AT+DyfktkQVYukl9lnIfbaymuD0SeDQ2Bu6A==
   container: builds
-  folder: $(APPVEYOR_BUILD_VERSION)\logs
+  folder: logs
   artifact: ilmergelog
 - provider: NuGet
   api_key:
