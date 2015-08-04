@@ -65,7 +65,7 @@ task VersionAssembly {
 		    [assembly: System.Reflection.AssemblyFileVersion(""$($version.AssemblySemVer)"")]
 		    [assembly: System.Reflection.AssemblyInformationalVersion(""$($version.InformationalVersion)"")]
     ".Trim()
-        Write-Output $assembly_information > $assemblyInfo_path
+        $assembly_information | Out-File $assemblyInfo_path -Encoding utf8
     } else {
         Write-Output "Warning: could not get assembly information."
 

@@ -188,3 +188,4 @@ UpgradeLog*.htm
 FakesAssemblies/
 
 SharedAssemblyInfo.cs
+src/SharedAssemblyInfo.cs
