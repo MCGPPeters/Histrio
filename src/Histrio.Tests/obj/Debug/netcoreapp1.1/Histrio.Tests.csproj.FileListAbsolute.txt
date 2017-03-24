@@ -1,0 +1,14 @@
+C:\dev\Histrio\src\Histrio.Tests\bin\Debug\netcoreapp1.1\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+C:\dev\Histrio\src\Histrio.Tests\bin\Debug\netcoreapp1.1\xunit.runner.utility.netstandard15.dll
+C:\dev\Histrio\src\Histrio.Tests\bin\Debug\netcoreapp1.1\xunit.runner.reporters.netstandard15.dll
+C:\dev\Histrio\src\Histrio.Tests\bin\Debug\netcoreapp1.1\Histrio.Tests.deps.json
+C:\dev\Histrio\src\Histrio.Tests\bin\Debug\netcoreapp1.1\Histrio.Tests.runtimeconfig.json
+C:\dev\Histrio\src\Histrio.Tests\bin\Debug\netcoreapp1.1\Histrio.Tests.runtimeconfig.dev.json
+C:\dev\Histrio\src\Histrio.Tests\bin\Debug\netcoreapp1.1\Histrio.Tests.dll
+C:\dev\Histrio\src\Histrio.Tests\bin\Debug\netcoreapp1.1\Histrio.dll
+C:\dev\Histrio\src\Histrio.Tests\bin\Debug\netcoreapp1.1\Histrio.pdb
+C:\dev\Histrio\src\Histrio.Tests\obj\Debug\netcoreapp1.1\Histrio.Tests.csprojResolveAssemblyReference.cache
+C:\dev\Histrio\src\Histrio.Tests\obj\Debug\netcoreapp1.1\Histrio.Tests.AssemblyInfo.cs
+C:\dev\Histrio\src\Histrio.Tests\bin\Debug\netcoreapp1.1\Histrio.Tests.pdb
+C:\dev\Histrio\src\Histrio.Tests\obj\Debug\netcoreapp1.1\Histrio.Tests.dll
+C:\dev\Histrio\src\Histrio.Tests\obj\Debug\netcoreapp1.1\Histrio.Tests.pdb

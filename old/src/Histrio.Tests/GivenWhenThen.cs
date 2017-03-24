@@ -11,7 +11,7 @@ namespace Histrio.Tests
             var logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
                 .MinimumLevel.Is(LogEventLevel.Verbose)
-                .WriteTo.Console()
+                .WriteTo.Sink<Console>()
                 .CreateLogger();
 
             Log.Logger = logger;

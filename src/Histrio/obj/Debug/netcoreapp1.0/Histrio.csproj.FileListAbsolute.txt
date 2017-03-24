@@ -1,0 +1,7 @@
+C:\dev\Histrio\src\Histrio\bin\Debug\netcoreapp1.0\Histrio.deps.json
+C:\dev\Histrio\src\Histrio\bin\Debug\netcoreapp1.0\Histrio.dll
+C:\dev\Histrio\src\Histrio\bin\Debug\netcoreapp1.0\Histrio.pdb
+C:\dev\Histrio\src\Histrio\obj\Debug\netcoreapp1.0\Histrio.csprojResolveAssemblyReference.cache
+C:\dev\Histrio\src\Histrio\obj\Debug\netcoreapp1.0\Histrio.AssemblyInfo.cs
+C:\dev\Histrio\src\Histrio\obj\Debug\netcoreapp1.0\Histrio.dll
+C:\dev\Histrio\src\Histrio\obj\Debug\netcoreapp1.0\Histrio.pdb
